@@ -20,9 +20,8 @@ type delete struct {
 	Value string
 }
 
-type search struct {
+type Search struct {
 	Key   int
-	Value string
 }
 
 type traverse struct {
@@ -83,8 +82,18 @@ func (state *NodeActor) Receive(context actor.Context) {
 		fmt.Printf("insert map \n")
 	case *delete:
 		fmt.Printf("Hello, I will kill you now!")
-	case *search:
+	case *Search:
 		fmt.Printf("like sherlock holmes")
+		if state.Left != nil {
+			if msg.Key < state.LeftMax {
+				// an linken weiterschicken
+				//context.RequestWithCustomSender()
+			} else {
+				// an rechten weiterschicken
+			}
+		} else {
+			// bei mir oder gar nicht existent
+		}
 	case *traverse:
 		fmt.Printf("go through")
 	case *ShowTree:

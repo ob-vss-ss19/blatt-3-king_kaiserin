@@ -83,16 +83,22 @@ func (state *NodeActor) Receive(context actor.Context) {
 	case *delete:
 		fmt.Printf("Hello, I will kill you now!")
 	case *Search:
-		fmt.Printf("like sherlock holmes")
 		if state.Left != nil {
 			if msg.Key < state.LeftMax {
 				// an linken weiterschicken
 				//context.RequestWithCustomSender()
+				context.Send(state.Left, &Search{msg.Key})
 			} else {
 				// an rechten weiterschicken
+				context.Send(state.Right, &Search{msg.Key})
 			}
 		} else {
 			// bei mir oder gar nicht existent
+			if value, ok := state.Leaves[msg.Key]; ok {
+				fmt.Printf("tmp found: %v \n", value)
+			} else {
+				fmt.Printf("not found \n")
+			}
 		}
 	case *traverse:
 		fmt.Printf("go through")

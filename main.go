@@ -23,5 +23,7 @@ func main() {
 	context.Send(pid, &tree.Search{5})
 	context.Send(pid, &tree.Search{3})
 
+	//context.Send(pid, &tree.Traverse{})
+
 	console.ReadLine()
 }

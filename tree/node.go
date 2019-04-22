@@ -15,7 +15,7 @@ type InsertMap struct {
 	inserts map[int]string
 }
 
-type delete struct {
+type Delete struct {
 	Key   int
 	Value string
 }
@@ -24,9 +24,10 @@ type Search struct {
 	Key   int
 }
 
-type traverse struct {
-	Key   int
-	Value string
+type Traverse struct {}
+
+type scottyBeamMichHoch struct {
+	keys []int
 }
 
 type ShowTree struct {
@@ -80,7 +81,7 @@ func (state *NodeActor) Receive(context actor.Context) {
 	case *InsertMap:
 		state.Leaves = msg.inserts
 		fmt.Printf("insert map \n")
-	case *delete:
+	case *Delete:
 		fmt.Printf("Hello, I will kill you now!")
 	case *Search:
 		if state.Left != nil {
@@ -100,8 +101,20 @@ func (state *NodeActor) Receive(context actor.Context) {
 				fmt.Printf("not found \n")
 			}
 		}
-	case *traverse:
-		fmt.Printf("go through")
+	case *Traverse:
+		fmt.Printf("go through left, then right")
+		if state.Left != nil {
+			//context.RequestWithCustomSender(state.Left, &Traverse{}, context.Self())
+			//context.RequestWithCustomSender(state.Right, &Traverse{}, context.Self())
+			context.Send(state.Left, &Traverse{})
+			context.Send(state.Right, &Traverse{})
+		} else {
+			leaves := sortMap(state.Leaves)
+			//TODO nach oben schicken
+			fmt.Printf("sorted keys %v \n", leaves)
+		}
+	case *scottyBeamMichHoch:
+		fmt.Printf("schick die keys zurueck! \n")
 	case *ShowTree:
 		if state.Left != nil {
 			context.Send(state.Left, &ShowTree{})

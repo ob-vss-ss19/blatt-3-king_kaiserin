@@ -20,8 +20,9 @@ func main() {
 	context.Send(pid, &tree.Insert{8, "eight"})
 	//context.Send(pid, &tree.ShowTree{})
 
-	context.Send(pid, &tree.Search{5})
-	context.Send(pid, &tree.Search{3})
+	println("I send the searh request: %v", pid)
+	context.RequestWithCustomSender(pid, &tree.Search{5}, pid)
+	context.RequestWithCustomSender(pid, &tree.Search{3}, pid)
 
 	context.Send(pid, &tree.Traverse{})
 

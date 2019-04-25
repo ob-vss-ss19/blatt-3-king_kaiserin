@@ -28,7 +28,8 @@ type Search struct {
 type Traverse struct{}
 
 type scottyBeamMichHoch struct {
-	keys []int
+	value string
+	ok bool
 }
 
 type ShowTree struct {
@@ -43,12 +44,11 @@ type NodeActor struct {
 	Parent    *actor.PID
 }
 
-func (state *NodeActor) sortedOutput(context actor.Context){
-	fmt.Printf("go through left, then right")
+func (state *NodeActor) traverse(context actor.Context){
 	if state.Left != nil {
 		leftSide, _err := context.RequestFuture(state.Left, &Traverse{}, 1*time.Second).Result()
 		rightSide, _err := context.RequestFuture(state.Right, &Traverse{}, 1*time.Second).Result()
-		if _err == nil {
+		if _err != nil {
 			println("Error with Futures happened!")
 		}
 
@@ -114,16 +114,20 @@ func (state *NodeActor) search(context actor.Context) {
 		if msg.Key < state.LeftMax {
 			// an linken weiterschicken
 			//context.RequestWithCustomSender()
-			context.Send(state.Left, &Search{msg.Key})
+			context.RequestWithCustomSender(state.Left, &Search{msg.Key}, context.Sender())
 		} else {
 			// an rechten weiterschicken
-			context.Send(state.Right, &Search{msg.Key})
+			context.RequestWithCustomSender(state.Right, &Search{msg.Key}, context.Sender())
 		}
 	} else {
 		// bei mir oder gar nicht existent
 		if value, ok := state.Leaves[msg.Key]; ok {
+			println("I send the Search response: %v", context.Self())
+			context.Respond(&scottyBeamMichHoch{value, ok})
 			fmt.Printf("tmp found: %v \n", value)
 		} else {
+			println("I send the Search response: %v", context.Self())
+			context.Respond(&scottyBeamMichHoch{value, ok})
 			fmt.Printf("not found \n")
 		}
 	}
@@ -140,9 +144,11 @@ func (state *NodeActor) Receive(context actor.Context) {
 	case *Search:
 		state.search(context)
 	case *Traverse:
-		state.sortedOutput(context)
+		state.traverse(context)
 	case *scottyBeamMichHoch:
-		fmt.Printf("schick die keys zurueck! \n")
+		println("I got the search response: %v", context.Self())
+		fmt.Printf("found? %v value was: %v \n", msg.ok, msg.value)
+
 	//case *ShowTree:
 	//	if state.Left != nil {
 	//		context.Send(state.Left, &ShowTree{})

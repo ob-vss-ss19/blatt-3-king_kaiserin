@@ -28,11 +28,9 @@ type Search struct {
 type Traverse struct{}
 
 type scottyBeamMichHoch struct {
+	key int
 	value string
 	ok bool
-}
-
-type ShowTree struct {
 }
 
 type NodeActor struct {
@@ -61,7 +59,7 @@ func (state *NodeActor) traverse(context actor.Context){
 		if state.Parent != nil {
 			context.Respond(full)
 		} else {
-			fmt.Printf("All keys in Tree sorted: %v", full)
+			fmt.Printf("All keys in Tree sorted: %v\n", full)
 		}
 	} else {
 		leaves := sortMap(state.Leaves)
@@ -76,10 +74,8 @@ func (state *NodeActor) insert(context actor.Context) {
 		if msg.Key > state.LeftMax {
 			// msg an rechten Node, dass wert einfuegen
 			context.Send(state.Right, &Insert{msg.Key, msg.Value})
-			fmt.Printf("current left baum \n")
 		} else {
 			// msg an linken teilbaum dass er sich drum kuemmert
-			fmt.Printf("muss in linken teilbaum \n")
 			context.Send(state.Left, &Insert{msg.Key, msg.Value})
 		}
 	} else {
@@ -95,7 +91,6 @@ func (state *NodeActor) insert(context actor.Context) {
 			state.Left = context.Spawn(props)
 			state.Right = context.Spawn(props)
 			state.Leaves[msg.Key] = msg.Value
-			fmt.Printf("leaves %v", state.Leaves)
 			leftMap, rightMap, leftmaximum := split(state.Leaves)
 			state.LeftMax = leftmaximum
 			context.Send(state.Left, &InsertMap{leftMap})
@@ -105,7 +100,6 @@ func (state *NodeActor) insert(context actor.Context) {
 			state.Leaves[msg.Key] = msg.Value
 		}
 	}
-	fmt.Printf("Current map leaves: %v \n", state.Leaves)
 }
 
 func (state *NodeActor) search(context actor.Context) {
@@ -122,13 +116,9 @@ func (state *NodeActor) search(context actor.Context) {
 	} else {
 		// bei mir oder gar nicht existent
 		if value, ok := state.Leaves[msg.Key]; ok {
-			println("I send the Search response: %v", context.Self())
-			context.Respond(&scottyBeamMichHoch{value, ok})
-			fmt.Printf("tmp found: %v \n", value)
+			context.Respond(&scottyBeamMichHoch{msg.Key, value, ok})
 		} else {
-			println("I send the Search response: %v", context.Self())
-			context.Respond(&scottyBeamMichHoch{value, ok})
-			fmt.Printf("not found \n")
+			context.Respond(&scottyBeamMichHoch{msg.Key,value, ok})
 		}
 	}
 }
@@ -146,16 +136,12 @@ func (state *NodeActor) Receive(context actor.Context) {
 	case *Traverse:
 		state.traverse(context)
 	case *scottyBeamMichHoch:
-		println("I got the search response: %v", context.Self())
-		fmt.Printf("found? %v value was: %v \n", msg.ok, msg.value)
+		if msg.ok {
+			fmt.Printf("For the key '%v' there is a value '%v'! \n", msg.key, msg.value)
+		} else {
+			fmt.Printf("For the key '%v' there is NO value! \n", msg.key)
+		}
 
-	//case *ShowTree:
-	//	if state.Left != nil {
-	//		context.Send(state.Left, &ShowTree{})
-	//		context.Send(state.Right, &ShowTree{})
-	//	} else {
-	//		fmt.Printf("my map: %v \n", state.Leaves)
-	//	}
 	}
 }
 
@@ -165,7 +151,6 @@ func sortMap(m map[int]string) []int {
 		keys = append(keys, k)
 	}
 	sort.Ints(keys)
-	fmt.Printf("sort %v \n", keys)
 	return keys
 }
 
@@ -181,6 +166,5 @@ func split(m map[int]string) (leftMap map[int]string, rightMap map[int]string, l
 	for i := lengthMap + 1; i < len(m); i++ {
 		rightMap[sortedKeys[i]] = m[sortedKeys[i]]
 	}
-	fmt.Printf("split left %v right %v leftmax %v \n", leftMap, rightMap, sortedKeys[lengthMap])
 	return leftMap, rightMap, sortedKeys[lengthMap]
 }

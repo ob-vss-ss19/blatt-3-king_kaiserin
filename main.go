@@ -18,9 +18,7 @@ func main() {
 	context.Send(pid, &tree.Insert{4, "four"})
 	context.Send(pid, &tree.Insert{6, "six"})
 	context.Send(pid, &tree.Insert{8, "eight"})
-	//context.Send(pid, &tree.ShowTree{})
 
-	println("I send the searh request: %v", pid)
 	context.RequestWithCustomSender(pid, &tree.Search{5}, pid)
 	context.RequestWithCustomSender(pid, &tree.Search{3}, pid)
 

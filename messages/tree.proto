@@ -6,17 +6,15 @@ message Insert {
 	string value = 2;
 }
 
-message InsertMap {
-	inserts map[int]string
-}
+//missing InsertMap
 
 message Delete {
-	int key = 1;
+	int32 key = 1;
 	string value = 2;
 }
 
 message Search {
-	int key = 1;
+	int32 key = 1;
 }
 
 message Traverse {}

@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"github.com/AsynkronIT/goconsole"
 	"github.com/AsynkronIT/protoactor-go/actor"
 	"github.com/ob-vss-ss19/blatt-3-king_kaiserin/tree"

@@ -94,8 +94,14 @@ func (state *NodeActor) insert(context actor.Context) {
 			state.Leaves[msg.Key] = msg.Value
 			leftMap, rightMap, leftmaximum := split(state.Leaves)
 			state.LeftMax = int32(leftmaximum)
-			context.Send(state.Left, &InsertMap{leftMap})
-			context.Send(state.Right, &InsertMap{rightMap})
+			for k, v := range leftMap {
+				context.Send(state.Left, &messages.Insert{Key: k, Value: v})
+			}
+			for k, v := range rightMap {
+				context.Send(state.Right, &messages.Insert{Key: k, Value: v})
+			}
+			//context.Send(state.Left, &InsertMap{leftMap})
+			//context.Send(state.Right, &InsertMap{rightMap})
 			state.Leaves = nil
 		} else {
 			state.Leaves[msg.Key] = msg.Value

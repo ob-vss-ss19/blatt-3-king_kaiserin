@@ -3,15 +3,16 @@ package tree
 import (
 	"fmt"
 	"github.com/AsynkronIT/protoactor-go/actor"
+	"github.com/ob-vss-ss19/blatt-3-king_kaiserin/messages"
 	"sort"
 	"time"
 )
 
-type Insert struct {
+/*type Insert struct {
 	Key   int
 	Value string
 }
-
+*/
 type InsertMap struct {
 	inserts map[int]string
 }
@@ -125,17 +126,17 @@ func (state *NodeActor) search(context actor.Context) {
 
 func (state *NodeActor) Receive(context actor.Context) {
 	switch msg := context.Message().(type) {
-	case *Insert:
+	case *messages.Insert:
 		state.insert(context)
-	case *InsertMap:
+	case *messages.InsertMap:
 		state.Leaves = msg.inserts
-	case *Delete:
+	case *messages.Delete:
 		fmt.Printf("Hello, I will kill you now!")
-	case *Search:
+	case *messages.Search:
 		state.search(context)
-	case *Traverse:
+	case *messages.Traverse:
 		state.traverse(context)
-	case *scottyBeamMichHoch:
+	case *messages.scottyBeamMichHoch:
 		if msg.ok {
 			fmt.Printf("For the key '%v' there is a value '%v'! \n", msg.key, msg.value)
 		} else {

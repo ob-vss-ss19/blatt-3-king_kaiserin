@@ -1,9 +1,11 @@
 package main
 
 import (
+	"fmt"
 	"github.com/AsynkronIT/goconsole"
 	"github.com/AsynkronIT/protoactor-go/actor"
-	"./tree"
+	"github.com/ob-vss-ss19/blatt-3-king_kaiserin/tree"
+	"github.com/ob-vss-ss19/blatt-3-king_kaiserin/messages"
 )
 
 func main() {
@@ -12,17 +14,16 @@ func main() {
 		return &tree.NodeActor{nil, -1, nil, nil, 4, nil}
 	})
 	pid := context.Spawn(props)
-	context.Send(pid, &tree.Insert{5, "five"})
-	context.Send(pid, &tree.Insert{7, "seven"})
-	context.Send(pid, &tree.Insert{9, "nine"})
-	context.Send(pid, &tree.Insert{4, "four"})
-	context.Send(pid, &tree.Insert{6, "six"})
-	context.Send(pid, &tree.Insert{8, "eight"})
+	context.Send(pid, &messages.Insert{Key: 5, Value: "five"})
+	context.Send(pid, &messages.Insert{Key: 7, Value: "seven"})
+	context.Send(pid, &messages.Insert{Key: 9, Value: "nine"})
+	context.Send(pid, &messages.Insert{Key: 4, Value: "four"})
+	context.Send(pid, &messages.Insert{Key: 6, Value: "six"})
+	context.Send(pid, &messages.Insert{Key: 8, Value: "eight"})
+	context.RequestWithCustomSender(pid, &messages.Search{Key: 5}, pid)
+	context.RequestWithCustomSender(pid, &messages.Search{Key: 3}, pid)
 
-	context.RequestWithCustomSender(pid, &tree.Search{5}, pid)
-	context.RequestWithCustomSender(pid, &tree.Search{3}, pid)
-
-	context.Send(pid, &tree.Traverse{})
+	context.Send(pid, &messages.Traverse{})
 
 	console.ReadLine()
 }

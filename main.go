@@ -19,7 +19,7 @@ func main() {
 
 
 	context.Send(pid, &messages.Traverse{})
-	context.RequestWithCustomSender(pid, &tree.Delete{5}, pid)
+	context.RequestWithCustomSender(pid, &messages.Delete{Key: 5}, pid)
 	context.Send(pid, &messages.Traverse{})
 
 	console.ReadLine()

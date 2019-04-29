@@ -129,16 +129,16 @@ func (state *NodeActor) search(context actor.Context) {
 
 func (state *NodeActor) delete(context actor.Context) {
 	//msg := context.Message().(*messages.Delete)
-	msg := context.Message().(*Delete)
+	msg := context.Message().(*messages.Delete)
 	//TODO search if Blatt vorhanden
 
 	if state.Left != nil {
 		if msg.Key <= state.LeftMax {
 			// an linken weiterschicken
-			context.RequestWithCustomSender(state.Left, &Delete{msg.Key}, context.Sender())
+			context.RequestWithCustomSender(state.Left, &messages.Delete{Key: msg.Key}, context.Sender())
 		} else {
 			// an rechten weiterschicken
-			context.RequestWithCustomSender(state.Right, &Delete{msg.Key}, context.Sender())
+			context.RequestWithCustomSender(state.Right, &messages.Delete{Key: msg.Key}, context.Sender())
 		}
 	} else {
 		// Wert in Blatt, da keinen Nachfolger mehr
@@ -148,11 +148,11 @@ func (state *NodeActor) delete(context actor.Context) {
 		if len(state.Leaves) == 0 {
 			// map ist leer -> actor löschen, Bruder-Actor wird zu parent
 			// grandparent nicht zu parent sondern bruder von gelöschten Actor
-			context.Send(state.Parent, &BruderMussLos{})
+			context.Send(state.Parent, &messages.BruderMussLos{})
 		} else {
 			newMax := sortKeys(state.Leaves)
-			context.Send(state.Parent, &CheckLeftMax{int32(newMax[len(newMax) - 1])})
-			context.Respond(&DeleteResult{true})
+			context.Send(state.Parent, &messages.CheckLeftMax{MaxKey: int32(newMax[len(newMax) - 1])})
+			context.Respond(&messages.DeleteResult{Successful: true})
 		}
 	}
 }
@@ -161,7 +161,7 @@ func (state *NodeActor) Receive(context actor.Context) {
 	switch msg := context.Message().(type) {
 	case *messages.Insert:
 		state.insert(context)
-	case *Delete:
+	case *messages.Delete:
 		state.delete(context)
 	case *messages.Search:
 		state.search(context)
@@ -173,26 +173,26 @@ func (state *NodeActor) Receive(context actor.Context) {
 		} else {
 			fmt.Printf("For the key '%v' there is NO value! \n", msg.Key)
 		}
-	case DeleteResult:
-		fmt.Printf("deleting was %v \n", msg.successful)
-	case CheckLeftMax:
-		state.LeftMax = msg.maxKey
+	case *messages.DeleteResult:
+		fmt.Printf("deleting was %v \n", msg.Successful)
+	case *messages.CheckLeftMax:
+		state.LeftMax = msg.MaxKey
 		if state.Parent != nil {
-			context.Send(state.Parent, &CheckLeftMax{msg.maxKey})
+			context.Send(state.Parent, &messages.CheckLeftMax{MaxKey: msg.MaxKey})
 		}
-	case BruderMussLos:
+	case *messages.BruderMussLos:
 		if context.Sender() == state.Left {
 			// wenn sender links: rechts verknüpfen
 			context.Sender().Stop()
-			context.RequestWithCustomSender(state.Parent, &IchZiehAus{state.LeftMax}, state.Right)
+			context.RequestWithCustomSender(state.Parent, &messages.IchZiehAus{MyMax: state.LeftMax}, state.Right)
 		} else {
 			context.Sender().Stop()
-			context.RequestWithCustomSender(state.Parent, &IchZiehAus{state.LeftMax}, state.Left)
+			context.RequestWithCustomSender(state.Parent, &messages.IchZiehAus{MyMax: state.LeftMax}, state.Left)
 		}
-	case IchZiehAus:
+	case *messages.IchZiehAus:
 		newPID := context.Sender()
 		var oldPID *actor.PID
-		if msg.myMax > state.LeftMax {
+		if msg.MyMax > state.LeftMax {
 			// rechts
 			oldPID = state.Right
 			state.Right = newPID

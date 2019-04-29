@@ -10,18 +10,16 @@ import (
 func main() {
 	context := actor.EmptyRootContext
 	props := actor.PropsFromProducer(func() actor.Actor {
-		return &tree.NodeActor{nil, -1, nil, nil, 4, nil}
+		return &tree.NodeActor{nil, -1, nil, nil, 2, nil}
 	})
 	pid := context.Spawn(props)
 	context.Send(pid, &messages.Insert{Key: 5, Value: "five"})
 	context.Send(pid, &messages.Insert{Key: 7, Value: "seven"})
 	context.Send(pid, &messages.Insert{Key: 9, Value: "nine"})
-	context.Send(pid, &messages.Insert{Key: 4, Value: "four"})
-	context.Send(pid, &messages.Insert{Key: 6, Value: "six"})
-	context.Send(pid, &messages.Insert{Key: 8, Value: "eight"})
-	context.RequestWithCustomSender(pid, &messages.Search{Key: 5}, pid)
-	context.RequestWithCustomSender(pid, &messages.Search{Key: 3}, pid)
 
+
+	context.Send(pid, &messages.Traverse{})
+	context.RequestWithCustomSender(pid, &tree.Delete{5}, pid)
 	context.Send(pid, &messages.Traverse{})
 
 	console.ReadLine()

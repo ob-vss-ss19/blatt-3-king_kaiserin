@@ -9,31 +9,23 @@ import (
 	"github.com/ob-vss-ss19/blatt-3-king_kaiserin/messages"
 )
 
-/*type Insert struct {
-	Key   int
-	Value string
-}*/
-
-type InsertMap struct {
-	inserts map[int32]string
+type Delete struct {
+	Key int32
 }
 
-/*type Delete struct {
-	Key   int
-	Value string
+type DeleteResult struct {
+	successful bool
 }
 
-type Search struct {
-	Key int
+type CheckLeftMax struct {
+	maxKey int32
 }
 
-type Traverse struct{}
+type BruderMussLos struct {}
 
-type scottyBeamMichHoch struct {
-	key int
-	value string
-	ok bool
-}*/
+type IchZiehAus struct {
+	myMax int32
+}
 
 type NodeActor struct {
 	Left      *actor.PID
@@ -117,7 +109,7 @@ func (state *NodeActor) insert(context actor.Context) {
 func (state *NodeActor) search(context actor.Context) {
 	msg := context.Message().(*messages.Search)
 	if state.Left != nil {
-		if msg.Key < state.LeftMax {
+		if msg.Key <= state.LeftMax {
 			// an linken weiterschicken
 			//context.RequestWithCustomSender()
 			context.RequestWithCustomSender(state.Left, &messages.Search{Key: msg.Key}, context.Sender())
@@ -135,14 +127,42 @@ func (state *NodeActor) search(context actor.Context) {
 	}
 }
 
+func (state *NodeActor) delete(context actor.Context) {
+	//msg := context.Message().(*messages.Delete)
+	msg := context.Message().(*Delete)
+	//TODO search if Blatt vorhanden
+
+	if state.Left != nil {
+		if msg.Key <= state.LeftMax {
+			// an linken weiterschicken
+			context.RequestWithCustomSender(state.Left, &Delete{msg.Key}, context.Sender())
+		} else {
+			// an rechten weiterschicken
+			context.RequestWithCustomSender(state.Right, &Delete{msg.Key}, context.Sender())
+		}
+	} else {
+		// Wert in Blatt, da keinen Nachfolger mehr
+		if _, ok := state.Leaves[msg.Key]; ok {
+			delete(state.Leaves, msg.Key)
+		}
+		if len(state.Leaves) == 0 {
+			// map ist leer -> actor löschen, Bruder-Actor wird zu parent
+			// grandparent nicht zu parent sondern bruder von gelöschten Actor
+			context.Send(state.Parent, &BruderMussLos{})
+		} else {
+			newMax := sortKeys(state.Leaves)
+			context.Send(state.Parent, &CheckLeftMax{int32(newMax[len(newMax) - 1])})
+			context.Respond(&DeleteResult{true})
+		}
+	}
+}
+
 func (state *NodeActor) Receive(context actor.Context) {
 	switch msg := context.Message().(type) {
 	case *messages.Insert:
 		state.insert(context)
-	case *InsertMap:
-		state.Leaves = msg.inserts
-	case *messages.Delete:
-		fmt.Printf("Hello, I will kill you now!")
+	case *Delete:
+		state.delete(context)
 	case *messages.Search:
 		state.search(context)
 	case *messages.Traverse:
@@ -153,8 +173,35 @@ func (state *NodeActor) Receive(context actor.Context) {
 		} else {
 			fmt.Printf("For the key '%v' there is NO value! \n", msg.Key)
 		}
-
-	}
+	case DeleteResult:
+		fmt.Printf("deleting was %v \n", msg.successful)
+	case CheckLeftMax:
+		state.LeftMax = msg.maxKey
+		if state.Parent != nil {
+			context.Send(state.Parent, &CheckLeftMax{msg.maxKey})
+		}
+	case BruderMussLos:
+		if context.Sender() == state.Left {
+			// wenn sender links: rechts verknüpfen
+			context.Sender().Stop()
+			context.RequestWithCustomSender(state.Parent, &IchZiehAus{state.LeftMax}, state.Right)
+		} else {
+			context.Sender().Stop()
+			context.RequestWithCustomSender(state.Parent, &IchZiehAus{state.LeftMax}, state.Left)
+		}
+	case IchZiehAus:
+		newPID := context.Sender()
+		var oldPID *actor.PID
+		if msg.myMax > state.LeftMax {
+			// rechts
+			oldPID = state.Right
+			state.Right = newPID
+		} else {
+			oldPID = state.Left
+			state.Left = newPID
+		}
+		oldPID.Stop()
+ 	}
 }
 
 func sortKeys(m map[int32]string) []int {

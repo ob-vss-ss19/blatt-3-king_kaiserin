@@ -2,10 +2,11 @@ package tree
 
 import (
 	"fmt"
-	"github.com/AsynkronIT/protoactor-go/actor"
-	"github.com/ob-vss-ss19/blatt-3-king_kaiserin/messages"
 	"sort"
 	"time"
+
+	"github.com/AsynkronIT/protoactor-go/actor"
+	"github.com/ob-vss-ss19/blatt-3-king_kaiserin/messages"
 )
 
 /*type Insert struct {
@@ -51,20 +52,24 @@ func (state *NodeActor) traverse(context actor.Context){
 			println("Error with Futures happened!")
 		}
 
-		lSide := leftSide.(*[]int)
-		rSide := rightSide.(*[]int)
-		var full []int
+		lSide := leftSide.(map[int32]string)
+		rSide := rightSide.(map[int32]string)
+
+		for k, v := range rSide {
+			lSide[k] = v
+		}
+/*		var full map[int32]string
 		full = append(full, *lSide...)
-		full = append(full, *rSide...)
+		full = append(full, *rSide...)*/
 
 		if state.Parent != nil {
-			context.Respond(full)
+			context.Respond(lSide)
 		} else {
-			fmt.Printf("All keys in Tree sorted: %v\n", full)
+			fmt.Printf("All keys in Tree sorted: %v\n", lSide)
 		}
 	} else {
-		leaves := sortMap(state.Leaves)
-		context.Respond(&leaves)
+		//leaves := sortKeys(state.Leaves)
+		context.Respond(sortMap(state.Leaves))
 	}
 
 }
@@ -152,7 +157,7 @@ func (state *NodeActor) Receive(context actor.Context) {
 	}
 }
 
-func sortMap(m map[int32]string) []int {
+func sortKeys(m map[int32]string) []int {
 	var keys []int
 	for k := range m {
 		keys = append(keys, int(k))
@@ -161,8 +166,18 @@ func sortMap(m map[int32]string) []int {
 	return keys
 }
 
+func sortMap(m map[int32]string) map[int32]string {
+	sortedKeys := sortKeys(m)
+	mapSorted := make(map[int32]string)
+
+	for i := 0; i < len(m); i++ {
+		mapSorted[int32(sortedKeys[i])] = m[int32(sortedKeys[i])]
+	}
+	return mapSorted
+}
+
 func split(m map[int32]string) (leftMap map[int32]string, rightMap map[int32]string, leftMax int) {
-	sortedKeys := sortMap(m)
+	sortedKeys := sortKeys(m)
 	lengthMap := len(m) / 2
 	leftMap = make(map[int32]string)
 	rightMap = make(map[int32]string)

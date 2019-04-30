@@ -35,3 +35,9 @@ message BruderMussLos {}
 message IchZiehAus {
     int32 myMax = 1;
 }
+
+message sendMeYourData {
+}
+
+message setYourPID {
+}

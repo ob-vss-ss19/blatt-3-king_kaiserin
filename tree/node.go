@@ -9,13 +9,6 @@ import (
 	"github.com/ob-vss-ss19/blatt-3-king_kaiserin/messages"
 )
 
-type sendMeYourData struct {
-}
-
-type setYourPID struct {
-}
-
-
 type SwapData struct {
 	Left, Right      *actor.PID
 	LeftMax   int32
@@ -154,12 +147,12 @@ func (state *NodeActor) deleteChild(context actor.Context) {
 		// wenn sender links: rechts verknüpfen
 		//context.Sender().Stop()
 		//context.RequestWithCustomSender(state.Parent, &messages.IchZiehAus{MyMax: state.LeftMax}, state.Right)
-		result, _ := context.RequestFuture(state.Right, &sendMeYourData{}, 1*time.Second).Result()
+		result, _ := context.RequestFuture(state.Right, &messages.SendMeYourData{}, 1*time.Second).Result()
 		dataToSet = result.(SwapData)
 	} else {
 		//context.Sender().Stop()
 		//context.RequestWithCustomSender(state.Parent, &messages.IchZiehAus{MyMax: state.LeftMax}, state.Left)
-		result, _ := context.RequestFuture(state.Right, &sendMeYourData{}, 1*time.Second).Result()
+		result, _ := context.RequestFuture(state.Right, &messages.SendMeYourData{}, 1*time.Second).Result()
 		dataToSet = result.(SwapData)
 	}
 
@@ -167,8 +160,8 @@ func (state *NodeActor) deleteChild(context actor.Context) {
 		state.Left = dataToSet.Left
 		state.Right = dataToSet.Right
 
-		context.Send(state.Left, &setYourPID{})
-		context.Send(state.Right, &setYourPID{})
+		context.Send(state.Left, &messages.SetYourPID{})
+		context.Send(state.Right, &messages.SetYourPID{})
 
 		state.LeftMax = dataToSet.LeftMax
 	}else {
@@ -227,9 +220,9 @@ func (state *NodeActor) Receive(context actor.Context) {
 	//case *messages.IchZiehAus:
 	//	state.replaceParent(context)
 	//}
-	case *sendMeYourData:
+	case *messages.SendMeYourData:
 		context.Respond(SwapData{state.Left, state.Right, state.LeftMax, state.Leaves})
-	case *setYourPID:
+	case *messages.SetYourPID:
 		state.Parent = context.Sender()
 	}
 }

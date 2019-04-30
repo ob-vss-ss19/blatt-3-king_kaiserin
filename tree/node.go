@@ -9,13 +9,23 @@ import (
 	"github.com/ob-vss-ss19/blatt-3-king_kaiserin/messages"
 )
 
-type NodeActor struct {
-	Left      *actor.PID
+type sendMeYourData struct {
+}
+
+type setYourPID struct {
+}
+
+
+type SwapData struct {
+	Left, Right      *actor.PID
 	LeftMax   int32
-	Right     *actor.PID
 	Leaves    map[int32]string
-	MaxLeaves int32
-	Parent    *actor.PID
+}
+
+type NodeActor struct {
+	Left, Right, Parent     *actor.PID
+	Leaves    map[int32]string
+	LeftMax, MaxLeaves   int32
 }
 
 func (state *NodeActor) traverse(context actor.Context) {
@@ -66,7 +76,7 @@ func (state *NodeActor) insert(context actor.Context) {
 		if int32(len(state.Leaves)) == state.MaxLeaves {
 			// split
 			props := actor.PropsFromProducer(func() actor.Actor {
-				return &NodeActor{nil, -1, nil, nil, 4, context.Self()}
+				return &NodeActor{nil, nil, context.Self(), nil, -1, state.MaxLeaves}
 			})
 			state.Left = context.Spawn(props)
 			state.Right = context.Spawn(props)
@@ -139,31 +149,51 @@ func (state *NodeActor) delete(context actor.Context) {
 }
 
 func (state *NodeActor) deleteChild(context actor.Context) {
+	var dataToSet SwapData
 	if context.Sender() == state.Left {
 		// wenn sender links: rechts verknüpfen
-		context.Sender().Stop()
-		context.RequestWithCustomSender(state.Parent, &messages.IchZiehAus{MyMax: state.LeftMax}, state.Right)
+		//context.Sender().Stop()
+		//context.RequestWithCustomSender(state.Parent, &messages.IchZiehAus{MyMax: state.LeftMax}, state.Right)
+		result, _ := context.RequestFuture(state.Right, &sendMeYourData{}, 1*time.Second).Result()
+		dataToSet = result.(SwapData)
 	} else {
-		context.Sender().Stop()
-		context.RequestWithCustomSender(state.Parent, &messages.IchZiehAus{MyMax: state.LeftMax}, state.Left)
+		//context.Sender().Stop()
+		//context.RequestWithCustomSender(state.Parent, &messages.IchZiehAus{MyMax: state.LeftMax}, state.Left)
+		result, _ := context.RequestFuture(state.Right, &sendMeYourData{}, 1*time.Second).Result()
+		dataToSet = result.(SwapData)
 	}
+
+	if dataToSet.Left != nil {
+		state.Left = dataToSet.Left
+		state.Right = dataToSet.Right
+
+		context.Send(state.Left, &setYourPID{})
+		context.Send(state.Right, &setYourPID{})
+
+		state.LeftMax = dataToSet.LeftMax
+	}else {
+		state.Leaves = dataToSet.Leaves
+	}
+
+	state.Left.Stop();
+	state.Right.Stop()
 }
 
-func (state *NodeActor) replaceParent(context actor.Context) {
-	msg := context.Message().(*messages.IchZiehAus)
-	newPID := context.Sender()
-	var oldPID *actor.PID
-	if msg.MyMax > state.LeftMax {
-		// rechts
-		oldPID = state.Right
-		state.Right = newPID
-	} else {
-		oldPID = state.Left
-		state.Left = newPID
-		state.LeftMax = msg.MyMax
-	}
-	oldPID.Stop()
-}
+//func (state *NodeActor) replaceParent(context actor.Context) {
+//	msg := context.Message().(*messages.IchZiehAus)
+//	newPID := context.Sender()
+//	var oldPID *actor.PID
+//	if msg.MyMax > state.LeftMax {
+//		// rechts
+//		oldPID = state.Right
+//		state.Right = newPID
+//	} else {
+//		oldPID = state.Left
+//		state.Left = newPID
+//		state.LeftMax = msg.MyMax
+//	}
+//	oldPID.Stop()
+//}
 
 func (state *NodeActor) Receive(context actor.Context) {
 	switch msg := context.Message().(type) {
@@ -194,8 +224,13 @@ func (state *NodeActor) Receive(context actor.Context) {
 		}
 	case *messages.BruderMussLos:
 		state.deleteChild(context)
-	case *messages.IchZiehAus:
-		state.replaceParent(context)
+	//case *messages.IchZiehAus:
+	//	state.replaceParent(context)
+	//}
+	case *sendMeYourData:
+		context.Respond(SwapData{state.Left, state.Right, state.LeftMax, state.Leaves})
+	case *setYourPID:
+		state.Parent = context.Sender()
 	}
 }
 

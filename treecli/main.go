@@ -28,8 +28,8 @@ func main() {
 	flagCreateTree := flag.Bool("newTree", false, "creates new tree, prints out id and token")
 	flagLeafSize := flag.Int("size", 1, "size of a leaf")
 
-	//flagID := flag.Int("ID", 1, "ID of the Tree")
-	//flagToken := flag.Int("token", 1, "Token of the Tree")
+	flagID := flag.Int("ID", 1, "ID of the Tree")
+	flagToken := flag.String("token", "", "Token of the Tree")
 
 	flagInsert := flag.Bool("insert", false, "insert new value into the tree")
 	flagSearch := flag.Bool("search", false, "search value for a key")
@@ -44,16 +44,19 @@ func main() {
 	var msg interface{}
 	switch  {
 	case *flagCreateTree:
-		msg = &messages.CheckLeftMax{MaxKey: int32(*flagLeafSize)}
+		msg = &messages.PflanzBaum{MaxLeaves: int32(*flagLeafSize)}
 	case *flagTraverse:
-		//traverse msg neu mit id und token
-		msg = &messages.Traverse{}
+		find := &messages.Tree{ID: int32(*flagID), Token: *flagToken}
+		msg = &messages.TraverseCLI{Find: find}
 	case *flagInsert:
-		msg = &messages.Insert{Key: int32(*flagKey), Value: *flagValue }
+		find := &messages.Tree{ID: int32(*flagID), Token: *flagToken}
+		msg = &messages.InsertCLI{Find: find, Key: int32(*flagKey), Value: *flagValue }
 	case *flagDelete:
-		msg = &messages.Delete{Key: int32(*flagKey)}
+		find := &messages.Tree{ID: int32(*flagID), Token: *flagToken}
+		msg = &messages.DeleteCLI{Find: find, Key: int32(*flagKey)}
 	case *flagSearch:
-		msg = &messages.Search{Key: int32(*flagKey)}
+		find := &messages.Tree{ID: int32(*flagID), Token: *flagToken}
+		msg = &messages.SearchCLI{Find: find, Key: int32(*flagKey)}
 
 	}
 

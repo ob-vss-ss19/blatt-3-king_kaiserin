@@ -488,6 +488,304 @@ func (m *SetYourPID) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_SetYourPID proto.InternalMessageInfo
 
+type Tree struct {
+	ID    int32  `protobuf:"varint,1,opt,name=ID,json=iD,proto3" json:"ID,omitempty"`
+	Token string `protobuf:"bytes,2,opt,name=Token,json=token,proto3" json:"Token,omitempty"`
+}
+
+func (m *Tree) Reset()      { *m = Tree{} }
+func (*Tree) ProtoMessage() {}
+func (*Tree) Descriptor() ([]byte, []int) {
+	return fileDescriptor_cb3889276909882a, []int{11}
+}
+func (m *Tree) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *Tree) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_Tree.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalTo(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *Tree) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Tree.Merge(m, src)
+}
+func (m *Tree) XXX_Size() int {
+	return m.Size()
+}
+func (m *Tree) XXX_DiscardUnknown() {
+	xxx_messageInfo_Tree.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_Tree proto.InternalMessageInfo
+
+func (m *Tree) GetID() int32 {
+	if m != nil {
+		return m.ID
+	}
+	return 0
+}
+
+func (m *Tree) GetToken() string {
+	if m != nil {
+		return m.Token
+	}
+	return ""
+}
+
+type PflanzBaum struct {
+	MaxLeaves int32 `protobuf:"varint,1,opt,name=MaxLeaves,json=maxLeaves,proto3" json:"MaxLeaves,omitempty"`
+}
+
+func (m *PflanzBaum) Reset()      { *m = PflanzBaum{} }
+func (*PflanzBaum) ProtoMessage() {}
+func (*PflanzBaum) Descriptor() ([]byte, []int) {
+	return fileDescriptor_cb3889276909882a, []int{12}
+}
+func (m *PflanzBaum) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *PflanzBaum) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_PflanzBaum.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalTo(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *PflanzBaum) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_PflanzBaum.Merge(m, src)
+}
+func (m *PflanzBaum) XXX_Size() int {
+	return m.Size()
+}
+func (m *PflanzBaum) XXX_DiscardUnknown() {
+	xxx_messageInfo_PflanzBaum.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_PflanzBaum proto.InternalMessageInfo
+
+func (m *PflanzBaum) GetMaxLeaves() int32 {
+	if m != nil {
+		return m.MaxLeaves
+	}
+	return 0
+}
+
+type InsertCLI struct {
+	Find  *Tree  `protobuf:"bytes,1,opt,name=find,proto3" json:"find,omitempty"`
+	Key   int32  `protobuf:"varint,2,opt,name=key,proto3" json:"key,omitempty"`
+	Value string `protobuf:"bytes,3,opt,name=value,proto3" json:"value,omitempty"`
+}
+
+func (m *InsertCLI) Reset()      { *m = InsertCLI{} }
+func (*InsertCLI) ProtoMessage() {}
+func (*InsertCLI) Descriptor() ([]byte, []int) {
+	return fileDescriptor_cb3889276909882a, []int{13}
+}
+func (m *InsertCLI) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *InsertCLI) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_InsertCLI.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalTo(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *InsertCLI) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_InsertCLI.Merge(m, src)
+}
+func (m *InsertCLI) XXX_Size() int {
+	return m.Size()
+}
+func (m *InsertCLI) XXX_DiscardUnknown() {
+	xxx_messageInfo_InsertCLI.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_InsertCLI proto.InternalMessageInfo
+
+func (m *InsertCLI) GetFind() *Tree {
+	if m != nil {
+		return m.Find
+	}
+	return nil
+}
+
+func (m *InsertCLI) GetKey() int32 {
+	if m != nil {
+		return m.Key
+	}
+	return 0
+}
+
+func (m *InsertCLI) GetValue() string {
+	if m != nil {
+		return m.Value
+	}
+	return ""
+}
+
+type SearchCLI struct {
+	Find *Tree `protobuf:"bytes,1,opt,name=find,proto3" json:"find,omitempty"`
+	Key  int32 `protobuf:"varint,2,opt,name=key,proto3" json:"key,omitempty"`
+}
+
+func (m *SearchCLI) Reset()      { *m = SearchCLI{} }
+func (*SearchCLI) ProtoMessage() {}
+func (*SearchCLI) Descriptor() ([]byte, []int) {
+	return fileDescriptor_cb3889276909882a, []int{14}
+}
+func (m *SearchCLI) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *SearchCLI) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_SearchCLI.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalTo(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *SearchCLI) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_SearchCLI.Merge(m, src)
+}
+func (m *SearchCLI) XXX_Size() int {
+	return m.Size()
+}
+func (m *SearchCLI) XXX_DiscardUnknown() {
+	xxx_messageInfo_SearchCLI.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_SearchCLI proto.InternalMessageInfo
+
+func (m *SearchCLI) GetFind() *Tree {
+	if m != nil {
+		return m.Find
+	}
+	return nil
+}
+
+func (m *SearchCLI) GetKey() int32 {
+	if m != nil {
+		return m.Key
+	}
+	return 0
+}
+
+type TraverseCLI struct {
+	Find *Tree `protobuf:"bytes,1,opt,name=find,proto3" json:"find,omitempty"`
+}
+
+func (m *TraverseCLI) Reset()      { *m = TraverseCLI{} }
+func (*TraverseCLI) ProtoMessage() {}
+func (*TraverseCLI) Descriptor() ([]byte, []int) {
+	return fileDescriptor_cb3889276909882a, []int{15}
+}
+func (m *TraverseCLI) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *TraverseCLI) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_TraverseCLI.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalTo(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *TraverseCLI) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_TraverseCLI.Merge(m, src)
+}
+func (m *TraverseCLI) XXX_Size() int {
+	return m.Size()
+}
+func (m *TraverseCLI) XXX_DiscardUnknown() {
+	xxx_messageInfo_TraverseCLI.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_TraverseCLI proto.InternalMessageInfo
+
+func (m *TraverseCLI) GetFind() *Tree {
+	if m != nil {
+		return m.Find
+	}
+	return nil
+}
+
+type DeleteCLI struct {
+	Find *Tree `protobuf:"bytes,1,opt,name=find,proto3" json:"find,omitempty"`
+	Key  int32 `protobuf:"varint,2,opt,name=key,proto3" json:"key,omitempty"`
+}
+
+func (m *DeleteCLI) Reset()      { *m = DeleteCLI{} }
+func (*DeleteCLI) ProtoMessage() {}
+func (*DeleteCLI) Descriptor() ([]byte, []int) {
+	return fileDescriptor_cb3889276909882a, []int{16}
+}
+func (m *DeleteCLI) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *DeleteCLI) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_DeleteCLI.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalTo(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *DeleteCLI) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_DeleteCLI.Merge(m, src)
+}
+func (m *DeleteCLI) XXX_Size() int {
+	return m.Size()
+}
+func (m *DeleteCLI) XXX_DiscardUnknown() {
+	xxx_messageInfo_DeleteCLI.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_DeleteCLI proto.InternalMessageInfo
+
+func (m *DeleteCLI) GetFind() *Tree {
+	if m != nil {
+		return m.Find
+	}
+	return nil
+}
+
+func (m *DeleteCLI) GetKey() int32 {
+	if m != nil {
+		return m.Key
+	}
+	return 0
+}
+
 func init() {
 	proto.RegisterType((*Insert)(nil), "messages.Insert")
 	proto.RegisterType((*Search)(nil), "messages.Search")
@@ -500,33 +798,47 @@ func init() {
 	proto.RegisterType((*IchZiehAus)(nil), "messages.IchZiehAus")
 	proto.RegisterType((*SendMeYourData)(nil), "messages.sendMeYourData")
 	proto.RegisterType((*SetYourPID)(nil), "messages.setYourPID")
+	proto.RegisterType((*Tree)(nil), "messages.Tree")
+	proto.RegisterType((*PflanzBaum)(nil), "messages.PflanzBaum")
+	proto.RegisterType((*InsertCLI)(nil), "messages.InsertCLI")
+	proto.RegisterType((*SearchCLI)(nil), "messages.SearchCLI")
+	proto.RegisterType((*TraverseCLI)(nil), "messages.TraverseCLI")
+	proto.RegisterType((*DeleteCLI)(nil), "messages.DeleteCLI")
 }
 
 func init() { proto.RegisterFile("tree.proto", fileDescriptor_cb3889276909882a) }
 
 var fileDescriptor_cb3889276909882a = []byte{
-	// 336 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x6c, 0x91, 0xb1, 0x4e, 0x02, 0x41,
-	0x10, 0x86, 0x6f, 0x21, 0x5c, 0xce, 0x09, 0x22, 0xb9, 0x18, 0x43, 0x2c, 0x36, 0x64, 0x0b, 0x43,
-	0x45, 0x4c, 0xf4, 0x05, 0x44, 0x0a, 0x89, 0x5c, 0x62, 0x4e, 0x1b, 0xed, 0xd6, 0x63, 0xf0, 0xc8,
-	0xdd, 0xb1, 0x66, 0x67, 0x97, 0x40, 0xe7, 0x23, 0xf8, 0x18, 0x3e, 0x8a, 0x25, 0x25, 0xa5, 0x1c,
-	0x8d, 0x25, 0x8f, 0x60, 0x0e, 0x88, 0x31, 0x91, 0x6e, 0xbf, 0x9d, 0xf9, 0xe7, 0x9b, 0x64, 0x00,
-	0x8c, 0x46, 0x6c, 0xbf, 0x6a, 0x65, 0x94, 0xef, 0x65, 0x48, 0x24, 0x5f, 0x90, 0xc4, 0x39, 0xb8,
-	0xbd, 0x31, 0xa1, 0x36, 0x7e, 0x1d, 0xca, 0x09, 0xce, 0x1a, 0xac, 0xc9, 0x5a, 0x95, 0xb0, 0x78,
-	0xfa, 0xc7, 0x50, 0x99, 0xc8, 0xd4, 0x62, 0xa3, 0xd4, 0x64, 0xad, 0x83, 0x70, 0x0b, 0xe2, 0x14,
-	0xdc, 0x7b, 0x94, 0x3a, 0x8a, 0xff, 0x27, 0x04, 0x80, 0xf7, 0xa0, 0xe5, 0x04, 0x35, 0xa1, 0xe8,
-	0x83, 0x4f, 0x91, 0x32, 0x66, 0xd6, 0x41, 0x99, 0x05, 0xa3, 0x28, 0xbe, 0x51, 0xfb, 0x32, 0xfb,
-	0x2d, 0x7e, 0x0d, 0x4a, 0x2a, 0x69, 0x94, 0x9b, 0xac, 0xe5, 0x85, 0x25, 0x95, 0x14, 0xd6, 0x2e,
-	0xa6, 0x68, 0x70, 0x8f, 0xb5, 0x0d, 0xd5, 0x6d, 0x2d, 0x44, 0xb2, 0xa9, 0xf1, 0x39, 0x00, 0xd9,
-	0x28, 0x42, 0xa2, 0xa1, 0x4d, 0x37, 0x8d, 0x5e, 0xf8, 0xe7, 0x47, 0x9c, 0x41, 0xf5, 0x3a, 0xc6,
-	0x28, 0xe9, 0xe3, 0xd0, 0x04, 0x72, 0xea, 0x9f, 0x80, 0x9b, 0xc9, 0xe9, 0xed, 0xef, 0xd0, 0x1d,
-	0x89, 0x23, 0x38, 0xec, 0x68, 0x3b, 0x40, 0x1d, 0x58, 0xa2, 0xbe, 0x22, 0x21, 0x00, 0x7a, 0x51,
-	0xfc, 0x34, 0xc2, 0xf8, 0xca, 0x52, 0xb1, 0x78, 0x36, 0x0b, 0xe4, 0x74, 0x97, 0xda, 0x82, 0xa8,
-	0x43, 0x8d, 0x70, 0x3c, 0x08, 0xf0, 0x51, 0x59, 0xdd, 0x95, 0x46, 0x8a, 0x2a, 0x00, 0xa1, 0x29,
-	0xf0, 0xae, 0xd7, 0xed, 0x5c, 0xce, 0x97, 0xdc, 0x59, 0x2c, 0xb9, 0xb3, 0x5e, 0x72, 0xf6, 0x96,
-	0x73, 0xf6, 0x91, 0x73, 0xf6, 0x99, 0x73, 0x36, 0xcf, 0x39, 0xfb, 0xca, 0x39, 0xfb, 0xce, 0xb9,
-	0xb3, 0xce, 0x39, 0x7b, 0x5f, 0x71, 0x67, 0xbe, 0xe2, 0xce, 0x62, 0xc5, 0x9d, 0x67, 0x77, 0x73,
-	0xb7, 0x8b, 0x9f, 0x00, 0x00, 0x00, 0xff, 0xff, 0x6b, 0x1e, 0x30, 0xbb, 0xc5, 0x01, 0x00, 0x00,
+	// 452 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x9c, 0x53, 0xcd, 0x8a, 0xd3, 0x50,
+	0x14, 0xce, 0x4d, 0x67, 0x4a, 0x73, 0xa6, 0xd6, 0x21, 0x88, 0x14, 0x91, 0x4b, 0xb9, 0x0b, 0x29,
+	0x22, 0xc5, 0xbf, 0x17, 0x98, 0x4e, 0x16, 0x06, 0x13, 0x18, 0x62, 0x41, 0x74, 0x77, 0x4d, 0x4f,
+	0x4d, 0xc9, 0xcf, 0x95, 0xfb, 0x53, 0x5a, 0x57, 0x3e, 0x82, 0x8f, 0xe1, 0xa3, 0xb8, 0xec, 0x72,
+	0x96, 0x36, 0xdd, 0xb8, 0x9c, 0x47, 0x90, 0x24, 0x8d, 0x0c, 0xd8, 0x85, 0xcc, 0x2e, 0xdf, 0x39,
+	0xe7, 0xfb, 0xbe, 0xdc, 0xf3, 0xdd, 0x0b, 0xa0, 0x25, 0xe2, 0xe4, 0x8b, 0x14, 0x5a, 0xb8, 0xbd,
+	0x1c, 0x95, 0xe2, 0x9f, 0x51, 0xb1, 0xe7, 0xd0, 0xf5, 0x0b, 0x85, 0x52, 0xbb, 0xe7, 0xd0, 0x49,
+	0x71, 0x33, 0x24, 0x23, 0x32, 0x3e, 0x8d, 0xaa, 0x4f, 0xf7, 0x01, 0x9c, 0xae, 0x78, 0x66, 0x70,
+	0x68, 0x8f, 0xc8, 0xd8, 0x89, 0x1a, 0xc0, 0x1e, 0x41, 0xf7, 0x1d, 0x72, 0x19, 0x27, 0xff, 0x32,
+	0x18, 0x40, 0x6f, 0x26, 0xf9, 0x0a, 0xa5, 0x42, 0x16, 0x80, 0xab, 0x62, 0xa1, 0xf5, 0x66, 0x8a,
+	0x3c, 0x0f, 0x97, 0x71, 0xf2, 0x46, 0x1c, 0xe3, 0x1c, 0x77, 0x71, 0x07, 0x60, 0x8b, 0x74, 0xd8,
+	0x19, 0x91, 0x71, 0x2f, 0xb2, 0x45, 0x5a, 0xb9, 0x7a, 0x98, 0xa1, 0xc6, 0x23, 0xae, 0x13, 0xe8,
+	0x37, 0xbd, 0x08, 0x95, 0xc9, 0xb4, 0x4b, 0x01, 0x94, 0x89, 0x63, 0x54, 0x6a, 0x61, 0xb2, 0x7a,
+	0xb0, 0x17, 0xdd, 0xaa, 0xb0, 0x27, 0xd0, 0xbf, 0x4c, 0x30, 0x4e, 0x03, 0x5c, 0xe8, 0x90, 0xaf,
+	0xdd, 0x87, 0xd0, 0xcd, 0xf9, 0xfa, 0xed, 0x5f, 0xd1, 0x03, 0x62, 0xf7, 0xe1, 0xde, 0x54, 0x9a,
+	0x39, 0xca, 0xd0, 0x28, 0x15, 0x08, 0xc5, 0x18, 0x80, 0x1f, 0x27, 0x1f, 0x97, 0x98, 0x5c, 0x18,
+	0x55, 0xfd, 0x78, 0xbe, 0x09, 0xf9, 0xfa, 0xc0, 0x6a, 0x00, 0x3b, 0x87, 0x81, 0xc2, 0x62, 0x1e,
+	0xe2, 0x07, 0x61, 0xa4, 0xc7, 0x35, 0x67, 0x7d, 0x00, 0x85, 0xba, 0x82, 0x57, 0xbe, 0xc7, 0x9e,
+	0xc1, 0xc9, 0x4c, 0x62, 0x7d, 0x40, 0xdf, 0x3b, 0x50, 0xed, 0xa5, 0x57, 0xa9, 0xcd, 0x44, 0x8a,
+	0x45, 0xbb, 0x06, 0x5d, 0x01, 0xf6, 0x14, 0xe0, 0x6a, 0x91, 0xf1, 0xe2, 0xeb, 0x94, 0x9b, 0xdc,
+	0x7d, 0x0c, 0x4e, 0xc8, 0xd7, 0x01, 0xf2, 0x15, 0xaa, 0x03, 0xd5, 0xc9, 0xdb, 0x02, 0x7b, 0x0f,
+	0x4e, 0x13, 0xe5, 0x65, 0xe0, 0xbb, 0x0c, 0x4e, 0x16, 0xcb, 0x62, 0x5e, 0x4f, 0x9d, 0xbd, 0x1c,
+	0x4c, 0xda, 0xc0, 0x27, 0x95, 0x79, 0x54, 0xf7, 0xda, 0x4d, 0xda, 0x47, 0xb2, 0xe8, 0xdc, 0x4e,
+	0xfc, 0x02, 0x9c, 0x26, 0xf1, 0x3b, 0x0b, 0xb3, 0x17, 0x70, 0xd6, 0x5e, 0x8c, 0xff, 0x14, 0xa9,
+	0x5c, 0x9b, 0x54, 0xef, 0xec, 0x3a, 0x7d, 0xbd, 0xdd, 0x51, 0xeb, 0x7a, 0x47, 0xad, 0x9b, 0x1d,
+	0x25, 0xdf, 0x4a, 0x4a, 0x7e, 0x94, 0x94, 0xfc, 0x2c, 0x29, 0xd9, 0x96, 0x94, 0xfc, 0x2a, 0x29,
+	0xf9, 0x5d, 0x52, 0xeb, 0xa6, 0xa4, 0xe4, 0xfb, 0x9e, 0x5a, 0xdb, 0x3d, 0xb5, 0xae, 0xf7, 0xd4,
+	0xfa, 0xd4, 0xad, 0xdf, 0xc8, 0xab, 0x3f, 0x01, 0x00, 0x00, 0xff, 0xff, 0x8c, 0x5d, 0x0e, 0x8a,
+	0x31, 0x03, 0x00, 0x00,
 }
 
 func (this *Insert) Equal(that interface{}) bool {
@@ -790,6 +1102,165 @@ func (this *SetYourPID) Equal(that interface{}) bool {
 	}
 	return true
 }
+func (this *Tree) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	that1, ok := that.(*Tree)
+	if !ok {
+		that2, ok := that.(Tree)
+		if ok {
+			that1 = &that2
+		} else {
+			return false
+		}
+	}
+	if that1 == nil {
+		return this == nil
+	} else if this == nil {
+		return false
+	}
+	if this.ID != that1.ID {
+		return false
+	}
+	if this.Token != that1.Token {
+		return false
+	}
+	return true
+}
+func (this *PflanzBaum) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	that1, ok := that.(*PflanzBaum)
+	if !ok {
+		that2, ok := that.(PflanzBaum)
+		if ok {
+			that1 = &that2
+		} else {
+			return false
+		}
+	}
+	if that1 == nil {
+		return this == nil
+	} else if this == nil {
+		return false
+	}
+	if this.MaxLeaves != that1.MaxLeaves {
+		return false
+	}
+	return true
+}
+func (this *InsertCLI) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	that1, ok := that.(*InsertCLI)
+	if !ok {
+		that2, ok := that.(InsertCLI)
+		if ok {
+			that1 = &that2
+		} else {
+			return false
+		}
+	}
+	if that1 == nil {
+		return this == nil
+	} else if this == nil {
+		return false
+	}
+	if !this.Find.Equal(that1.Find) {
+		return false
+	}
+	if this.Key != that1.Key {
+		return false
+	}
+	if this.Value != that1.Value {
+		return false
+	}
+	return true
+}
+func (this *SearchCLI) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	that1, ok := that.(*SearchCLI)
+	if !ok {
+		that2, ok := that.(SearchCLI)
+		if ok {
+			that1 = &that2
+		} else {
+			return false
+		}
+	}
+	if that1 == nil {
+		return this == nil
+	} else if this == nil {
+		return false
+	}
+	if !this.Find.Equal(that1.Find) {
+		return false
+	}
+	if this.Key != that1.Key {
+		return false
+	}
+	return true
+}
+func (this *TraverseCLI) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	that1, ok := that.(*TraverseCLI)
+	if !ok {
+		that2, ok := that.(TraverseCLI)
+		if ok {
+			that1 = &that2
+		} else {
+			return false
+		}
+	}
+	if that1 == nil {
+		return this == nil
+	} else if this == nil {
+		return false
+	}
+	if !this.Find.Equal(that1.Find) {
+		return false
+	}
+	return true
+}
+func (this *DeleteCLI) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	that1, ok := that.(*DeleteCLI)
+	if !ok {
+		that2, ok := that.(DeleteCLI)
+		if ok {
+			that1 = &that2
+		} else {
+			return false
+		}
+	}
+	if that1 == nil {
+		return this == nil
+	} else if this == nil {
+		return false
+	}
+	if !this.Find.Equal(that1.Find) {
+		return false
+	}
+	if this.Key != that1.Key {
+		return false
+	}
+	return true
+}
 func (this *Insert) GoString() string {
 	if this == nil {
 		return "nil"
@@ -896,6 +1367,79 @@ func (this *SetYourPID) GoString() string {
 	}
 	s := make([]string, 0, 4)
 	s = append(s, "&messages.SetYourPID{")
+	s = append(s, "}")
+	return strings.Join(s, "")
+}
+func (this *Tree) GoString() string {
+	if this == nil {
+		return "nil"
+	}
+	s := make([]string, 0, 6)
+	s = append(s, "&messages.Tree{")
+	s = append(s, "ID: "+fmt.Sprintf("%#v", this.ID)+",\n")
+	s = append(s, "Token: "+fmt.Sprintf("%#v", this.Token)+",\n")
+	s = append(s, "}")
+	return strings.Join(s, "")
+}
+func (this *PflanzBaum) GoString() string {
+	if this == nil {
+		return "nil"
+	}
+	s := make([]string, 0, 5)
+	s = append(s, "&messages.PflanzBaum{")
+	s = append(s, "MaxLeaves: "+fmt.Sprintf("%#v", this.MaxLeaves)+",\n")
+	s = append(s, "}")
+	return strings.Join(s, "")
+}
+func (this *InsertCLI) GoString() string {
+	if this == nil {
+		return "nil"
+	}
+	s := make([]string, 0, 7)
+	s = append(s, "&messages.InsertCLI{")
+	if this.Find != nil {
+		s = append(s, "Find: "+fmt.Sprintf("%#v", this.Find)+",\n")
+	}
+	s = append(s, "Key: "+fmt.Sprintf("%#v", this.Key)+",\n")
+	s = append(s, "Value: "+fmt.Sprintf("%#v", this.Value)+",\n")
+	s = append(s, "}")
+	return strings.Join(s, "")
+}
+func (this *SearchCLI) GoString() string {
+	if this == nil {
+		return "nil"
+	}
+	s := make([]string, 0, 6)
+	s = append(s, "&messages.SearchCLI{")
+	if this.Find != nil {
+		s = append(s, "Find: "+fmt.Sprintf("%#v", this.Find)+",\n")
+	}
+	s = append(s, "Key: "+fmt.Sprintf("%#v", this.Key)+",\n")
+	s = append(s, "}")
+	return strings.Join(s, "")
+}
+func (this *TraverseCLI) GoString() string {
+	if this == nil {
+		return "nil"
+	}
+	s := make([]string, 0, 5)
+	s = append(s, "&messages.TraverseCLI{")
+	if this.Find != nil {
+		s = append(s, "Find: "+fmt.Sprintf("%#v", this.Find)+",\n")
+	}
+	s = append(s, "}")
+	return strings.Join(s, "")
+}
+func (this *DeleteCLI) GoString() string {
+	if this == nil {
+		return "nil"
+	}
+	s := make([]string, 0, 6)
+	s = append(s, "&messages.DeleteCLI{")
+	if this.Find != nil {
+		s = append(s, "Find: "+fmt.Sprintf("%#v", this.Find)+",\n")
+	}
+	s = append(s, "Key: "+fmt.Sprintf("%#v", this.Key)+",\n")
 	s = append(s, "}")
 	return strings.Join(s, "")
 }
@@ -1167,6 +1711,191 @@ func (m *SetYourPID) MarshalTo(dAtA []byte) (int, error) {
 	return i, nil
 }
 
+func (m *Tree) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalTo(dAtA)
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *Tree) MarshalTo(dAtA []byte) (int, error) {
+	var i int
+	_ = i
+	var l int
+	_ = l
+	if m.ID != 0 {
+		dAtA[i] = 0x8
+		i++
+		i = encodeVarintTree(dAtA, i, uint64(m.ID))
+	}
+	if len(m.Token) > 0 {
+		dAtA[i] = 0x12
+		i++
+		i = encodeVarintTree(dAtA, i, uint64(len(m.Token)))
+		i += copy(dAtA[i:], m.Token)
+	}
+	return i, nil
+}
+
+func (m *PflanzBaum) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalTo(dAtA)
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *PflanzBaum) MarshalTo(dAtA []byte) (int, error) {
+	var i int
+	_ = i
+	var l int
+	_ = l
+	if m.MaxLeaves != 0 {
+		dAtA[i] = 0x8
+		i++
+		i = encodeVarintTree(dAtA, i, uint64(m.MaxLeaves))
+	}
+	return i, nil
+}
+
+func (m *InsertCLI) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalTo(dAtA)
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *InsertCLI) MarshalTo(dAtA []byte) (int, error) {
+	var i int
+	_ = i
+	var l int
+	_ = l
+	if m.Find != nil {
+		dAtA[i] = 0xa
+		i++
+		i = encodeVarintTree(dAtA, i, uint64(m.Find.Size()))
+		n1, err := m.Find.MarshalTo(dAtA[i:])
+		if err != nil {
+			return 0, err
+		}
+		i += n1
+	}
+	if m.Key != 0 {
+		dAtA[i] = 0x10
+		i++
+		i = encodeVarintTree(dAtA, i, uint64(m.Key))
+	}
+	if len(m.Value) > 0 {
+		dAtA[i] = 0x1a
+		i++
+		i = encodeVarintTree(dAtA, i, uint64(len(m.Value)))
+		i += copy(dAtA[i:], m.Value)
+	}
+	return i, nil
+}
+
+func (m *SearchCLI) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalTo(dAtA)
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *SearchCLI) MarshalTo(dAtA []byte) (int, error) {
+	var i int
+	_ = i
+	var l int
+	_ = l
+	if m.Find != nil {
+		dAtA[i] = 0xa
+		i++
+		i = encodeVarintTree(dAtA, i, uint64(m.Find.Size()))
+		n2, err := m.Find.MarshalTo(dAtA[i:])
+		if err != nil {
+			return 0, err
+		}
+		i += n2
+	}
+	if m.Key != 0 {
+		dAtA[i] = 0x10
+		i++
+		i = encodeVarintTree(dAtA, i, uint64(m.Key))
+	}
+	return i, nil
+}
+
+func (m *TraverseCLI) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalTo(dAtA)
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *TraverseCLI) MarshalTo(dAtA []byte) (int, error) {
+	var i int
+	_ = i
+	var l int
+	_ = l
+	if m.Find != nil {
+		dAtA[i] = 0xa
+		i++
+		i = encodeVarintTree(dAtA, i, uint64(m.Find.Size()))
+		n3, err := m.Find.MarshalTo(dAtA[i:])
+		if err != nil {
+			return 0, err
+		}
+		i += n3
+	}
+	return i, nil
+}
+
+func (m *DeleteCLI) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalTo(dAtA)
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *DeleteCLI) MarshalTo(dAtA []byte) (int, error) {
+	var i int
+	_ = i
+	var l int
+	_ = l
+	if m.Find != nil {
+		dAtA[i] = 0xa
+		i++
+		i = encodeVarintTree(dAtA, i, uint64(m.Find.Size()))
+		n4, err := m.Find.MarshalTo(dAtA[i:])
+		if err != nil {
+			return 0, err
+		}
+		i += n4
+	}
+	if m.Key != 0 {
+		dAtA[i] = 0x10
+		i++
+		i = encodeVarintTree(dAtA, i, uint64(m.Key))
+	}
+	return i, nil
+}
+
 func encodeVarintTree(dAtA []byte, offset int, v uint64) int {
 	for v >= 1<<7 {
 		dAtA[offset] = uint8(v&0x7f | 0x80)
@@ -1307,6 +2036,99 @@ func (m *SetYourPID) Size() (n int) {
 	return n
 }
 
+func (m *Tree) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.ID != 0 {
+		n += 1 + sovTree(uint64(m.ID))
+	}
+	l = len(m.Token)
+	if l > 0 {
+		n += 1 + l + sovTree(uint64(l))
+	}
+	return n
+}
+
+func (m *PflanzBaum) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.MaxLeaves != 0 {
+		n += 1 + sovTree(uint64(m.MaxLeaves))
+	}
+	return n
+}
+
+func (m *InsertCLI) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.Find != nil {
+		l = m.Find.Size()
+		n += 1 + l + sovTree(uint64(l))
+	}
+	if m.Key != 0 {
+		n += 1 + sovTree(uint64(m.Key))
+	}
+	l = len(m.Value)
+	if l > 0 {
+		n += 1 + l + sovTree(uint64(l))
+	}
+	return n
+}
+
+func (m *SearchCLI) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.Find != nil {
+		l = m.Find.Size()
+		n += 1 + l + sovTree(uint64(l))
+	}
+	if m.Key != 0 {
+		n += 1 + sovTree(uint64(m.Key))
+	}
+	return n
+}
+
+func (m *TraverseCLI) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.Find != nil {
+		l = m.Find.Size()
+		n += 1 + l + sovTree(uint64(l))
+	}
+	return n
+}
+
+func (m *DeleteCLI) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.Find != nil {
+		l = m.Find.Size()
+		n += 1 + l + sovTree(uint64(l))
+	}
+	if m.Key != 0 {
+		n += 1 + sovTree(uint64(m.Key))
+	}
+	return n
+}
+
 func sovTree(x uint64) (n int) {
 	for {
 		n++
@@ -1425,6 +2247,71 @@ func (this *SetYourPID) String() string {
 		return "nil"
 	}
 	s := strings.Join([]string{`&SetYourPID{`,
+		`}`,
+	}, "")
+	return s
+}
+func (this *Tree) String() string {
+	if this == nil {
+		return "nil"
+	}
+	s := strings.Join([]string{`&Tree{`,
+		`ID:` + fmt.Sprintf("%v", this.ID) + `,`,
+		`Token:` + fmt.Sprintf("%v", this.Token) + `,`,
+		`}`,
+	}, "")
+	return s
+}
+func (this *PflanzBaum) String() string {
+	if this == nil {
+		return "nil"
+	}
+	s := strings.Join([]string{`&PflanzBaum{`,
+		`MaxLeaves:` + fmt.Sprintf("%v", this.MaxLeaves) + `,`,
+		`}`,
+	}, "")
+	return s
+}
+func (this *InsertCLI) String() string {
+	if this == nil {
+		return "nil"
+	}
+	s := strings.Join([]string{`&InsertCLI{`,
+		`Find:` + strings.Replace(fmt.Sprintf("%v", this.Find), "Tree", "Tree", 1) + `,`,
+		`Key:` + fmt.Sprintf("%v", this.Key) + `,`,
+		`Value:` + fmt.Sprintf("%v", this.Value) + `,`,
+		`}`,
+	}, "")
+	return s
+}
+func (this *SearchCLI) String() string {
+	if this == nil {
+		return "nil"
+	}
+	s := strings.Join([]string{`&SearchCLI{`,
+		`Find:` + strings.Replace(fmt.Sprintf("%v", this.Find), "Tree", "Tree", 1) + `,`,
+		`Key:` + fmt.Sprintf("%v", this.Key) + `,`,
+		`}`,
+	}, "")
+	return s
+}
+func (this *TraverseCLI) String() string {
+	if this == nil {
+		return "nil"
+	}
+	s := strings.Join([]string{`&TraverseCLI{`,
+		`Find:` + strings.Replace(fmt.Sprintf("%v", this.Find), "Tree", "Tree", 1) + `,`,
+		`}`,
+	}, "")
+	return s
+}
+func (this *DeleteCLI) String() string {
+	if this == nil {
+		return "nil"
+	}
+	s := strings.Join([]string{`&DeleteCLI{`,
+		`Find:` + strings.Replace(fmt.Sprintf("%v", this.Find), "Tree", "Tree", 1) + `,`,
+		`Key:` + fmt.Sprintf("%v", this.Key) + `,`,
 		`}`,
 	}, "")
 	return s
@@ -2214,6 +3101,627 @@ func (m *SetYourPID) Unmarshal(dAtA []byte) error {
 			return fmt.Errorf("proto: setYourPID: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTree(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthTree
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthTree
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *Tree) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTree
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: Tree: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: Tree: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ID", wireType)
+			}
+			m.ID = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTree
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.ID |= int32(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Token", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTree
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTree
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTree
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Token = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTree(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthTree
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthTree
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *PflanzBaum) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTree
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: PflanzBaum: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: PflanzBaum: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field MaxLeaves", wireType)
+			}
+			m.MaxLeaves = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTree
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.MaxLeaves |= int32(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTree(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthTree
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthTree
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *InsertCLI) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTree
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: InsertCLI: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: InsertCLI: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Find", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTree
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthTree
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthTree
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Find == nil {
+				m.Find = &Tree{}
+			}
+			if err := m.Find.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 2:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Key", wireType)
+			}
+			m.Key = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTree
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Key |= int32(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Value", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTree
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTree
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTree
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Value = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTree(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthTree
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthTree
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *SearchCLI) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTree
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: SearchCLI: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: SearchCLI: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Find", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTree
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthTree
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthTree
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Find == nil {
+				m.Find = &Tree{}
+			}
+			if err := m.Find.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 2:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Key", wireType)
+			}
+			m.Key = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTree
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Key |= int32(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTree(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthTree
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthTree
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *TraverseCLI) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTree
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: TraverseCLI: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: TraverseCLI: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Find", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTree
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthTree
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthTree
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Find == nil {
+				m.Find = &Tree{}
+			}
+			if err := m.Find.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTree(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthTree
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthTree
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *DeleteCLI) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTree
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: DeleteCLI: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: DeleteCLI: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Find", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTree
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthTree
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthTree
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Find == nil {
+				m.Find = &Tree{}
+			}
+			if err := m.Find.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 2:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Key", wireType)
+			}
+			m.Key = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTree
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Key |= int32(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
 		default:
 			iNdEx = preIndex
 			skippy, err := skipTree(dAtA[iNdEx:])

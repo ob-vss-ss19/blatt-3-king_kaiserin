@@ -13,15 +13,16 @@ type CLINode struct {
 	waitgroup *sync.WaitGroup
 }
 
-type HelloMsg struct {}
-
 func (state *CLINode) Receive(context actor.Context) {
 	switch msg := context.Message().(type) {
-	case *HelloMsg:
-		fmt.Println("got string %v", msg)
+	case *messages.ScottyBeamMichHoch:
+		if msg.Ok {
+			fmt.Printf("For the key '%v' there is a value '%v'! \n", msg.Key, msg.Value)
+		} else {
+			fmt.Printf("For the key '%v' there is NO value! \n", msg.Key)
+		}
 	}
 }
-
 
 func main() {
 
@@ -42,7 +43,7 @@ func main() {
 	flag.Parse()
 
 	var msg interface{}
-	switch  {
+	switch {
 	case *flagCreateTree:
 		msg = &messages.PflanzBaum{MaxLeaves: int32(*flagLeafSize)}
 	case *flagTraverse:
@@ -50,14 +51,13 @@ func main() {
 		msg = &messages.TraverseCLI{Find: find}
 	case *flagInsert:
 		find := &messages.Tree{ID: int32(*flagID), Token: *flagToken}
-		msg = &messages.InsertCLI{Find: find, Key: int32(*flagKey), Value: *flagValue }
+		msg = &messages.InsertCLI{Find: find, Key: int32(*flagKey), Value: *flagValue}
 	case *flagDelete:
 		find := &messages.Tree{ID: int32(*flagID), Token: *flagToken}
 		msg = &messages.DeleteCLI{Find: find, Key: int32(*flagKey)}
 	case *flagSearch:
 		find := &messages.Tree{ID: int32(*flagID), Token: *flagToken}
 		msg = &messages.SearchCLI{Find: find, Key: int32(*flagKey)}
-
 	}
 
 	remote.Start("localhost:8091")
@@ -73,7 +73,6 @@ func main() {
 	context := actor.EmptyRootContext
 	remote := actor.NewPID("localhost:8090", "service")
 
-
 	//msg := messages.CheckLeftMax{MaxKey: 5}
 	fmt.Printf("kurz vor message \n")
 	context.RequestWithCustomSender(remote, msg, cli)
@@ -81,5 +80,3 @@ func main() {
 
 	waitgroup.Wait()
 }
-
-

@@ -2,10 +2,10 @@ package main
 
 import (
 	"fmt"
-	"github.com/AsynkronIT/protoactor-go/actor"
-	"github.com/AsynkronIT/protoactor-go/remote"
 	"sync"
 
+	"github.com/AsynkronIT/protoactor-go/actor"
+	"github.com/AsynkronIT/protoactor-go/remote"
 	"github.com/ob-vss-ss19/blatt-3-king_kaiserin/messages"
 	"github.com/ob-vss-ss19/blatt-3-king_kaiserin/tree"
 )
@@ -15,8 +15,6 @@ type NodeService struct {
 	roots     map[int32]*actor.PID
 	nextID    int32
 }
-
-type HelloMsg struct{}
 
 func (state *NodeService) createNewTree(context actor.Context) {
 	msg := context.Message().(*messages.PflanzBaum)
@@ -42,8 +40,8 @@ func (state *NodeService) Receive(context actor.Context) {
 	case *messages.InsertCLI:
 		fmt.Printf("Got Insert with Key: %v, Value: %v, ID: %v und Token: %v",
 			msg.Key, msg.Value, msg.Find.ID, msg.Find.Token)
-	pid := state.roots[msg.Find.ID]
-	context.RequestWithCustomSender(pid, &messages.Insert{Key: msg.Key, Value: msg.Value}, context.Sender())
+		pid := state.roots[msg.Find.ID]
+		context.RequestWithCustomSender(pid, &messages.Insert{Key: msg.Key, Value: msg.Value}, context.Sender())
 	case *messages.SearchCLI:
 		fmt.Printf("Got Search with Key: %v, ID: %v und Token: %v",
 			msg.Key, msg.Find.ID, msg.Find.Token)

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"github.com/AsynkronIT/protoactor-go/actor"
 	"github.com/AsynkronIT/protoactor-go/remote"
@@ -23,7 +24,17 @@ func (state *CLINode) Receive(context actor.Context) {
 
 
 func main() {
-	fmt.Println("Hello Tree-CLI!")
+
+	//flagCreateTree := flag.Bool("newTree", false, "creates new tree, prints out id and token")
+	//flagLeafSize := flag.Int("size", 1, "size of a leaf")
+	flag.Parse()
+
+/*	var msg interface{}
+	switch  {
+	case *flagCreateTree:
+		msg := messages.PflanzBaum(Size: int32(*flagLeafSize))
+
+	}*/
 
 	remote.Start("localhost:8091")
 	var waitgroup sync.WaitGroup

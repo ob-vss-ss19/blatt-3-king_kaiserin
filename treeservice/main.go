@@ -21,8 +21,10 @@ type HelloMsg struct {}
 func (state *NodeService) Receive(context actor.Context) {
 	fmt.Printf("%v\n", context.Message())
 	switch msg := context.Message().(type) {
-	case *messages.CheckLeftMax:
-		fmt.Println("got string %v", msg.MaxKey)
+	case *messages.PflanzBaum:
+		fmt.Println("Size: %v", msg.Size)
+	case *messages.SetYourPID:
+		fmt.Println("Got: %v", msg)
 	}
 }
 

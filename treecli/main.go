@@ -25,16 +25,16 @@ func (state *CLINode) Receive(context actor.Context) {
 
 func main() {
 
-	//flagCreateTree := flag.Bool("newTree", false, "creates new tree, prints out id and token")
-	//flagLeafSize := flag.Int("size", 1, "size of a leaf")
+	flagCreateTree := flag.Bool("newTree", false, "creates new tree, prints out id and token")
+	flagLeafSize := flag.Int("size", 1, "size of a leaf")
 	flag.Parse()
 
-/*	var msg interface{}
+	msg := messages.CheckLeftMax{MaxKey: -1}
 	switch  {
 	case *flagCreateTree:
-		msg := messages.PflanzBaum(Size: int32(*flagLeafSize))
+		msg = messages.CheckLeftMax{MaxKey: int32(*flagLeafSize)}
 
-	}*/
+	}
 
 	remote.Start("localhost:8091")
 	var waitgroup sync.WaitGroup
@@ -50,13 +50,12 @@ func main() {
 	remote := actor.NewPID("localhost:8090", "service")
 
 
-	msg := messages.CheckLeftMax{MaxKey: 5}
+	//msg := messages.CheckLeftMax{MaxKey: 5}
 	fmt.Printf("kurz vor message \n")
 	context.RequestWithCustomSender(remote, &msg, cli)
 	fmt.Printf("message gesendet \n")
 
 	waitgroup.Wait()
-
 }
 
 

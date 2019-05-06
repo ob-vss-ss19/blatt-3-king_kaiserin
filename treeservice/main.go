@@ -12,7 +12,7 @@ import (
 
 type NodeService struct {
 	waitgroup *sync.WaitGroup
-	roots []*tree.NodeActor
+	roots map[int32]*actor.PID
 	nextID int32
 }
 
@@ -21,10 +21,21 @@ type HelloMsg struct {}
 func (state *NodeService) Receive(context actor.Context) {
 	fmt.Printf("%v\n", context.Message())
 	switch msg := context.Message().(type) {
-	case *messages.PflanzBaum:
-		fmt.Println("Size: %v", msg.Size)
-	case *messages.SetYourPID:
-		fmt.Println("Got: %v", msg)
+	//umbauen auf neuetree messages
+	case *messages.CheckLeftMax:
+		fmt.Printf("got size: %v \n", msg.MaxKey)
+		context := actor.EmptyRootContext
+		props := actor.PropsFromProducer(func() actor.Actor {
+			return &tree.NodeActor{nil, nil, nil, nil, -1, msg.MaxKey}
+		})
+		pid := context.Spawn(props)
+
+		fmt.Printf("got pid: %v \n", pid)
+
+		state.roots[state.nextID] = pid
+
+		fmt.Printf("new Tree with id: %v und pid: %v", state.nextID, pid )
+		state.nextID++
 	}
 }
 
@@ -38,7 +49,7 @@ func main() {
 	props := actor.PropsFromProducer(
 		func() actor.Actor {
 			waitgroup.Add(1)
-			return &NodeService{&waitgroup, nil, 1001}
+			return &NodeService{&waitgroup, make(map[int32]*actor.PID), 1001}
 		})
 
 	pid, err := actor.SpawnNamed(props, "service")

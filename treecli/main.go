@@ -27,12 +27,33 @@ func main() {
 
 	flagCreateTree := flag.Bool("newTree", false, "creates new tree, prints out id and token")
 	flagLeafSize := flag.Int("size", 1, "size of a leaf")
+
+	//flagID := flag.Int("ID", 1, "ID of the Tree")
+	//flagToken := flag.Int("token", 1, "Token of the Tree")
+
+	flagInsert := flag.Bool("insert", false, "insert new value into the tree")
+	flagSearch := flag.Bool("search", false, "search value for a key")
+	flagDelete := flag.Bool("delete", false, "delete value and key from tree")
+	flagTraverse := flag.Bool("traverse", false, "go through tree and get sorted key-value-Pairs")
+
+	flagKey := flag.Int("key", 1, "Key which is needed for Insert/Search/Delete")
+	flagValue := flag.String("value", "", "Vale which is needed to insert new key-value-Pair")
+
 	flag.Parse()
 
-	msg := messages.CheckLeftMax{MaxKey: -1}
+	var msg interface{}
 	switch  {
 	case *flagCreateTree:
-		msg = messages.CheckLeftMax{MaxKey: int32(*flagLeafSize)}
+		msg = &messages.CheckLeftMax{MaxKey: int32(*flagLeafSize)}
+	case *flagTraverse:
+		//traverse msg neu mit id und token
+		msg = &messages.Traverse{}
+	case *flagInsert:
+		msg = &messages.Insert{Key: int32(*flagKey), Value: *flagValue }
+	case *flagDelete:
+		msg = &messages.Delete{Key: int32(*flagKey)}
+	case *flagSearch:
+		msg = &messages.Search{Key: int32(*flagKey)}
 
 	}
 
@@ -52,7 +73,7 @@ func main() {
 
 	//msg := messages.CheckLeftMax{MaxKey: 5}
 	fmt.Printf("kurz vor message \n")
-	context.RequestWithCustomSender(remote, &msg, cli)
+	context.RequestWithCustomSender(remote, msg, cli)
 	fmt.Printf("message gesendet \n")
 
 	waitgroup.Wait()

@@ -45,3 +45,28 @@ message setYourPID {
 message PflanzBaum {
     int32 Size = 1;
 }
+
+message Tree {
+    int32 ID = 1;
+    string Token = 2;
+}
+
+message InsertCLI {
+    Tree find = 1;
+    int32 key = 2;
+    string value = 3;
+}
+
+message SearchCLI {
+    Tree find = 1;
+    int32 key = 2;
+}
+
+message TraverseCLI {
+    Tree find = 1;
+}
+
+message DeleteCLI {
+    Tree find = 1;
+    int32 key = 2;
+}

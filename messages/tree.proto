@@ -41,3 +41,7 @@ message sendMeYourData {
 
 message setYourPID {
 }
+
+message PflanzBaum {
+    int32 Size = 1;
+}

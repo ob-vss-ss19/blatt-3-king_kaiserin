@@ -3,10 +3,11 @@ package main
 import (
 	"flag"
 	"fmt"
+	"sync"
+
 	"github.com/AsynkronIT/protoactor-go/actor"
 	"github.com/AsynkronIT/protoactor-go/remote"
 	"github.com/ob-vss-ss19/blatt-3-king_kaiserin/messages"
-	"sync"
 )
 
 type CLINode struct {

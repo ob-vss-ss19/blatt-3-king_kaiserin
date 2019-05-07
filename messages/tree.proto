@@ -70,3 +70,7 @@ message DeleteCLI {
     Tree find = 1;
     int32 key = 2;
 }
+
+message TraverseRespons {
+    map<int32, string> SortedTree = 1;
+}

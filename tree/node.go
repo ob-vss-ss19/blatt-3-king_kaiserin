@@ -10,15 +10,15 @@ import (
 )
 
 type SwapData struct {
-	Left, Right      *actor.PID
-	LeftMax   int32
-	Leaves    map[int32]string
+	Left, Right *actor.PID
+	LeftMax     int32
+	Leaves      map[int32]string
 }
 
 type NodeActor struct {
-	Left, Right, Parent     *actor.PID
-	Leaves    map[int32]string
-	LeftMax, MaxLeaves   int32
+	Left, Right, Parent *actor.PID
+	Leaves              map[int32]string
+	LeftMax, MaxLeaves  int32
 }
 
 func (state *NodeActor) traverse(context actor.Context) {
@@ -164,11 +164,11 @@ func (state *NodeActor) deleteChild(context actor.Context) {
 		context.Send(state.Right, &messages.SetYourPID{})
 
 		state.LeftMax = dataToSet.LeftMax
-	}else {
+	} else {
 		state.Leaves = dataToSet.Leaves
 	}
 
-	state.Left.Stop();
+	state.Left.Stop()
 	state.Right.Stop()
 }
 

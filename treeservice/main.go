@@ -33,27 +33,27 @@ func (state *NodeService) createNewTree(context actor.Context) {
 }
 
 func (state *NodeService) Receive(context actor.Context) {
-	fmt.Printf("%v\n", context.Message())
+	fmt.Printf("%v\n\n", context.Message())
 	switch msg := context.Message().(type) {
 	case *messages.PflanzBaum:
 		state.createNewTree(context)
 	case *messages.InsertCLI:
-		fmt.Printf("Got Insert with Key: %v, Value: %v, ID: %v und Token: %v",
+		fmt.Printf("Got Insert with Key: %v, Value: %v, ID: %v und Token: %v \n\n",
 			msg.Key, msg.Value, msg.Find.ID, msg.Find.Token)
 		pid := state.roots[msg.Find.ID]
 		context.RequestWithCustomSender(pid, &messages.Insert{Key: msg.Key, Value: msg.Value}, context.Sender())
 	case *messages.SearchCLI:
-		fmt.Printf("Got Search with Key: %v, ID: %v und Token: %v",
+		fmt.Printf("Got Search with Key: %v, ID: %v und Token: %v \n\n",
 			msg.Key, msg.Find.ID, msg.Find.Token)
 		pid := state.roots[msg.Find.ID]
 		context.RequestWithCustomSender(pid, &messages.Search{Key: msg.Key}, context.Sender())
 	case *messages.DeleteCLI:
-		fmt.Printf("Got Delete with Key: %v, ID: %v und Token: %v",
+		fmt.Printf("Got Delete with Key: %v, ID: %v und Token: %v \n\n",
 			msg.Key, msg.Find.ID, msg.Find.Token)
 		pid := state.roots[msg.Find.ID]
 		context.RequestWithCustomSender(pid, &messages.Delete{Key: msg.Key}, context.Sender())
 	case *messages.TraverseCLI:
-		fmt.Printf("Got Traverse with ID: %v und Token: %v", msg.Find.ID, msg.Find.Token)
+		fmt.Printf("Got Traverse with ID: %v und Token: %v \n\n", msg.Find.ID, msg.Find.Token)
 		pid := state.roots[msg.Find.ID]
 		context.RequestWithCustomSender(pid, &messages.Traverse{}, context.Sender())
 

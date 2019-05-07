@@ -29,21 +29,17 @@ func (state *NodeActor) traverse(context actor.Context) {
 			println("Error with Futures happened!")
 		}
 
-		lSide := leftSide.(map[int32]string)
-		rSide := rightSide.(map[int32]string)
+		lSide := leftSide.(*messages.TraverseResponse)
+		rSide := rightSide.(*messages.TraverseResponse)
 
-		for k, v := range rSide {
-			lSide[k] = v
+		for k, v := range rSide.SortedTree {
+			lSide.SortedTree[k] = v
 		}
 		/*		var full map[int32]string
 				full = append(full, *lSide...)
 				full = append(full, *rSide...)*/
 
-		if state.Parent != nil {
-			context.Respond(lSide)
-		} else {
-			fmt.Printf("All keys in Tree sorted: %v\n", lSide)
-		}
+		context.Respond(lSide)
 	} else {
 		//leaves := sortKeys(state.Leaves)
 		context.Respond(sortMap(state.Leaves))
@@ -236,14 +232,14 @@ func sortKeys(m map[int32]string) []int {
 	return keys
 }
 
-func sortMap(m map[int32]string) map[int32]string {
+func sortMap(m map[int32]string) *messages.TraverseResponse {
 	sortedKeys := sortKeys(m)
 	mapSorted := make(map[int32]string)
 
 	for i := 0; i < len(m); i++ {
 		mapSorted[int32(sortedKeys[i])] = m[int32(sortedKeys[i])]
 	}
-	return mapSorted
+	return &messages.TraverseResponse{SortedTree: mapSorted}
 }
 
 func split(m map[int32]string) (leftMap map[int32]string, rightMap map[int32]string, leftMax int) {

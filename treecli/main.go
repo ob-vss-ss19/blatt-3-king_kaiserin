@@ -22,6 +22,8 @@ func (state *CLINode) Receive(context actor.Context) {
 		} else {
 			fmt.Printf("For the key '%v' there is NO value! \n", msg.Key)
 		}
+	case *messages.TraverseResponse:
+		fmt.Printf("All keys in Tree sorted: %v\n", msg.SortedTree)
 	}
 }
 

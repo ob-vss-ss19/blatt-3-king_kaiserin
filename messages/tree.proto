@@ -71,6 +71,6 @@ message DeleteCLI {
     int32 key = 2;
 }
 
-message TraverseRespons {
+message TraverseResponse {
     map<int32, string> SortedTree = 1;
 }

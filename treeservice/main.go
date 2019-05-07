@@ -33,7 +33,7 @@ func (state *NodeService) createNewTree(context actor.Context) {
 }
 
 func (state *NodeService) Receive(context actor.Context) {
-	fmt.Printf("%v\n\n", context.Message())
+	fmt.Printf("PID Sender: %v\n\n", context.Sender())
 	switch msg := context.Message().(type) {
 	case *messages.PflanzBaum:
 		state.createNewTree(context)

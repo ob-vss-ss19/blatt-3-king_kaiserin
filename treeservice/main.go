@@ -19,8 +19,9 @@ type NodeService struct {
 func (state *NodeService) createNewTree(context actor.Context) {
 	msg := context.Message().(*messages.PflanzBaum)
 	fmt.Printf("got size: %v \n", msg.MaxLeaves)
+	tokenstring := CreateToken(5)
 	props := actor.PropsFromProducer(func() actor.Actor {
-		return &tree.NodeActor{nil, nil, nil, nil, -1, msg.MaxLeaves}
+		return &tree.NodeActor{nil, nil, nil, nil, -1, msg.MaxLeaves, state.nextID, tokenstring}
 	})
 	pid := context.Spawn(props)
 
@@ -28,7 +29,7 @@ func (state *NodeService) createNewTree(context actor.Context) {
 
 	state.roots[state.nextID] = pid
 
-	fmt.Printf("new Tree with id: %v und pid: %v", state.nextID, pid)
+	fmt.Printf("new Tree with id: %v und token: %v", state.nextID, tokenstring)
 	state.nextID++
 }
 
@@ -56,7 +57,12 @@ func (state *NodeService) Receive(context actor.Context) {
 		fmt.Printf("Got Traverse with ID: %v und Token: %v \n\n", msg.Find.ID, msg.Find.Token)
 		pid := state.roots[msg.Find.ID]
 		context.RequestWithCustomSender(pid, &messages.Traverse{}, context.Sender())
-
+	case *messages.BaumFaellt:
+		if pid, ok := state.roots[msg.ID]; ok {
+			fmt.Printf("loesche tree mit id %v und pid %v", msg.ID, pid)
+			pid.Stop()
+			delete(state.roots, msg.ID)
+		}
 	}
 }
 

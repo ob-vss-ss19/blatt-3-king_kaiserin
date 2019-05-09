@@ -10,7 +10,7 @@ import (
 func main() {
 	context := actor.EmptyRootContext
 	props := actor.PropsFromProducer(func() actor.Actor {
-		return &tree.NodeActor{nil, nil, nil, nil, -1, 2}
+		return &tree.NodeActor{nil, nil, nil, nil, -1, 2, -1, ""}
 	})
 	pid := context.Spawn(props)
 	context.Send(pid, &messages.Insert{Key: 5, Value: "five"})

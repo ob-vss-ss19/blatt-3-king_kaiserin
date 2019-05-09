@@ -48,6 +48,7 @@ func main() {
 	flagSearch := flag.Bool("search", false, "search value for a key")
 	flagDelete := flag.Bool("delete", false, "delete value and key from tree")
 	flagTraverse := flag.Bool("traverse", false, "go through tree and get sorted key-value-Pairs")
+	flagDeleteTree := flag.Bool("deleteTree", false, "delete whole Tree")
 
 	flagKey := flag.Int("key", 1, "Key which is needed for Insert/Search/Delete")
 	flagValue := flag.String("value", "", "Vale which is needed to insert new key-value-Pair")
@@ -70,6 +71,9 @@ func main() {
 	case *flagSearch:
 		find := &messages.Tree{ID: int32(*flagID), Token: *flagToken}
 		msg = &messages.SearchCLI{Find: find, Key: int32(*flagKey)}
+	case *flagDeleteTree:
+		find := &messages.Tree{ID: int32(*flagID), Token: *flagToken}
+		msg = &messages.DeleteTree{Delete: find}
 	}
 
 	remote.Start("localhost:8091")

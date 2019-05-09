@@ -12,7 +12,7 @@ import (
 
 type NodeService struct {
 	waitgroup *sync.WaitGroup
-	roots     map[int32]*Validation
+	roots, markedForDelete     map[int32]*Validation
 	nextID    int32
 }
 
@@ -56,7 +56,6 @@ func (state *NodeService) Receive(context actor.Context) {
 		} else {
 			fmt.Println("Tree with token %v and pid %v not found!", msg.Find.Token, msg.Find.ID)
 		}
-
 	case *messages.SearchCLI:
 		fmt.Printf("Got Search with Key: %v, ID: %v und Token: %v \n\n",
 			msg.Key, msg.Find.ID, msg.Find.Token)
@@ -103,8 +102,29 @@ func (state *NodeService) Receive(context actor.Context) {
 			}
 		} else {
 			fmt.Println("Tree with token %v and pid %v not found!", msg.Token, msg.ID)
-			
 		}
+	case *messages.DeleteTree:
+		if val, ok := state.markedForDelete[msg.Delete.ID]; ok {
+			if val.token == msg.Delete.Token {
+				fmt.Printf("loesche tree mit id %v und pid %v", msg.Delete.ID, val.pid)
+				val.pid.Stop()
+				delete(state.roots, msg.Delete.ID)
+			} else {
+				fmt.Println("Tree with token %v and pid %v not found!", msg.Delete.Token, msg.Delete.ID)
+			}
+		} else {
+			if val, ok := state.roots[msg.Delete.ID]; ok {
+				if val.token == msg.Delete.Token {
+					fmt.Printf("loesche tree mit id %v und pid %v", msg.Delete.ID, val.pid)
+					state.markedForDelete[msg.Delete.ID] = &Validation{msg.Delete.Token, val.pid}
+				} else {
+					fmt.Println("Tree with token %v and pid %v not found!", msg.Delete.Token, msg.Delete.ID)
+				}
+			} else {
+				fmt.Println("Tree with token %v and pid %v not found!", msg.Delete.Token, msg.Delete.ID)
+			}
+		}
+
 	}
 }
 
@@ -117,7 +137,7 @@ func main() {
 	props := actor.PropsFromProducer(
 		func() actor.Actor {
 			waitgroup.Add(1)
-			return &NodeService{&waitgroup, make(map[int32]*Validation), 1001}
+			return &NodeService{&waitgroup, make(map[int32]*Validation), make(map[int32]*Validation), 1001}
 		})
 
 	pid, err := actor.SpawnNamed(props, "service")

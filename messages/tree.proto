@@ -89,3 +89,7 @@ message PflanzBaumResponse {
     int32 ID = 1;
     string token =2;
 }
+
+message DeleteTree {
+    Tree delete = 1;
+}

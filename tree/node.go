@@ -206,6 +206,12 @@ func (state *NodeActor) Receive(context actor.Context) {
 		context.Respond(SwapData{state.Left, state.Right, state.LeftMax, state.Leaves})
 	case *messages.SetYourPID:
 		state.Parent = context.Sender()
+	case *actor.Stopping:
+		if state.Left != nil {
+			state.Left.Stop()
+			state.Right.Stop()
+		}
+
 	}
 }
 

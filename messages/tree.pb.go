@@ -6,7 +6,6 @@ package messages
 import (
 	fmt "fmt"
 	proto "github.com/gogo/protobuf/proto"
-	github_com_gogo_protobuf_sortkeys "github.com/gogo/protobuf/sortkeys"
 	io "io"
 	math "math"
 	reflect "reflect"
@@ -787,21 +786,22 @@ func (m *DeleteCLI) GetKey() int32 {
 	return 0
 }
 
-type TraverseRespons struct {
-	SortedTree map[int32]string `protobuf:"bytes,1,rep,name=SortedTree,json=sortedTree,proto3" json:"SortedTree,omitempty" protobuf_key:"varint,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+type KeyValue struct {
+	Key   int32  `protobuf:"varint,1,opt,name=Key,json=key,proto3" json:"Key,omitempty"`
+	Value string `protobuf:"bytes,2,opt,name=value,proto3" json:"value,omitempty"`
 }
 
-func (m *TraverseRespons) Reset()      { *m = TraverseRespons{} }
-func (*TraverseRespons) ProtoMessage() {}
-func (*TraverseRespons) Descriptor() ([]byte, []int) {
+func (m *KeyValue) Reset()      { *m = KeyValue{} }
+func (*KeyValue) ProtoMessage() {}
+func (*KeyValue) Descriptor() ([]byte, []int) {
 	return fileDescriptor_cb3889276909882a, []int{17}
 }
-func (m *TraverseRespons) XXX_Unmarshal(b []byte) error {
+func (m *KeyValue) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *TraverseRespons) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *KeyValue) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_TraverseRespons.Marshal(b, m, deterministic)
+		return xxx_messageInfo_KeyValue.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalTo(b)
@@ -811,21 +811,71 @@ func (m *TraverseRespons) XXX_Marshal(b []byte, deterministic bool) ([]byte, err
 		return b[:n], nil
 	}
 }
-func (m *TraverseRespons) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_TraverseRespons.Merge(m, src)
+func (m *KeyValue) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_KeyValue.Merge(m, src)
 }
-func (m *TraverseRespons) XXX_Size() int {
+func (m *KeyValue) XXX_Size() int {
 	return m.Size()
 }
-func (m *TraverseRespons) XXX_DiscardUnknown() {
-	xxx_messageInfo_TraverseRespons.DiscardUnknown(m)
+func (m *KeyValue) XXX_DiscardUnknown() {
+	xxx_messageInfo_KeyValue.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_TraverseRespons proto.InternalMessageInfo
+var xxx_messageInfo_KeyValue proto.InternalMessageInfo
 
-func (m *TraverseRespons) GetSortedTree() map[int32]string {
+func (m *KeyValue) GetKey() int32 {
 	if m != nil {
-		return m.SortedTree
+		return m.Key
+	}
+	return 0
+}
+
+func (m *KeyValue) GetValue() string {
+	if m != nil {
+		return m.Value
+	}
+	return ""
+}
+
+type TraverseResponse struct {
+	Sorted []*KeyValue `protobuf:"bytes,1,rep,name=Sorted,json=sorted,proto3" json:"Sorted,omitempty"`
+}
+
+func (m *TraverseResponse) Reset()      { *m = TraverseResponse{} }
+func (*TraverseResponse) ProtoMessage() {}
+func (*TraverseResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_cb3889276909882a, []int{18}
+}
+func (m *TraverseResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *TraverseResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_TraverseResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalTo(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *TraverseResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_TraverseResponse.Merge(m, src)
+}
+func (m *TraverseResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *TraverseResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_TraverseResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_TraverseResponse proto.InternalMessageInfo
+
+func (m *TraverseResponse) GetSorted() []*KeyValue {
+	if m != nil {
+		return m.Sorted
 	}
 	return nil
 }
@@ -848,46 +898,46 @@ func init() {
 	proto.RegisterType((*SearchCLI)(nil), "messages.SearchCLI")
 	proto.RegisterType((*TraverseCLI)(nil), "messages.TraverseCLI")
 	proto.RegisterType((*DeleteCLI)(nil), "messages.DeleteCLI")
-	proto.RegisterType((*TraverseRespons)(nil), "messages.TraverseRespons")
-	proto.RegisterMapType((map[int32]string)(nil), "messages.TraverseRespons.SortedTreeEntry")
+	proto.RegisterType((*KeyValue)(nil), "messages.KeyValue")
+	proto.RegisterType((*TraverseResponse)(nil), "messages.TraverseResponse")
 }
 
 func init() { proto.RegisterFile("tree.proto", fileDescriptor_cb3889276909882a) }
 
 var fileDescriptor_cb3889276909882a = []byte{
-	// 509 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x9c, 0x53, 0x4f, 0x8f, 0xd2, 0x40,
-	0x14, 0xef, 0x94, 0x5d, 0x02, 0x6f, 0x11, 0x36, 0x8d, 0x31, 0x64, 0x63, 0x26, 0x64, 0x0e, 0x06,
-	0x8d, 0x21, 0xba, 0x7a, 0x30, 0x26, 0x1e, 0x96, 0xc5, 0xc4, 0x46, 0x9a, 0x6c, 0xba, 0x24, 0x46,
-	0x6f, 0x63, 0x79, 0x08, 0x81, 0x76, 0x36, 0xf3, 0xa6, 0x04, 0x3c, 0xf9, 0x11, 0xbc, 0xfb, 0x05,
-	0xfc, 0x28, 0x1e, 0x39, 0xee, 0x51, 0xca, 0xc5, 0xe3, 0x7e, 0x04, 0x53, 0x4a, 0x57, 0x54, 0x0e,
-	0x9b, 0xbd, 0xf5, 0xf7, 0xde, 0xef, 0x4f, 0x3b, 0xbf, 0x29, 0x80, 0xd1, 0x88, 0xad, 0x0b, 0xad,
-	0x8c, 0x72, 0x4a, 0x21, 0x12, 0xc9, 0x4f, 0x48, 0xe2, 0x09, 0x14, 0xdd, 0x88, 0x50, 0x1b, 0xe7,
-	0x10, 0x0a, 0x63, 0x9c, 0xd7, 0x59, 0x83, 0x35, 0xf7, 0xfd, 0xf4, 0xd1, 0xb9, 0x0b, 0xfb, 0x53,
-	0x39, 0x89, 0xb1, 0x6e, 0x37, 0x58, 0xb3, 0xec, 0x67, 0x40, 0x1c, 0x41, 0xf1, 0x1c, 0xa5, 0x0e,
-	0x86, 0xff, 0x2b, 0x04, 0x40, 0xa9, 0xa7, 0xe5, 0x14, 0x35, 0xa1, 0xe8, 0x82, 0x43, 0x81, 0x32,
-	0x66, 0xde, 0x46, 0x19, 0x7a, 0xa3, 0x60, 0xf8, 0x46, 0xed, 0xd2, 0xec, 0x4e, 0x71, 0xaa, 0x60,
-	0xab, 0x71, 0xbd, 0xd0, 0x60, 0xcd, 0x92, 0x6f, 0xab, 0x71, 0x9a, 0xda, 0xc1, 0x09, 0x1a, 0xdc,
-	0x91, 0xda, 0x82, 0x4a, 0xb6, 0xf3, 0x91, 0xe2, 0x89, 0x71, 0x38, 0x00, 0xc5, 0x41, 0x80, 0x44,
-	0x83, 0x78, 0xb2, 0x26, 0x96, 0xfc, 0xad, 0x89, 0x78, 0x00, 0x95, 0xd3, 0x21, 0x06, 0xe3, 0x2e,
-	0x0e, 0x8c, 0x27, 0x67, 0xce, 0x3d, 0x28, 0x86, 0x72, 0xf6, 0xf6, 0xda, 0x74, 0x83, 0x44, 0x0d,
-	0xee, 0xb4, 0x75, 0xdc, 0x47, 0xed, 0xc5, 0x44, 0x5d, 0x45, 0x42, 0x00, 0xb8, 0xc1, 0xf0, 0xc3,
-	0x08, 0x87, 0x27, 0x31, 0xa5, 0x2f, 0x1e, 0xce, 0x3d, 0x39, 0xdb, 0xa8, 0x32, 0x20, 0x0e, 0xa1,
-	0x4a, 0x18, 0xf5, 0x3d, 0x7c, 0xaf, 0x62, 0xdd, 0x91, 0x46, 0x8a, 0x0a, 0x00, 0xa1, 0x49, 0xe1,
-	0x99, 0xdb, 0x11, 0x8f, 0x61, 0xaf, 0xa7, 0x71, 0xfd, 0x81, 0x6e, 0x67, 0x23, 0xb5, 0x47, 0x9d,
-	0xd4, 0xad, 0xa7, 0xc6, 0x18, 0xe5, 0xc7, 0x60, 0x52, 0x20, 0x1e, 0x01, 0x9c, 0x0d, 0x26, 0x32,
-	0xfa, 0xdc, 0x96, 0x71, 0xe8, 0xdc, 0x87, 0xb2, 0x27, 0x67, 0x5d, 0x94, 0x53, 0xa4, 0x8d, 0xb4,
-	0x1c, 0xe6, 0x03, 0xf1, 0x0e, 0xca, 0x59, 0x95, 0xa7, 0x5d, 0xd7, 0x11, 0xb0, 0x37, 0x18, 0x45,
-	0xfd, 0x35, 0xeb, 0xe0, 0xb8, 0xda, 0xca, 0x0b, 0x6f, 0xa5, 0xe1, 0xfe, 0x7a, 0x97, 0x9f, 0xa4,
-	0xbd, 0xa3, 0x8b, 0xc2, 0x76, 0xe3, 0x27, 0x50, 0xce, 0x1a, 0xbf, 0xb5, 0xb1, 0x78, 0x0a, 0x07,
-	0xf9, 0xc5, 0xb8, 0xa1, 0x49, 0x9a, 0x9a, 0xb5, 0x7a, 0xfb, 0xd4, 0x6f, 0x0c, 0x6a, 0x79, 0xac,
-	0x8f, 0x74, 0xa1, 0x22, 0x72, 0x5c, 0x80, 0x73, 0xa5, 0x0d, 0xf6, 0x53, 0x65, 0x9d, 0x35, 0x0a,
-	0xcd, 0x83, 0xe3, 0x87, 0xdb, 0x7e, 0x7f, 0xd1, 0x5b, 0x7f, 0xb8, 0xaf, 0x23, 0xa3, 0xe7, 0x3e,
-	0xd0, 0xf5, 0xe0, 0xe8, 0x15, 0xd4, 0xfe, 0x59, 0xdf, 0xf4, 0x7a, 0xbf, 0xb4, 0x5f, 0xb0, 0xf6,
-	0xf3, 0xc5, 0x92, 0x5b, 0x97, 0x4b, 0x6e, 0x5d, 0x2d, 0x39, 0xfb, 0x92, 0x70, 0xf6, 0x3d, 0xe1,
-	0xec, 0x47, 0xc2, 0xd9, 0x22, 0xe1, 0xec, 0x67, 0xc2, 0xd9, 0xaf, 0x84, 0x5b, 0x57, 0x09, 0x67,
-	0x5f, 0x57, 0xdc, 0x5a, 0xac, 0xb8, 0x75, 0xb9, 0xe2, 0xd6, 0xc7, 0xe2, 0xfa, 0x0f, 0x7e, 0xf6,
-	0x3b, 0x00, 0x00, 0xff, 0xff, 0xb8, 0x3c, 0x06, 0xed, 0xcf, 0x03, 0x00, 0x00,
+	// 500 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x9c, 0x53, 0xcd, 0x8a, 0x1a, 0x4d,
+	0x14, 0xed, 0xd2, 0x99, 0x46, 0xaf, 0x7e, 0x7e, 0x52, 0x84, 0x20, 0x21, 0x14, 0x52, 0x8b, 0x20,
+	0x43, 0x90, 0xc4, 0x64, 0x1d, 0x18, 0xc7, 0x45, 0x44, 0x1b, 0x86, 0x1e, 0x49, 0x48, 0x76, 0x95,
+	0xf6, 0x9a, 0x96, 0xfe, 0xa9, 0xa1, 0xaa, 0x5a, 0x34, 0xab, 0x3c, 0x42, 0x1e, 0x23, 0x8f, 0x92,
+	0xa5, 0xcb, 0x59, 0xc6, 0x76, 0x93, 0xe5, 0x3c, 0x42, 0xe8, 0x6e, 0x3b, 0x19, 0x88, 0x8b, 0x61,
+	0x76, 0x7d, 0xaa, 0xee, 0x39, 0xe7, 0xf6, 0x3d, 0xb7, 0x00, 0x8c, 0x42, 0xec, 0x5f, 0x2b, 0x69,
+	0x24, 0xad, 0x45, 0xa8, 0xb5, 0xf8, 0x8c, 0x9a, 0xbf, 0x00, 0x7b, 0x1c, 0x6b, 0x54, 0x86, 0xb6,
+	0xa1, 0x1a, 0xe0, 0xa6, 0x43, 0xba, 0xa4, 0x77, 0xea, 0x66, 0x9f, 0xf4, 0x11, 0x9c, 0xae, 0x44,
+	0x98, 0x60, 0xa7, 0xd2, 0x25, 0xbd, 0xba, 0x5b, 0x00, 0xfe, 0x04, 0xec, 0x2b, 0x14, 0xca, 0xf3,
+	0xff, 0x65, 0x70, 0x80, 0xda, 0x4c, 0x89, 0x15, 0x2a, 0x8d, 0x7c, 0x0a, 0x54, 0x7b, 0xd2, 0x98,
+	0xcd, 0x10, 0x45, 0xe4, 0x2c, 0x3d, 0xff, 0xad, 0x3c, 0xc6, 0x39, 0xee, 0x42, 0x5b, 0x50, 0x91,
+	0x41, 0xa7, 0xda, 0x25, 0xbd, 0x9a, 0x5b, 0x91, 0x41, 0xe6, 0x3a, 0xc2, 0x10, 0x0d, 0x1e, 0x71,
+	0xed, 0x43, 0xb3, 0xb8, 0x73, 0x51, 0x27, 0xa1, 0xa1, 0x0c, 0x40, 0x27, 0x9e, 0x87, 0x5a, 0x2f,
+	0x92, 0x30, 0x2f, 0xac, 0xb9, 0x77, 0x4e, 0xf8, 0x33, 0x68, 0x5e, 0xf8, 0xe8, 0x05, 0x53, 0x5c,
+	0x18, 0x47, 0xac, 0xe9, 0x63, 0xb0, 0x23, 0xb1, 0x9e, 0xfc, 0x11, 0x3d, 0x20, 0xfe, 0x3f, 0xfc,
+	0x37, 0x54, 0xc9, 0x1c, 0x95, 0x93, 0x68, 0x3d, 0x95, 0x9a, 0x73, 0x80, 0xb1, 0xe7, 0x7f, 0x5c,
+	0xa2, 0x7f, 0x9e, 0xe8, 0xac, 0xf1, 0x68, 0xe3, 0x88, 0xf5, 0x81, 0x55, 0x00, 0xde, 0x86, 0x96,
+	0xc6, 0x78, 0xee, 0xe0, 0x07, 0x99, 0xa8, 0x91, 0x30, 0x82, 0x37, 0x01, 0x34, 0x9a, 0x0c, 0x5e,
+	0x8e, 0x47, 0xfc, 0x39, 0x9c, 0xcc, 0x14, 0xe6, 0x3f, 0x38, 0x1e, 0x1d, 0xa8, 0x95, 0xe5, 0x28,
+	0x53, 0x9b, 0xc9, 0x00, 0xe3, 0x72, 0x0c, 0x26, 0x03, 0xfc, 0x0c, 0xe0, 0x72, 0x11, 0x8a, 0xf8,
+	0xcb, 0x50, 0x24, 0x11, 0x7d, 0x0a, 0x75, 0x47, 0xac, 0xa7, 0x28, 0x56, 0xa8, 0x0f, 0xd4, 0x7a,
+	0x54, 0x1e, 0xf0, 0xf7, 0x50, 0x2f, 0xa2, 0xbc, 0x98, 0x8e, 0x29, 0x87, 0x93, 0xc5, 0x32, 0x9e,
+	0xe7, 0x55, 0x8d, 0x41, 0xab, 0x5f, 0x06, 0xde, 0xcf, 0xcc, 0xdd, 0xfc, 0xae, 0x9c, 0x64, 0xe5,
+	0x48, 0x16, 0xd5, 0xbb, 0x89, 0x9f, 0x43, 0xbd, 0x48, 0xfc, 0xc1, 0xc2, 0xfc, 0x25, 0x34, 0xca,
+	0xc5, 0xb8, 0xa7, 0x48, 0xe6, 0x5a, 0xa4, 0xfa, 0x70, 0xd7, 0x01, 0xd4, 0x26, 0xb8, 0x79, 0x97,
+	0x2f, 0x54, 0x1b, 0xaa, 0x93, 0xfb, 0xac, 0xf7, 0x1b, 0x68, 0x97, 0x9d, 0xba, 0xa8, 0xaf, 0x65,
+	0xac, 0x91, 0x9e, 0x81, 0x7d, 0x25, 0x95, 0xc1, 0xcc, 0xbf, 0xda, 0x6b, 0x0c, 0xe8, 0x5f, 0xff,
+	0x52, 0xdf, 0xb5, 0x75, 0x5e, 0x31, 0x7c, 0xbd, 0xdd, 0x31, 0xeb, 0x66, 0xc7, 0xac, 0xdb, 0x1d,
+	0x23, 0x5f, 0x53, 0x46, 0xbe, 0xa7, 0x8c, 0xfc, 0x48, 0x19, 0xd9, 0xa6, 0x8c, 0xfc, 0x4c, 0x19,
+	0xf9, 0x95, 0x32, 0xeb, 0x36, 0x65, 0xe4, 0xdb, 0x9e, 0x59, 0xdb, 0x3d, 0xb3, 0x6e, 0xf6, 0xcc,
+	0xfa, 0x64, 0xe7, 0xef, 0xf2, 0xd5, 0xef, 0x00, 0x00, 0x00, 0xff, 0xff, 0x9c, 0x9c, 0x04, 0x7a,
+	0xa5, 0x03, 0x00, 0x00,
 }
 
 func (this *Insert) Equal(that interface{}) bool {
@@ -1310,14 +1360,14 @@ func (this *DeleteCLI) Equal(that interface{}) bool {
 	}
 	return true
 }
-func (this *TraverseRespons) Equal(that interface{}) bool {
+func (this *KeyValue) Equal(that interface{}) bool {
 	if that == nil {
 		return this == nil
 	}
 
-	that1, ok := that.(*TraverseRespons)
+	that1, ok := that.(*KeyValue)
 	if !ok {
-		that2, ok := that.(TraverseRespons)
+		that2, ok := that.(KeyValue)
 		if ok {
 			that1 = &that2
 		} else {
@@ -1329,11 +1379,38 @@ func (this *TraverseRespons) Equal(that interface{}) bool {
 	} else if this == nil {
 		return false
 	}
-	if len(this.SortedTree) != len(that1.SortedTree) {
+	if this.Key != that1.Key {
 		return false
 	}
-	for i := range this.SortedTree {
-		if this.SortedTree[i] != that1.SortedTree[i] {
+	if this.Value != that1.Value {
+		return false
+	}
+	return true
+}
+func (this *TraverseResponse) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	that1, ok := that.(*TraverseResponse)
+	if !ok {
+		that2, ok := that.(TraverseResponse)
+		if ok {
+			that1 = &that2
+		} else {
+			return false
+		}
+	}
+	if that1 == nil {
+		return this == nil
+	} else if this == nil {
+		return false
+	}
+	if len(this.Sorted) != len(that1.Sorted) {
+		return false
+	}
+	for i := range this.Sorted {
+		if !this.Sorted[i].Equal(that1.Sorted[i]) {
 			return false
 		}
 	}
@@ -1521,24 +1598,25 @@ func (this *DeleteCLI) GoString() string {
 	s = append(s, "}")
 	return strings.Join(s, "")
 }
-func (this *TraverseRespons) GoString() string {
+func (this *KeyValue) GoString() string {
+	if this == nil {
+		return "nil"
+	}
+	s := make([]string, 0, 6)
+	s = append(s, "&messages.KeyValue{")
+	s = append(s, "Key: "+fmt.Sprintf("%#v", this.Key)+",\n")
+	s = append(s, "Value: "+fmt.Sprintf("%#v", this.Value)+",\n")
+	s = append(s, "}")
+	return strings.Join(s, "")
+}
+func (this *TraverseResponse) GoString() string {
 	if this == nil {
 		return "nil"
 	}
 	s := make([]string, 0, 5)
-	s = append(s, "&messages.TraverseRespons{")
-	keysForSortedTree := make([]int32, 0, len(this.SortedTree))
-	for k, _ := range this.SortedTree {
-		keysForSortedTree = append(keysForSortedTree, k)
-	}
-	github_com_gogo_protobuf_sortkeys.Int32s(keysForSortedTree)
-	mapStringForSortedTree := "map[int32]string{"
-	for _, k := range keysForSortedTree {
-		mapStringForSortedTree += fmt.Sprintf("%#v: %#v,", k, this.SortedTree[k])
-	}
-	mapStringForSortedTree += "}"
-	if this.SortedTree != nil {
-		s = append(s, "SortedTree: "+mapStringForSortedTree+",\n")
+	s = append(s, "&messages.TraverseResponse{")
+	if this.Sorted != nil {
+		s = append(s, "Sorted: "+fmt.Sprintf("%#v", this.Sorted)+",\n")
 	}
 	s = append(s, "}")
 	return strings.Join(s, "")
@@ -1996,7 +2074,7 @@ func (m *DeleteCLI) MarshalTo(dAtA []byte) (int, error) {
 	return i, nil
 }
 
-func (m *TraverseRespons) Marshal() (dAtA []byte, err error) {
+func (m *KeyValue) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalTo(dAtA)
@@ -2006,25 +2084,50 @@ func (m *TraverseRespons) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *TraverseRespons) MarshalTo(dAtA []byte) (int, error) {
+func (m *KeyValue) MarshalTo(dAtA []byte) (int, error) {
 	var i int
 	_ = i
 	var l int
 	_ = l
-	if len(m.SortedTree) > 0 {
-		for k, _ := range m.SortedTree {
+	if m.Key != 0 {
+		dAtA[i] = 0x8
+		i++
+		i = encodeVarintTree(dAtA, i, uint64(m.Key))
+	}
+	if len(m.Value) > 0 {
+		dAtA[i] = 0x12
+		i++
+		i = encodeVarintTree(dAtA, i, uint64(len(m.Value)))
+		i += copy(dAtA[i:], m.Value)
+	}
+	return i, nil
+}
+
+func (m *TraverseResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalTo(dAtA)
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *TraverseResponse) MarshalTo(dAtA []byte) (int, error) {
+	var i int
+	_ = i
+	var l int
+	_ = l
+	if len(m.Sorted) > 0 {
+		for _, msg := range m.Sorted {
 			dAtA[i] = 0xa
 			i++
-			v := m.SortedTree[k]
-			mapSize := 1 + sovTree(uint64(k)) + 1 + len(v) + sovTree(uint64(len(v)))
-			i = encodeVarintTree(dAtA, i, uint64(mapSize))
-			dAtA[i] = 0x8
-			i++
-			i = encodeVarintTree(dAtA, i, uint64(k))
-			dAtA[i] = 0x12
-			i++
-			i = encodeVarintTree(dAtA, i, uint64(len(v)))
-			i += copy(dAtA[i:], v)
+			i = encodeVarintTree(dAtA, i, uint64(msg.Size()))
+			n, err := msg.MarshalTo(dAtA[i:])
+			if err != nil {
+				return 0, err
+			}
+			i += n
 		}
 	}
 	return i, nil
@@ -2263,18 +2366,32 @@ func (m *DeleteCLI) Size() (n int) {
 	return n
 }
 
-func (m *TraverseRespons) Size() (n int) {
+func (m *KeyValue) Size() (n int) {
 	if m == nil {
 		return 0
 	}
 	var l int
 	_ = l
-	if len(m.SortedTree) > 0 {
-		for k, v := range m.SortedTree {
-			_ = k
-			_ = v
-			mapEntrySize := 1 + sovTree(uint64(k)) + 1 + len(v) + sovTree(uint64(len(v)))
-			n += mapEntrySize + 1 + sovTree(uint64(mapEntrySize))
+	if m.Key != 0 {
+		n += 1 + sovTree(uint64(m.Key))
+	}
+	l = len(m.Value)
+	if l > 0 {
+		n += 1 + l + sovTree(uint64(l))
+	}
+	return n
+}
+
+func (m *TraverseResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if len(m.Sorted) > 0 {
+		for _, e := range m.Sorted {
+			l = e.Size()
+			n += 1 + l + sovTree(uint64(l))
 		}
 	}
 	return n
@@ -2467,22 +2584,23 @@ func (this *DeleteCLI) String() string {
 	}, "")
 	return s
 }
-func (this *TraverseRespons) String() string {
+func (this *KeyValue) String() string {
 	if this == nil {
 		return "nil"
 	}
-	keysForSortedTree := make([]int32, 0, len(this.SortedTree))
-	for k, _ := range this.SortedTree {
-		keysForSortedTree = append(keysForSortedTree, k)
+	s := strings.Join([]string{`&KeyValue{`,
+		`Key:` + fmt.Sprintf("%v", this.Key) + `,`,
+		`Value:` + fmt.Sprintf("%v", this.Value) + `,`,
+		`}`,
+	}, "")
+	return s
+}
+func (this *TraverseResponse) String() string {
+	if this == nil {
+		return "nil"
 	}
-	github_com_gogo_protobuf_sortkeys.Int32s(keysForSortedTree)
-	mapStringForSortedTree := "map[int32]string{"
-	for _, k := range keysForSortedTree {
-		mapStringForSortedTree += fmt.Sprintf("%v: %v,", k, this.SortedTree[k])
-	}
-	mapStringForSortedTree += "}"
-	s := strings.Join([]string{`&TraverseRespons{`,
-		`SortedTree:` + mapStringForSortedTree + `,`,
+	s := strings.Join([]string{`&TraverseResponse{`,
+		`Sorted:` + strings.Replace(fmt.Sprintf("%v", this.Sorted), "KeyValue", "KeyValue", 1) + `,`,
 		`}`,
 	}, "")
 	return s
@@ -3917,7 +4035,7 @@ func (m *DeleteCLI) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *TraverseRespons) Unmarshal(dAtA []byte) error {
+func (m *KeyValue) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -3940,15 +4058,119 @@ func (m *TraverseRespons) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: TraverseRespons: wiretype end group for non-group")
+			return fmt.Errorf("proto: KeyValue: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: TraverseRespons: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: KeyValue: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Key", wireType)
+			}
+			m.Key = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTree
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Key |= int32(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Value", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTree
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTree
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTree
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Value = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTree(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthTree
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthTree
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *TraverseResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTree
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: TraverseResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: TraverseResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field SortedTree", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field Sorted", wireType)
 			}
 			var msglen int
 			for shift := uint(0); ; shift += 7 {
@@ -3975,89 +4197,10 @@ func (m *TraverseRespons) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if m.SortedTree == nil {
-				m.SortedTree = make(map[int32]string)
+			m.Sorted = append(m.Sorted, &KeyValue{})
+			if err := m.Sorted[len(m.Sorted)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
 			}
-			var mapkey int32
-			var mapvalue string
-			for iNdEx < postIndex {
-				entryPreIndex := iNdEx
-				var wire uint64
-				for shift := uint(0); ; shift += 7 {
-					if shift >= 64 {
-						return ErrIntOverflowTree
-					}
-					if iNdEx >= l {
-						return io.ErrUnexpectedEOF
-					}
-					b := dAtA[iNdEx]
-					iNdEx++
-					wire |= uint64(b&0x7F) << shift
-					if b < 0x80 {
-						break
-					}
-				}
-				fieldNum := int32(wire >> 3)
-				if fieldNum == 1 {
-					for shift := uint(0); ; shift += 7 {
-						if shift >= 64 {
-							return ErrIntOverflowTree
-						}
-						if iNdEx >= l {
-							return io.ErrUnexpectedEOF
-						}
-						b := dAtA[iNdEx]
-						iNdEx++
-						mapkey |= int32(b&0x7F) << shift
-						if b < 0x80 {
-							break
-						}
-					}
-				} else if fieldNum == 2 {
-					var stringLenmapvalue uint64
-					for shift := uint(0); ; shift += 7 {
-						if shift >= 64 {
-							return ErrIntOverflowTree
-						}
-						if iNdEx >= l {
-							return io.ErrUnexpectedEOF
-						}
-						b := dAtA[iNdEx]
-						iNdEx++
-						stringLenmapvalue |= uint64(b&0x7F) << shift
-						if b < 0x80 {
-							break
-						}
-					}
-					intStringLenmapvalue := int(stringLenmapvalue)
-					if intStringLenmapvalue < 0 {
-						return ErrInvalidLengthTree
-					}
-					postStringIndexmapvalue := iNdEx + intStringLenmapvalue
-					if postStringIndexmapvalue < 0 {
-						return ErrInvalidLengthTree
-					}
-					if postStringIndexmapvalue > l {
-						return io.ErrUnexpectedEOF
-					}
-					mapvalue = string(dAtA[iNdEx:postStringIndexmapvalue])
-					iNdEx = postStringIndexmapvalue
-				} else {
-					iNdEx = entryPreIndex
-					skippy, err := skipTree(dAtA[iNdEx:])
-					if err != nil {
-						return err
-					}
-					if skippy < 0 {
-						return ErrInvalidLengthTree
-					}
-					if (iNdEx + skippy) > postIndex {
-						return io.ErrUnexpectedEOF
-					}
-					iNdEx += skippy
-				}
-			}
-			m.SortedTree[mapkey] = mapvalue
 			iNdEx = postIndex
 		default:
 			iNdEx = preIndex

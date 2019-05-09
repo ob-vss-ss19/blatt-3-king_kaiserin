@@ -32,12 +32,7 @@ func (state *NodeActor) traverse(context actor.Context) {
 		lSide := leftSide.(*messages.TraverseResponse)
 		rSide := rightSide.(*messages.TraverseResponse)
 
-		for k, v := range rSide.SortedTree {
-			lSide.SortedTree[k] = v
-		}
-		/*		var full map[int32]string
-				full = append(full, *lSide...)
-				full = append(full, *rSide...)*/
+		lSide.Sorted = append(lSide.Sorted, rSide.Sorted...)
 
 		context.Respond(lSide)
 	} else {
@@ -48,8 +43,10 @@ func (state *NodeActor) traverse(context actor.Context) {
 }
 
 func (state *NodeActor) insert(context actor.Context) {
+	println("Got insert in Node")
 	msg := context.Message().(*messages.Insert)
 	if state.Left != nil {
+		println("ich schicke an recht an rechts oder links weiter")
 		if msg.Key > state.LeftMax {
 			// msg an rechten Node, dass wert einfuegen
 			context.Send(state.Right, &messages.Insert{Key: msg.Key, Value: msg.Value})
@@ -58,11 +55,14 @@ func (state *NodeActor) insert(context actor.Context) {
 			context.Send(state.Left, &messages.Insert{Key: msg.Key, Value: msg.Value})
 		}
 	} else {
+		println("hab noch keinen left/right!")
 		if state.Leaves == nil {
+			println("hab noch keine Map")
 			state.Leaves = make(map[int32]string)
 		}
 		// pruefen ob map schon voll
 		if int32(len(state.Leaves)) == state.MaxLeaves {
+			println("maximale Größe erreicht")
 			// split
 			props := actor.PropsFromProducer(func() actor.Actor {
 				return &NodeActor{nil, nil, context.Self(), nil, -1, state.MaxLeaves}
@@ -72,10 +72,14 @@ func (state *NodeActor) insert(context actor.Context) {
 			state.Leaves[msg.Key] = msg.Value
 			leftMap, rightMap, leftmaximum := split(state.Leaves)
 			state.LeftMax = int32(leftmaximum)
+			fmt.Printf("leftMap-Size: %v, rightMap-Size: %v, leftMax: %v \n",
+			len(leftMap), len(rightMap), leftmaximum)
 			for k, v := range leftMap {
+				println("send to left")
 				context.Send(state.Left, &messages.Insert{Key: k, Value: v})
 			}
 			for k, v := range rightMap {
+				println("send to right")
 				context.Send(state.Right, &messages.Insert{Key: k, Value: v})
 			}
 			//context.Send(state.Left, &InsertMap{leftMap})
@@ -234,12 +238,12 @@ func sortKeys(m map[int32]string) []int {
 
 func sortMap(m map[int32]string) *messages.TraverseResponse {
 	sortedKeys := sortKeys(m)
-	mapSorted := make(map[int32]string)
+	sortedMap := make([]*messages.KeyValue, 0)
 
 	for i := 0; i < len(m); i++ {
-		mapSorted[int32(sortedKeys[i])] = m[int32(sortedKeys[i])]
+		sortedMap = append(sortedMap, &messages.KeyValue{Key: int32(sortedKeys[i]), Value: m[int32(sortedKeys[i])]})
 	}
-	return &messages.TraverseResponse{SortedTree: mapSorted}
+	return &messages.TraverseResponse{Sorted: sortedMap}
 }
 
 func split(m map[int32]string) (leftMap map[int32]string, rightMap map[int32]string, leftMax int) {
@@ -248,11 +252,11 @@ func split(m map[int32]string) (leftMap map[int32]string, rightMap map[int32]str
 	leftMap = make(map[int32]string)
 	rightMap = make(map[int32]string)
 
-	for i := 0; i <= lengthMap; i++ {
+	for i := 0; i < lengthMap; i++ {
 		leftMap[int32(sortedKeys[i])] = m[int32(sortedKeys[i])]
 	}
-	for i := lengthMap + 1; i < len(m); i++ {
+	for i := lengthMap; i < len(m); i++ {
 		rightMap[int32(sortedKeys[i])] = m[int32(sortedKeys[i])]
 	}
-	return leftMap, rightMap, sortedKeys[lengthMap]
+	return leftMap, rightMap, sortedKeys[lengthMap - 1]
 }

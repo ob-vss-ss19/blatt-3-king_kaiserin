@@ -79,3 +79,8 @@ message KeyValue {
 message TraverseResponse {
     repeated KeyValue Sorted = 1;
 }
+
+message BaumFaellt {
+    int32 ID = 1;
+    string token =2;
+}

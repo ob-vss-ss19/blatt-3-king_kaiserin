@@ -30,6 +30,7 @@ func (state *NodeService) createNewTree(context actor.Context) {
 	state.roots[state.nextID] = pid
 
 	fmt.Printf("new Tree with id: %v und token: %v", state.nextID, tokenstring)
+	context.Respond(&messages.PflanzBaumResponse{ID:state.nextID, Token: tokenstring})
 	state.nextID++
 }
 

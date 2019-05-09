@@ -30,6 +30,9 @@ func (state *CLINode) Receive(context actor.Context) {
 		fmt.Printf("loesche tree mit id %v und token %v", msg.ID, msg.Token)
 		remote := actor.NewPID("localhost:8090", "service")
 		context.Send(remote, &messages.BaumFaellt{ID: msg.ID, Token: msg.Token})
+	case *messages.PflanzBaumResponse:
+		fmt.Printf("Created a new Tree with ID: %v and Token: %v", msg.ID, msg.Token)
+		
 	}
 }
 

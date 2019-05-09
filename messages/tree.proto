@@ -84,3 +84,8 @@ message BaumFaellt {
     int32 ID = 1;
     string token =2;
 }
+
+message PflanzBaumResponse {
+    int32 ID = 1;
+    string token =2;
+}

@@ -326,14 +326,13 @@ func TestDeleteLargerLeave(t *testing.T) {
 	context = actor.EmptyRootContext
 	fmt.Println("Created Actor")
 
-	keys := []int32{int32(2), int32(8), int32(9), int32(10)}
-	values := []string{"zwei", "acht", "neun", "zehn"}
+	keys := []int32{int32(5), int32(9), int32(10)}
+	values := []string{"fuenf", "neun", "zehn"}
 
 	context.Send(root, &messages.Insert{Key: keys[0], Value: values[0]})
-	context.Send(root, &messages.Insert{Key: keys[3], Value: values[3]})
-	context.Send(root, &messages.Insert{Key: 1, Value: "eins"})
-	context.Send(root, &messages.Insert{Key: keys[2], Value: values[2]})
 	context.Send(root, &messages.Insert{Key: keys[1], Value: values[1]})
+	context.Send(root, &messages.Insert{Key: keys[2], Value: values[2]})
+	context.Send(root, &messages.Insert{Key: 1, Value: "eins"})
 
 	context.Send(root, &messages.Delete{Key: 1})
 
@@ -426,17 +425,14 @@ func TestDeleteLeftChild(t *testing.T) {
 	context = actor.EmptyRootContext
 	fmt.Println("Created Actor")
 
-	keys := []int32{int32(8), int32(9), int32(10)}
-	values := []string{"acht", "neun", "zehn"}
+	keys := []int32{int32(9), int32(10)}
+	values := []string{"neun", "zehn"}
 
-	context.Send(root, &messages.Insert{Key: 2, Value: "zwei"})
-	context.Send(root, &messages.Insert{Key: keys[2], Value: values[2]})
-	context.Send(root, &messages.Insert{Key: 1, Value: "eins"})
 	context.Send(root, &messages.Insert{Key: keys[1], Value: values[1]})
 	context.Send(root, &messages.Insert{Key: keys[0], Value: values[0]})
+	context.Send(root, &messages.Insert{Key: 5, Value: "fuenf"})
 
-	context.Send(root, &messages.Delete{Key: 1})
-	context.Send(root, &messages.Delete{Key: 2})
+	context.Send(root, &messages.Delete{Key: 5})
 
 	future := context.RequestFuture(root, &messages.Traverse{}, 1*time.Second)
 	res, err := future.Result()
@@ -448,6 +444,7 @@ func TestDeleteLeftChild(t *testing.T) {
 		} else {
 			fmt.Println("Right Messges Typ")
 			resSilce := response.Sorted
+			fmt.Printf("value we got: %v \n", resSilce)
 			if len(resSilce) != len(keys) {
 				t.Errorf("Expected length of Sorted-Slice was %v but was %v instead. \n", len(keys), len(resSilce))
 			}
@@ -466,3 +463,4 @@ func TestDeleteLeftChild(t *testing.T) {
 	}
 	fmt.Println("Ending Test")
 }
+

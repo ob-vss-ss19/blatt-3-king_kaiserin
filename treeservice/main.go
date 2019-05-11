@@ -34,6 +34,15 @@ func (state *NodeService) createNewTree(context actor.Context) {
 
 	state.roots[state.nextID] = &Validation{tokenstring, pid}
 
+		keys :=[]int32{int32(2),int32(8),int32(9), int32(10)}
+		values := []string{"zwei", "acht", "neun", "zehn"}
+
+		context.Send(pid, &messages.Insert{Key:keys[0], Value:values[0]})
+		context.Send(pid, &messages.Insert{Key:keys[3], Value:values[3]})
+		context.Send(pid, &messages.Insert{Key:1, Value:"eins"})
+		context.Send(pid, &messages.Insert{Key:keys[2], Value:values[2]})
+		context.Send(pid, &messages.Insert{Key:keys[1], Value:values[1]})
+
 	fmt.Printf("new Tree with id: %v und token: %v", state.nextID, tokenstring)
 	context.Respond(&messages.PflanzBaumResponse{ID: state.nextID, Token: tokenstring})
 	state.nextID++

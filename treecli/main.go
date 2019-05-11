@@ -25,7 +25,7 @@ func (state *CLINode) Receive(context actor.Context) {
 		state.waitgroup.Done()
 	case *messages.TraverseResponse:
 		fmt.Printf("All keys in Tree sorted: %v\n", msg.Sorted)
-		state.waitgroup.Done()
+		//state.waitgroup.Done()
 	case *messages.BaumFaellt:
 		fmt.Printf("loesche tree mit id %v und token %v", msg.ID, msg.Token)
 		remote := actor.NewPID("localhost:8090", "service")

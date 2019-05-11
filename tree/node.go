@@ -16,10 +16,10 @@ type SwapData struct {
 }
 
 type NodeActor struct {
-	Left, Right, Parent *actor.PID
-	Leaves              map[int32]string
-	LeftMax, MaxLeaves, ID  int32
-	Token				string
+	Left, Right, Parent    *actor.PID
+	Leaves                 map[int32]string
+	LeftMax, MaxLeaves, ID int32
+	Token                  string
 }
 
 func (state *NodeActor) traverse(context actor.Context) {
@@ -143,14 +143,10 @@ func (state *NodeActor) deleteChild(context actor.Context) {
 	var dataToSet SwapData
 	if context.Sender() == state.Left {
 		// wenn sender links: rechts verknüpfen
-		//context.Sender().Stop()
-		//context.RequestWithCustomSender(state.Parent, &messages.IchZiehAus{MyMax: state.LeftMax}, state.Right)
 		result, _ := context.RequestFuture(state.Right, &messages.SendMeYourData{}, 1*time.Second).Result()
 		dataToSet = result.(SwapData)
 	} else {
-		//context.Sender().Stop()
-		//context.RequestWithCustomSender(state.Parent, &messages.IchZiehAus{MyMax: state.LeftMax}, state.Left)
-		result, _ := context.RequestFuture(state.Right, &messages.SendMeYourData{}, 1*time.Second).Result()
+		result, _ := context.RequestFuture(state.Left, &messages.SendMeYourData{}, 1*time.Second).Result()
 		dataToSet = result.(SwapData)
 	}
 
@@ -165,9 +161,6 @@ func (state *NodeActor) deleteChild(context actor.Context) {
 	} else {
 		state.Leaves = dataToSet.Leaves
 	}
-
-	state.Left.Stop()
-	state.Right.Stop()
 }
 
 func (state *NodeActor) Receive(context actor.Context) {
@@ -206,11 +199,11 @@ func (state *NodeActor) Receive(context actor.Context) {
 		context.Respond(SwapData{state.Left, state.Right, state.LeftMax, state.Leaves})
 	case *messages.SetYourPID:
 		state.Parent = context.Sender()
-	case *actor.Stopping:
-		if state.Left != nil {
-			state.Left.Stop()
-			state.Right.Stop()
-		}
+		//case *actor.Stopping:
+		//	if state.Left != nil {
+		//		state.Left.Stop()
+		//		state.Right.Stop()
+		//	}
 
 	}
 }
@@ -246,5 +239,5 @@ func split(m map[int32]string) (leftMap map[int32]string, rightMap map[int32]str
 	for i := lengthMap; i < len(m); i++ {
 		rightMap[int32(sortedKeys[i])] = m[int32(sortedKeys[i])]
 	}
-	return leftMap, rightMap, sortedKeys[lengthMap - 1]
+	return leftMap, rightMap, sortedKeys[lengthMap-1]
 }

@@ -100,11 +100,8 @@ func (state *NodeActor) search(context actor.Context) {
 		}
 	} else {
 		// bei mir oder gar nicht existent
-		if value, ok := state.Leaves[msg.Key]; ok {
-			context.Respond(&messages.ScottyBeamMichHoch{Key: msg.Key, Value: value, Ok: ok})
-		} else {
-			context.Respond(&messages.ScottyBeamMichHoch{Key: msg.Key, Value: value, Ok: ok})
-		}
+		value, ok := state.Leaves[msg.Key]
+		context.Respond(&messages.ScottyBeamMichHoch{Key: msg.Key, Value: value, Ok: ok})
 	}
 }
 

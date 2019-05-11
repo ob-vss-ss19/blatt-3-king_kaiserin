@@ -9,7 +9,7 @@ env:
 script:
     - echo run tests...
     - cd tree && go test && cd ..
-    - - cd tree && go build && cd ..
+    - cd tree && go build && cd ..
     - cd treecli && go build && cd ..
     - cd treeservice && go build && cd ..
     - golangci-lint run --deadline 20m --enable-all

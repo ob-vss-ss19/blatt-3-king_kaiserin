@@ -8,6 +8,8 @@ import (
 	"github.com/ob-vss-ss19/blatt-3-king_kaiserin/messages"
 )
 
+const valueString2 = "zwei"
+
 func TestCreateEmptyRoot(t *testing.T) {
 	context := actor.EmptyRootContext
 	props := actor.PropsFromProducer(func() actor.Actor {
@@ -41,8 +43,6 @@ func TestAddValueToRoot(t *testing.T) {
 	})
 	root := context.Spawn(props)
 	context = actor.EmptyRootContext
-
-	valueString2 := "zwei"
 
 	context.Send(root, &messages.Insert{Key: 2, Value: valueString2})
 
@@ -78,7 +78,7 @@ func TestRootSplit(t *testing.T) {
 	root := context.Spawn(props)
 	context = actor.EmptyRootContext
 
-	context.Send(root, &messages.Insert{Key: 2, Value: "zwei"})
+	context.Send(root, &messages.Insert{Key: 2, Value: "valueString2"})
 	context.Send(root, &messages.Insert{Key: 4, Value: "vier"})
 
 	future := context.RequestFuture(root, &messages.Traverse{}, 1*time.Second)
@@ -95,14 +95,14 @@ func TestRootSplit(t *testing.T) {
 			if resSilce[0].Key != 2 {
 				t.Errorf("Expected key was %v but was %v instead. \n", 2, resSilce[0].Key)
 			}
-			if resSilce[0].Value != "zwei" {
-				t.Errorf("Expected value was %v but was %v instead. \n", "zwei", resSilce[0].Value)
+			if resSilce[0].Value != "valueString2" {
+				t.Errorf("Expected value was %v but was %v instead. \n", "valueString2", resSilce[0].Value)
 			}
 			if resSilce[1].Key != 4 {
 				t.Errorf("Expected key was %v but was %v instead. \n", 2, resSilce[0].Key)
 			}
 			if resSilce[1].Value != "vier" {
-				t.Errorf("Expected value was %v but was %v instead. \n", "zwei", resSilce[0].Value)
+				t.Errorf("Expected value was %v but was %v instead. \n", "valueString2", resSilce[0].Value)
 			}
 		}
 
@@ -163,7 +163,7 @@ func TestSearchLeft(t *testing.T) {
 	root := context.Spawn(props)
 	context = actor.EmptyRootContext
 
-	context.Send(root, &messages.Insert{Key: 2, Value: "zwei"})
+	context.Send(root, &messages.Insert{Key: 2, Value: "valueString2"})
 	context.Send(root, &messages.Insert{Key: 4, Value: "vier"})
 
 	future := context.RequestFuture(root, &messages.Search{Key: 2}, 1*time.Second)
@@ -179,8 +179,8 @@ func TestSearchLeft(t *testing.T) {
 			if response.Key != 2 {
 				t.Errorf("Expected key was %v but was %v instead. \n", 2, response.Key)
 			}
-			if response.Value != "zwei" {
-				t.Errorf("Expected value was %v but was %v instead. \n", "zwei", response.Value)
+			if response.Value != "valueString2" {
+				t.Errorf("Expected value was %v but was %v instead. \n", "valueString2", response.Value)
 			}
 		}
 
@@ -224,11 +224,9 @@ func TestSearchFail(t *testing.T) {
 		response, ok := res.(*messages.ScottyBeamMichHoch)
 		if !ok {
 			t.Error("Expected other Msg Type! \n")
-		} else {
-			if response.Ok {
+		} else if response.Ok {
 				t.Errorf("Didn't expected to find something but found key: %v and value: %v  \n", response.Key, response.Value)
 			}
-		}
 
 	} else {
 		t.Errorf("Error getting Future: %v \n", err)
@@ -243,7 +241,7 @@ func TestDeleteOneLeave(t *testing.T) {
 	root := context.Spawn(props)
 	context = actor.EmptyRootContext
 
-	context.Send(root, &messages.Insert{Key: 2, Value: "zwei"})
+	context.Send(root, &messages.Insert{Key: 2, Value: "valueString2"})
 	context.Send(root, &messages.Delete{Key: 2})
 
 	future := context.RequestFuture(root, &messages.Traverse{}, 1*time.Second)
@@ -316,7 +314,7 @@ func TestDeleteRightChild(t *testing.T) {
 	context = actor.EmptyRootContext
 
 	keys := []int32{int32(1), int32(2), int32(8), int32(9)}
-	values := []string{"eins", "zwei", "acht", "neun"}
+	values := []string{"eins", "valueString2", "acht", "neun"}
 
 	context.Send(root, &messages.Insert{Key: keys[1], Value: values[1]})
 	context.Send(root, &messages.Insert{Key: 10, Value: "zehn"})

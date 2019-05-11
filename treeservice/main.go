@@ -25,7 +25,9 @@ func (state *NodeService) createNewTree(context actor.Context) {
 	msg := context.Message().(*messages.PflanzBaum)
 	fmt.Printf("got size: %v \n", msg.MaxLeaves)
 	tokenstring := CreateToken(5)
-	nodeActor := tree.NodeActor{Left: nil, Right: nil, Parent: nil, Leaves: nil, LeftMax: -1, MaxLeaves: msg.MaxLeaves, ID: state.nextID, Token: tokenstring}
+	nodeActor := tree.NodeActor{Left: nil, Right: nil, Parent: nil,
+		Leaves: nil, LeftMax: -1, MaxLeaves: msg.MaxLeaves,
+		ID: state.nextID, Token: tokenstring}
 	props := actor.PropsFromProducer(func() actor.Actor {
 		return &nodeActor
 	})

@@ -63,7 +63,6 @@ func (state *NodeActor) insert(context actor.Context) {
 		// pruefen ob map schon voll
 		if int32(len(state.Leaves)) == state.MaxLeaves {
 			// split
-			fmt.Printf("erstelle neuen actor!!! %v \n", state.MaxLeaves)
 			props := actor.PropsFromProducer(func() actor.Actor {
 				return &NodeActor{nil, nil, context.Self(), nil, -1, state.MaxLeaves, -1, ""}
 			})
@@ -142,9 +141,6 @@ func (state *NodeActor) delete(context actor.Context) {
 
 func (state *NodeActor) deleteChild(context actor.Context) {
 	var dataToSet SwapData
-	fmt.Printf("pid left: %v\n", state.Left)
-	fmt.Printf("pid right: %v\n", state.Right)
-	fmt.Printf("pid sender: %v\n", context.Sender())
 	if context.Sender() == state.Left {
 		// wenn sender links: rechts verknüpfen
 		result, _ := context.RequestFuture(state.Right, &messages.SendMeYourData{}, 1*time.Second).Result()

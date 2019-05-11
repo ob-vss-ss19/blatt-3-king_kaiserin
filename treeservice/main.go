@@ -6,9 +6,10 @@ import (
 
 	"github.com/AsynkronIT/protoactor-go/actor"
 	"github.com/AsynkronIT/protoactor-go/remote"
+
 	"github.com/ob-vss-ss19/blatt-3-king_kaiserin/messages"
-	"github.com/ob-vss-ss19/blatt-3-king_kaiserin/treeservice/service"
 	"github.com/ob-vss-ss19/blatt-3-king_kaiserin/tree"
+	"github.com/ob-vss-ss19/blatt-3-king_kaiserin/treeservice/service"
 )
 
 type NodeService struct {

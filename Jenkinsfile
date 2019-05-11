@@ -19,7 +19,7 @@ pipeline {
                 sh 'cd tree && go get -v -d -t ./...'
                 sh 'go get github.com/t-yuki/gocover-cobertura' // install Code Coverage Tool
                 sh 'cd tree && go test -v -coverprofile=cover.out' // save coverage info to file
-                sh 'gocover-cobertura < treeservice/service/cover.out > coverage.xml' // transform coverage info to jenkins readable format
+                sh 'gocover-cobertura < tree/cover.out > coverage.xml' // transform coverage info to jenkins readable format
                 publishCoverage adapters: [coberturaAdapter('coverage.xml')] // publish report on Jenkins
             }
         }

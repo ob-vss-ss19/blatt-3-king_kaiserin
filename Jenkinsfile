@@ -7,7 +7,7 @@ pipeline {
             }
             steps {
                 sh 'cd messages && make regenerate'
-                sh 'cd treeservice && go build main.go'
+                sh 'cd treeservice && go build main.go token.go'
                 sh 'cd treecli && go build main.go'
             }
         }

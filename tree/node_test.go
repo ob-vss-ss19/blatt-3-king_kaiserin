@@ -225,8 +225,8 @@ func TestSearchFail(t *testing.T) {
 		if !ok {
 			t.Error("Expected other Msg Type! \n")
 		} else if response.Ok {
-				t.Errorf("Didn't expected to find something but found key: %v and value: %v  \n", response.Key, response.Value)
-			}
+			t.Errorf("Didn't expected to find something but found key: %v and value: %v  \n", response.Key, response.Value)
+		}
 
 	} else {
 		t.Errorf("Error getting Future: %v \n", err)

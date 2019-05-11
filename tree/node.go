@@ -24,10 +24,13 @@ type NodeActor struct {
 
 func (state *NodeActor) traverse(context actor.Context) {
 	if state.Left != nil {
-		leftSide, _err := context.RequestFuture(state.Left, &messages.Traverse{}, 1*time.Second).Result()
-		rightSide, _err := context.RequestFuture(state.Right, &messages.Traverse{}, 1*time.Second).Result()
-		if _err != nil {
-			println("Error with Futures happened!")
+		leftSide, _errL := context.RequestFuture(state.Left, &messages.Traverse{}, 1*time.Second).Result()
+		rightSide, _errR := context.RequestFuture(state.Right, &messages.Traverse{}, 1*time.Second).Result()
+		if _errL != nil {
+			println("Error with Future left happened!")
+		}
+		if _errR != nil {
+			println("Error with Future right happened!")
 		}
 
 		lSide := leftSide.(*messages.TraverseResponse)
@@ -213,7 +216,7 @@ func (state *NodeActor) Receive(context actor.Context) {
 }
 
 func sortKeys(m map[int32]string) []int {
-	var keys []int
+	keys := make([]int, 0)
 	for k := range m {
 		keys = append(keys, int(k))
 	}

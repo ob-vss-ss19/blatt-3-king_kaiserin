@@ -315,7 +315,6 @@ func TestDeleteOneLeave(t *testing.T) {
 	fmt.Println("Ending Test")
 }
 
-
 func TestDeleteLargerLeave(t *testing.T) {
 	fmt.Println("Starting Test")
 	context := actor.EmptyRootContext
@@ -463,4 +462,3 @@ func TestDeleteLeftChild(t *testing.T) {
 	}
 	fmt.Println("Ending Test")
 }
-

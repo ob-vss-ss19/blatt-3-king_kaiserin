@@ -7,6 +7,7 @@ import (
 	"github.com/AsynkronIT/protoactor-go/actor"
 	"github.com/AsynkronIT/protoactor-go/remote"
 	"github.com/ob-vss-ss19/blatt-3-king_kaiserin/messages"
+	"github.com/ob-vss-ss19/blatt-3-king_kaiserin/treeservice/service"
 	"github.com/ob-vss-ss19/blatt-3-king_kaiserin/tree"
 )
 
@@ -24,7 +25,7 @@ type Validation struct {
 func (state *NodeService) createNewTree(context actor.Context) {
 	msg := context.Message().(*messages.PflanzBaum)
 	fmt.Printf("got size: %v \n", msg.MaxLeaves)
-	tokenstring := CreateToken(5)
+	tokenstring := service.CreateToken(5)
 	nodeActor := tree.NodeActor{Left: nil, Right: nil, Parent: nil,
 		Leaves: nil, LeftMax: -1, MaxLeaves: msg.MaxLeaves,
 		ID: state.nextID, Token: tokenstring}

@@ -44,7 +44,7 @@ func TestAddValueToRoot(t *testing.T) {
 	root := context.Spawn(props)
 	context = actor.EmptyRootContext
 
-	context.Send(root, &messages.Insert{Key: 2, Value: valueString2})
+	_ = context.RequestFuture(root, &messages.Insert{Key: 2, Value: valueString2}, 1*time.Second)
 
 	future := context.RequestFuture(root, &messages.Traverse{}, 1*time.Second)
 	res, err := future.Result()
@@ -78,8 +78,8 @@ func TestRootSplit(t *testing.T) {
 	root := context.Spawn(props)
 	context = actor.EmptyRootContext
 
-	context.Send(root, &messages.Insert{Key: 2, Value: "valueString2"})
-	context.Send(root, &messages.Insert{Key: 4, Value: "vier"})
+	_ = context.RequestFuture(root, &messages.Insert{Key: 2, Value: "valueString2"}, 1*time.Second)
+	_ = context.RequestFuture(root, &messages.Insert{Key: 4, Value: "vier"}, 1*time.Second)
 
 	future := context.RequestFuture(root, &messages.Traverse{}, 1*time.Second)
 	res, err := future.Result()
@@ -122,12 +122,12 @@ func TestLargerTree(t *testing.T) {
 	keys := []int32{int32(5), int32(8), int32(10), int32(20), int32(30), int32(40)}
 	values := []string{"fuenf", "acht", "zehn", "zwanzig", "dreissig", "vierzieg"}
 
-	context.Send(root, &messages.Insert{Key: keys[2], Value: values[2]})
-	context.Send(root, &messages.Insert{Key: keys[3], Value: values[3]})
-	context.Send(root, &messages.Insert{Key: keys[1], Value: values[1]})
-	context.Send(root, &messages.Insert{Key: keys[0], Value: values[0]})
-	context.Send(root, &messages.Insert{Key: keys[4], Value: values[4]})
-	context.Send(root, &messages.Insert{Key: keys[5], Value: values[5]})
+	_ = context.RequestFuture(root, &messages.Insert{Key: keys[2], Value: values[2]}, 1*time.Second)
+	_ = context.RequestFuture(root, &messages.Insert{Key: keys[3], Value: values[3]}, 1*time.Second)
+	_ = context.RequestFuture(root, &messages.Insert{Key: keys[1], Value: values[1]}, 1*time.Second)
+	_ = context.RequestFuture(root, &messages.Insert{Key: keys[0], Value: values[0]}, 1*time.Second)
+	_ = context.RequestFuture(root, &messages.Insert{Key: keys[4], Value: values[4]}, 1*time.Second)
+	_ = context.RequestFuture(root, &messages.Insert{Key: keys[5], Value: values[5]}, 1*time.Second)
 
 	future := context.RequestFuture(root, &messages.Traverse{}, 1*time.Second)
 	res, err := future.Result()
@@ -163,8 +163,8 @@ func TestSearchLeft(t *testing.T) {
 	root := context.Spawn(props)
 	context = actor.EmptyRootContext
 
-	context.Send(root, &messages.Insert{Key: 2, Value: "valueString2"})
-	context.Send(root, &messages.Insert{Key: 4, Value: "vier"})
+	_ = context.RequestFuture(root, &messages.Insert{Key: 2, Value: "valueString2"}, 1*time.Second)
+	_ = context.RequestFuture(root, &messages.Insert{Key: 4, Value: "vier"}, 1*time.Second)
 
 	future := context.RequestFuture(root, &messages.Search{Key: 2}, 1*time.Second)
 	res, err := future.Result()
@@ -241,8 +241,17 @@ func TestDeleteOneLeave(t *testing.T) {
 	root := context.Spawn(props)
 	context = actor.EmptyRootContext
 
-	context.Send(root, &messages.Insert{Key: 2, Value: "valueString2"})
-	context.Send(root, &messages.Delete{Key: 2})
+	_ = context.RequestFuture(root, &messages.Insert{Key: 2, Value: "valueString2"}, 1*time.Second)
+	futureDelete := context.RequestFuture(root, &messages.Delete{Key: 2}, 1*time.Second)
+	resDelete, errDelete := futureDelete.Result()
+	if errDelete == nil {
+		_, ok := resDelete.(*messages.BaumFaellt)
+		if !ok {
+			t.Error("Expected other Msg Type! \n")
+		}
+	} else {
+		t.Errorf("Error getting Future: %v \n", errDelete)
+	}
 
 	future := context.RequestFuture(root, &messages.Traverse{}, 1*time.Second)
 	res, err := future.Result()
@@ -272,12 +281,24 @@ func TestDeleteLargerLeave(t *testing.T) {
 	keys := []int32{int32(5), int32(9), int32(10)}
 	values := []string{"fuenf", "neun", "zehn"}
 
-	context.Send(root, &messages.Insert{Key: keys[0], Value: values[0]})
-	context.Send(root, &messages.Insert{Key: keys[1], Value: values[1]})
-	context.Send(root, &messages.Insert{Key: keys[2], Value: values[2]})
-	context.Send(root, &messages.Insert{Key: 1, Value: "eins"})
+	_ = context.RequestFuture(root, &messages.Insert{Key: keys[0], Value: values[0]}, 1*time.Second)
+	_ = context.RequestFuture(root, &messages.Insert{Key: keys[1], Value: values[1]}, 1*time.Second)
+	_ = context.RequestFuture(root, &messages.Insert{Key: keys[2], Value: values[2]}, 1*time.Second)
+	_ = context.RequestFuture(root, &messages.Insert{Key: 1, Value: "eins"}, 1*time.Second)
 
-	context.Send(root, &messages.Delete{Key: 1})
+	futureDelete := context.RequestFuture(root, &messages.Delete{Key: 1}, 1*time.Second)
+
+	resDelete, errDelete := futureDelete.Result()
+	if errDelete == nil {
+		resDelete, ok := resDelete.(*messages.DeleteResult)
+		if !ok {
+			t.Error("Expected other Msg Type! \n")
+		} else if !resDelete.Successful {
+			t.Error("Expected successful delete! \n")
+		}
+	} else {
+		t.Errorf("Error getting Future: %v \n", errDelete)
+	}
 
 	future := context.RequestFuture(root, &messages.Traverse{}, 1*time.Second)
 	res, err := future.Result()
@@ -316,13 +337,25 @@ func TestDeleteRightChild(t *testing.T) {
 	keys := []int32{int32(1), int32(2), int32(8), int32(9)}
 	values := []string{"eins", "valueString2", "acht", "neun"}
 
-	context.Send(root, &messages.Insert{Key: keys[1], Value: values[1]})
-	context.Send(root, &messages.Insert{Key: 10, Value: "zehn"})
-	context.Send(root, &messages.Insert{Key: keys[0], Value: values[0]})
-	context.Send(root, &messages.Insert{Key: keys[3], Value: values[3]})
-	context.Send(root, &messages.Insert{Key: keys[2], Value: values[2]})
+	_ = context.RequestFuture(root, &messages.Insert{Key: keys[1], Value: values[1]}, 1*time.Second)
+	_ = context.RequestFuture(root, &messages.Insert{Key: 10, Value: "zehn"}, 1*time.Second)
+	_ = context.RequestFuture(root, &messages.Insert{Key: keys[0], Value: values[0]}, 1*time.Second)
+	_ = context.RequestFuture(root, &messages.Insert{Key: keys[3], Value: values[3]}, 1*time.Second)
+	_ = context.RequestFuture(root, &messages.Insert{Key: keys[2], Value: values[2]}, 1*time.Second)
 
-	context.Send(root, &messages.Delete{Key: 10})
+	futureDelete := context.RequestFuture(root, &messages.Delete{Key: 10}, 1*time.Second)
+
+	resDelete, errDelete := futureDelete.Result()
+	if errDelete == nil {
+		resDelete, ok := resDelete.(*messages.DeleteResult)
+		if !ok {
+			t.Error("Expected other Msg Type! \n")
+		} else if !resDelete.Successful {
+			t.Error("Expected successful delete! \n")
+		}
+	} else {
+		t.Errorf("Error getting Future: %v \n", errDelete)
+	}
 
 	future := context.RequestFuture(root, &messages.Traverse{}, 1*time.Second)
 	res, err := future.Result()
@@ -361,11 +394,23 @@ func TestDeleteLeftChild(t *testing.T) {
 	keys := []int32{int32(9), int32(10)}
 	values := []string{"neun", "zehn"}
 
-	context.Send(root, &messages.Insert{Key: keys[1], Value: values[1]})
-	context.Send(root, &messages.Insert{Key: keys[0], Value: values[0]})
-	context.Send(root, &messages.Insert{Key: 5, Value: "fuenf"})
+	_ = context.RequestFuture(root, &messages.Insert{Key: keys[1], Value: values[1]}, 1*time.Second)
+	_ = context.RequestFuture(root, &messages.Insert{Key: keys[0], Value: values[0]}, 1*time.Second)
+	_ = context.RequestFuture(root, &messages.Insert{Key: 5, Value: "fuenf"}, 1*time.Second)
 
-	context.Send(root, &messages.Delete{Key: 5})
+	futureDelete := context.RequestFuture(root, &messages.Delete{Key: 5}, 1*time.Second)
+
+	resDelete, errDelete := futureDelete.Result()
+	if errDelete == nil {
+		resDelete, ok := resDelete.(*messages.DeleteResult)
+		if !ok {
+			t.Error("Expected other Msg Type! \n")
+		} else if !resDelete.Successful {
+			t.Error("Expected successful delete! \n")
+		}
+	} else {
+		t.Errorf("Error getting Future: %v \n", errDelete)
+	}
 
 	future := context.RequestFuture(root, &messages.Traverse{}, 1*time.Second)
 	res, err := future.Result()
@@ -390,5 +435,28 @@ func TestDeleteLeftChild(t *testing.T) {
 
 	} else {
 		t.Errorf("Error getting Future: %v \n", err)
+	}
+}
+
+func TestDeleteNotExistingKey(t *testing.T) {
+	context := actor.EmptyRootContext
+	props := actor.PropsFromProducer(func() actor.Actor {
+		return &NodeActor{nil, nil, nil, nil, -1, 1, -1, ""}
+	})
+	root := context.Spawn(props)
+	context = actor.EmptyRootContext
+
+	_ = context.RequestFuture(root, &messages.Insert{Key: 2, Value: "valueString2"}, 1*time.Second)
+	futureDelete := context.RequestFuture(root, &messages.Delete{Key: 5}, 1*time.Second)
+	resDelete, errDelete := futureDelete.Result()
+	if errDelete == nil {
+		res, ok := resDelete.(*messages.DeleteResult)
+		if !ok {
+			t.Error("Expected other Msg Type! \n")
+		} else if res.Successful {
+			t.Error("Expected failing delete!\n")
+		}
+	} else {
+		t.Errorf("Error getting Future: %v \n", errDelete)
 	}
 }

@@ -19,7 +19,8 @@ func main() {
 	props := actor.PropsFromProducer(
 		func() actor.Actor {
 			waitgroup.Add(1)
-			return &service.NodeService{Waitgroup: &waitgroup, Roots: make(map[int32]*service.Validation), MarkedForDelete: make(map[int32]*service.Validation), NextID: 1001}
+			return &service.NodeService{Waitgroup: &waitgroup, Roots: make(map[int32]*service.Validation),
+				MarkedForDelete: make(map[int32]*service.Validation), NextID: 1001}
 		})
 
 	pid, err := actor.SpawnNamed(props, "service")

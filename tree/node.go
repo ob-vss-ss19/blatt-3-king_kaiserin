@@ -63,24 +63,19 @@ func (state *NodeActor) insert(context actor.Context) {
 		// pruefen ob map schon voll
 		if int32(len(state.Leaves)) == state.MaxLeaves {
 			// split
-			props := actor.PropsFromProducer(func() actor.Actor {
-				return &NodeActor{nil, nil, context.Self(), nil, -1, state.MaxLeaves, -1, ""}
-			})
-			contextNew := actor.EmptyRootContext
-			state.Left = contextNew.Spawn(props)
-			state.Right = contextNew.Spawn(props)
 			state.Leaves[msg.Key] = msg.Value
 			leftMap, rightMap, leftmaximum := split(state.Leaves)
 			state.LeftMax = int32(leftmaximum)
-			for k, v := range leftMap {
-				context.Send(state.Left, &messages.Insert{Key: k, Value: v})
-			}
-			for k, v := range rightMap {
-				context.Send(state.Right, &messages.Insert{Key: k, Value: v})
-			}
-			//context.Send(state.Left, &InsertMap{leftMap})
-			//context.Send(state.Right, &InsertMap{rightMap})
 			state.Leaves = nil
+			propsL := actor.PropsFromProducer(func() actor.Actor {
+				return &NodeActor{nil, nil, context.Self(), leftMap, -1, state.MaxLeaves, -1, ""}
+			})
+			propsR := actor.PropsFromProducer(func() actor.Actor {
+				return &NodeActor{nil, nil, context.Self(), rightMap, -1, state.MaxLeaves, -1, ""}
+			})
+			contextNew := actor.EmptyRootContext
+			state.Left = contextNew.Spawn(propsL)
+			state.Right = contextNew.Spawn(propsR)
 		} else {
 			state.Leaves[msg.Key] = msg.Value
 		}
@@ -199,9 +194,6 @@ func (state *NodeActor) Receive(context actor.Context) {
 		}
 	case *messages.BruderMussLos:
 		state.deleteChild(context)
-	//case *messages.IchZiehAus:
-	//	state.replaceParent(context)
-	//}
 	case *messages.SendMeYourData:
 		context.Respond(SwapData{state.Left, state.Right, state.LeftMax, state.Leaves})
 		state.Right = nil
@@ -209,7 +201,6 @@ func (state *NodeActor) Receive(context actor.Context) {
 	case *messages.SetYourPID:
 		state.Parent = context.Sender()
 	case *actor.Stopping:
-		fmt.Printf("Stopping: %v", context.Self())
 		if state.Left != nil {
 			state.Right.Stop()
 			state.Left.Stop()

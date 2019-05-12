@@ -66,8 +66,9 @@ func (state *NodeActor) insert(context actor.Context) {
 			props := actor.PropsFromProducer(func() actor.Actor {
 				return &NodeActor{nil, nil, context.Self(), nil, -1, state.MaxLeaves, -1, ""}
 			})
-			state.Left = context.Spawn(props)
-			state.Right = context.Spawn(props)
+			contextNew := actor.EmptyRootContext
+			state.Left = contextNew.Spawn(props)
+			state.Right = contextNew.Spawn(props)
 			state.Leaves[msg.Key] = msg.Value
 			leftMap, rightMap, leftmaximum := split(state.Leaves)
 			state.LeftMax = int32(leftmaximum)
@@ -151,6 +152,8 @@ func (state *NodeActor) deleteChild(context actor.Context) {
 	}
 
 	if dataToSet.Left != nil {
+		state.Left.Stop()
+		state.Right.Stop()
 		state.Left = dataToSet.Left
 		state.Right = dataToSet.Right
 
@@ -197,14 +200,16 @@ func (state *NodeActor) Receive(context actor.Context) {
 	//}
 	case *messages.SendMeYourData:
 		context.Respond(SwapData{state.Left, state.Right, state.LeftMax, state.Leaves})
+		state.Right = nil
+		state.Left = nil
 	case *messages.SetYourPID:
 		state.Parent = context.Sender()
-		//case *actor.Stopping:
-		//	if state.Left != nil {
-		//		state.Left.Stop()
-		//		state.Right.Stop()
-		//	}
-
+	case *actor.Stopping:
+		fmt.Printf("Stopping: %v", context.Self())
+		if state.Left != nil {
+			state.Right.Stop()
+			state.Left.Stop()
+		}
 	}
 }
 

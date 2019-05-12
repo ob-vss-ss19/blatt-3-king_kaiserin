@@ -92,7 +92,7 @@ func main() {
 	case *flagDeleteTree:
 		find := &messages.Tree{ID: int32(*flagID), Token: *flagToken}
 		msg = &messages.DeleteTree{Delete: find}
-		fmt.Printf("If you really want to delete the tree, send this command twice.\n"+
+		fmt.Printf("If you really want to delete the tree, send this command twice.\n" +
 			"If this is the second time, you will get a confirmation from the service.")
 	}
 

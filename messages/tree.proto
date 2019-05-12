@@ -98,6 +98,11 @@ message DeleteTree {
     Tree delete = 1;
 }
 
+message DeleteTreeRespond {
+    Tree delete = 1;
+}
+
 message TreeNotFound {
     Tree notFound = 1;
 }
+

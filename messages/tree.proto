@@ -99,7 +99,7 @@ message DeleteTree {
 }
 
 message DeleteTreeRespond {
-    Tree delete = 1;
+    bool delete = 1;
 }
 
 message TreeNotFound {

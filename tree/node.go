@@ -120,6 +120,7 @@ func (state *NodeActor) delete(context actor.Context) {
 		// Wert in Blatt, da keinen Nachfolger mehr
 		if _, ok := state.Leaves[msg.Key]; ok {
 			delete(state.Leaves, msg.Key)
+			context.Respond(&messages.DeleteResult{Successful: true})
 		}
 		if len(state.Leaves) == 0 {
 			// map ist leer -> actor löschen, Bruder-Actor wird zu parent
@@ -135,7 +136,6 @@ func (state *NodeActor) delete(context actor.Context) {
 		} else {
 			newMax := sortKeys(state.Leaves)
 			context.Send(state.Parent, &messages.CheckLeftMax{MaxKey: int32(newMax[len(newMax)-1])})
-			context.Respond(&messages.DeleteResult{Successful: true})
 		}
 	}
 }

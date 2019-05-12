@@ -74,6 +74,49 @@ func (m *Insert) GetValue() string {
 	return ""
 }
 
+type InsertResult struct {
+	Successful bool `protobuf:"varint,1,opt,name=successful,proto3" json:"successful,omitempty"`
+}
+
+func (m *InsertResult) Reset()      { *m = InsertResult{} }
+func (*InsertResult) ProtoMessage() {}
+func (*InsertResult) Descriptor() ([]byte, []int) {
+	return fileDescriptor_cb3889276909882a, []int{1}
+}
+func (m *InsertResult) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *InsertResult) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_InsertResult.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalTo(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *InsertResult) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_InsertResult.Merge(m, src)
+}
+func (m *InsertResult) XXX_Size() int {
+	return m.Size()
+}
+func (m *InsertResult) XXX_DiscardUnknown() {
+	xxx_messageInfo_InsertResult.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_InsertResult proto.InternalMessageInfo
+
+func (m *InsertResult) GetSuccessful() bool {
+	if m != nil {
+		return m.Successful
+	}
+	return false
+}
+
 type Search struct {
 	Key int32 `protobuf:"varint,1,opt,name=key,proto3" json:"key,omitempty"`
 }
@@ -81,7 +124,7 @@ type Search struct {
 func (m *Search) Reset()      { *m = Search{} }
 func (*Search) ProtoMessage() {}
 func (*Search) Descriptor() ([]byte, []int) {
-	return fileDescriptor_cb3889276909882a, []int{1}
+	return fileDescriptor_cb3889276909882a, []int{2}
 }
 func (m *Search) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -123,7 +166,7 @@ type Traverse struct {
 func (m *Traverse) Reset()      { *m = Traverse{} }
 func (*Traverse) ProtoMessage() {}
 func (*Traverse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_cb3889276909882a, []int{2}
+	return fileDescriptor_cb3889276909882a, []int{3}
 }
 func (m *Traverse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -161,7 +204,7 @@ type ScottyBeamMichHoch struct {
 func (m *ScottyBeamMichHoch) Reset()      { *m = ScottyBeamMichHoch{} }
 func (*ScottyBeamMichHoch) ProtoMessage() {}
 func (*ScottyBeamMichHoch) Descriptor() ([]byte, []int) {
-	return fileDescriptor_cb3889276909882a, []int{3}
+	return fileDescriptor_cb3889276909882a, []int{4}
 }
 func (m *ScottyBeamMichHoch) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -218,7 +261,7 @@ type Delete struct {
 func (m *Delete) Reset()      { *m = Delete{} }
 func (*Delete) ProtoMessage() {}
 func (*Delete) Descriptor() ([]byte, []int) {
-	return fileDescriptor_cb3889276909882a, []int{4}
+	return fileDescriptor_cb3889276909882a, []int{5}
 }
 func (m *Delete) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -261,7 +304,7 @@ type DeleteResult struct {
 func (m *DeleteResult) Reset()      { *m = DeleteResult{} }
 func (*DeleteResult) ProtoMessage() {}
 func (*DeleteResult) Descriptor() ([]byte, []int) {
-	return fileDescriptor_cb3889276909882a, []int{5}
+	return fileDescriptor_cb3889276909882a, []int{6}
 }
 func (m *DeleteResult) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -304,7 +347,7 @@ type CheckLeftMax struct {
 func (m *CheckLeftMax) Reset()      { *m = CheckLeftMax{} }
 func (*CheckLeftMax) ProtoMessage() {}
 func (*CheckLeftMax) Descriptor() ([]byte, []int) {
-	return fileDescriptor_cb3889276909882a, []int{6}
+	return fileDescriptor_cb3889276909882a, []int{7}
 }
 func (m *CheckLeftMax) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -346,7 +389,7 @@ type BruderMussLos struct {
 func (m *BruderMussLos) Reset()      { *m = BruderMussLos{} }
 func (*BruderMussLos) ProtoMessage() {}
 func (*BruderMussLos) Descriptor() ([]byte, []int) {
-	return fileDescriptor_cb3889276909882a, []int{7}
+	return fileDescriptor_cb3889276909882a, []int{8}
 }
 func (m *BruderMussLos) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -382,7 +425,7 @@ type IchZiehAus struct {
 func (m *IchZiehAus) Reset()      { *m = IchZiehAus{} }
 func (*IchZiehAus) ProtoMessage() {}
 func (*IchZiehAus) Descriptor() ([]byte, []int) {
-	return fileDescriptor_cb3889276909882a, []int{8}
+	return fileDescriptor_cb3889276909882a, []int{9}
 }
 func (m *IchZiehAus) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -424,7 +467,7 @@ type SendMeYourData struct {
 func (m *SendMeYourData) Reset()      { *m = SendMeYourData{} }
 func (*SendMeYourData) ProtoMessage() {}
 func (*SendMeYourData) Descriptor() ([]byte, []int) {
-	return fileDescriptor_cb3889276909882a, []int{9}
+	return fileDescriptor_cb3889276909882a, []int{10}
 }
 func (m *SendMeYourData) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -459,7 +502,7 @@ type SetYourPID struct {
 func (m *SetYourPID) Reset()      { *m = SetYourPID{} }
 func (*SetYourPID) ProtoMessage() {}
 func (*SetYourPID) Descriptor() ([]byte, []int) {
-	return fileDescriptor_cb3889276909882a, []int{10}
+	return fileDescriptor_cb3889276909882a, []int{11}
 }
 func (m *SetYourPID) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -496,7 +539,7 @@ type Tree struct {
 func (m *Tree) Reset()      { *m = Tree{} }
 func (*Tree) ProtoMessage() {}
 func (*Tree) Descriptor() ([]byte, []int) {
-	return fileDescriptor_cb3889276909882a, []int{11}
+	return fileDescriptor_cb3889276909882a, []int{12}
 }
 func (m *Tree) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -546,7 +589,7 @@ type PflanzBaum struct {
 func (m *PflanzBaum) Reset()      { *m = PflanzBaum{} }
 func (*PflanzBaum) ProtoMessage() {}
 func (*PflanzBaum) Descriptor() ([]byte, []int) {
-	return fileDescriptor_cb3889276909882a, []int{12}
+	return fileDescriptor_cb3889276909882a, []int{13}
 }
 func (m *PflanzBaum) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -591,7 +634,7 @@ type InsertCLI struct {
 func (m *InsertCLI) Reset()      { *m = InsertCLI{} }
 func (*InsertCLI) ProtoMessage() {}
 func (*InsertCLI) Descriptor() ([]byte, []int) {
-	return fileDescriptor_cb3889276909882a, []int{13}
+	return fileDescriptor_cb3889276909882a, []int{14}
 }
 func (m *InsertCLI) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -649,7 +692,7 @@ type SearchCLI struct {
 func (m *SearchCLI) Reset()      { *m = SearchCLI{} }
 func (*SearchCLI) ProtoMessage() {}
 func (*SearchCLI) Descriptor() ([]byte, []int) {
-	return fileDescriptor_cb3889276909882a, []int{14}
+	return fileDescriptor_cb3889276909882a, []int{15}
 }
 func (m *SearchCLI) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -699,7 +742,7 @@ type TraverseCLI struct {
 func (m *TraverseCLI) Reset()      { *m = TraverseCLI{} }
 func (*TraverseCLI) ProtoMessage() {}
 func (*TraverseCLI) Descriptor() ([]byte, []int) {
-	return fileDescriptor_cb3889276909882a, []int{15}
+	return fileDescriptor_cb3889276909882a, []int{16}
 }
 func (m *TraverseCLI) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -743,7 +786,7 @@ type DeleteCLI struct {
 func (m *DeleteCLI) Reset()      { *m = DeleteCLI{} }
 func (*DeleteCLI) ProtoMessage() {}
 func (*DeleteCLI) Descriptor() ([]byte, []int) {
-	return fileDescriptor_cb3889276909882a, []int{16}
+	return fileDescriptor_cb3889276909882a, []int{17}
 }
 func (m *DeleteCLI) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -794,7 +837,7 @@ type KeyValue struct {
 func (m *KeyValue) Reset()      { *m = KeyValue{} }
 func (*KeyValue) ProtoMessage() {}
 func (*KeyValue) Descriptor() ([]byte, []int) {
-	return fileDescriptor_cb3889276909882a, []int{17}
+	return fileDescriptor_cb3889276909882a, []int{18}
 }
 func (m *KeyValue) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -844,7 +887,7 @@ type TraverseResponse struct {
 func (m *TraverseResponse) Reset()      { *m = TraverseResponse{} }
 func (*TraverseResponse) ProtoMessage() {}
 func (*TraverseResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_cb3889276909882a, []int{18}
+	return fileDescriptor_cb3889276909882a, []int{19}
 }
 func (m *TraverseResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -888,7 +931,7 @@ type BaumFaellt struct {
 func (m *BaumFaellt) Reset()      { *m = BaumFaellt{} }
 func (*BaumFaellt) ProtoMessage() {}
 func (*BaumFaellt) Descriptor() ([]byte, []int) {
-	return fileDescriptor_cb3889276909882a, []int{19}
+	return fileDescriptor_cb3889276909882a, []int{20}
 }
 func (m *BaumFaellt) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -939,7 +982,7 @@ type PflanzBaumResponse struct {
 func (m *PflanzBaumResponse) Reset()      { *m = PflanzBaumResponse{} }
 func (*PflanzBaumResponse) ProtoMessage() {}
 func (*PflanzBaumResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_cb3889276909882a, []int{20}
+	return fileDescriptor_cb3889276909882a, []int{21}
 }
 func (m *PflanzBaumResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -989,7 +1032,7 @@ type DeleteTree struct {
 func (m *DeleteTree) Reset()      { *m = DeleteTree{} }
 func (*DeleteTree) ProtoMessage() {}
 func (*DeleteTree) Descriptor() ([]byte, []int) {
-	return fileDescriptor_cb3889276909882a, []int{21}
+	return fileDescriptor_cb3889276909882a, []int{22}
 }
 func (m *DeleteTree) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -1025,8 +1068,52 @@ func (m *DeleteTree) GetDelete() *Tree {
 	return nil
 }
 
+type TreeNotFound struct {
+	NotFound *Tree `protobuf:"bytes,1,opt,name=notFound,proto3" json:"notFound,omitempty"`
+}
+
+func (m *TreeNotFound) Reset()      { *m = TreeNotFound{} }
+func (*TreeNotFound) ProtoMessage() {}
+func (*TreeNotFound) Descriptor() ([]byte, []int) {
+	return fileDescriptor_cb3889276909882a, []int{23}
+}
+func (m *TreeNotFound) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *TreeNotFound) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_TreeNotFound.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalTo(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *TreeNotFound) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_TreeNotFound.Merge(m, src)
+}
+func (m *TreeNotFound) XXX_Size() int {
+	return m.Size()
+}
+func (m *TreeNotFound) XXX_DiscardUnknown() {
+	xxx_messageInfo_TreeNotFound.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_TreeNotFound proto.InternalMessageInfo
+
+func (m *TreeNotFound) GetNotFound() *Tree {
+	if m != nil {
+		return m.NotFound
+	}
+	return nil
+}
+
 func init() {
 	proto.RegisterType((*Insert)(nil), "messages.Insert")
+	proto.RegisterType((*InsertResult)(nil), "messages.InsertResult")
 	proto.RegisterType((*Search)(nil), "messages.Search")
 	proto.RegisterType((*Traverse)(nil), "messages.Traverse")
 	proto.RegisterType((*ScottyBeamMichHoch)(nil), "messages.scottyBeamMichHoch")
@@ -1048,46 +1135,49 @@ func init() {
 	proto.RegisterType((*BaumFaellt)(nil), "messages.BaumFaellt")
 	proto.RegisterType((*PflanzBaumResponse)(nil), "messages.PflanzBaumResponse")
 	proto.RegisterType((*DeleteTree)(nil), "messages.DeleteTree")
+	proto.RegisterType((*TreeNotFound)(nil), "messages.TreeNotFound")
 }
 
 func init() { proto.RegisterFile("tree.proto", fileDescriptor_cb3889276909882a) }
 
 var fileDescriptor_cb3889276909882a = []byte{
-	// 540 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x9c, 0x54, 0x41, 0x6b, 0xdb, 0x4c,
-	0x10, 0xd5, 0xda, 0x89, 0xb0, 0x27, 0xfe, 0xfc, 0x99, 0xa5, 0x14, 0x53, 0xca, 0x62, 0xf6, 0x10,
-	0x4c, 0x28, 0xa6, 0x75, 0x73, 0xea, 0xa1, 0x10, 0xc7, 0x94, 0x1a, 0x5b, 0x10, 0x14, 0xd3, 0xd2,
-	0xde, 0xb6, 0xf2, 0xb8, 0x36, 0x96, 0xb4, 0x61, 0x77, 0x65, 0xec, 0x9e, 0xfa, 0x13, 0xfa, 0x33,
-	0xfa, 0x53, 0x7a, 0xf4, 0x31, 0xc7, 0x5a, 0xbe, 0xf4, 0x98, 0x9f, 0x50, 0x24, 0x59, 0x49, 0x20,
-	0x2e, 0x98, 0xdc, 0xf4, 0x76, 0xe6, 0xbd, 0xb7, 0x9a, 0x37, 0x2c, 0x80, 0x51, 0x88, 0xad, 0x2b,
-	0x25, 0x8d, 0xa4, 0xa5, 0x00, 0xb5, 0x16, 0x5f, 0x51, 0xf3, 0x97, 0x60, 0xf7, 0x42, 0x8d, 0xca,
-	0xd0, 0x1a, 0x14, 0x67, 0xb8, 0xac, 0x93, 0x06, 0x69, 0x1e, 0xba, 0xc9, 0x27, 0x7d, 0x02, 0x87,
-	0x73, 0xe1, 0x47, 0x58, 0x2f, 0x34, 0x48, 0xb3, 0xec, 0x66, 0x80, 0x3f, 0x03, 0xfb, 0x12, 0x85,
-	0xf2, 0x26, 0x0f, 0x19, 0x1c, 0xa0, 0x34, 0x54, 0x62, 0x8e, 0x4a, 0x23, 0x1f, 0x00, 0xd5, 0x9e,
-	0x34, 0x66, 0xd9, 0x41, 0x11, 0x38, 0x53, 0x6f, 0xf2, 0x5e, 0xee, 0xe2, 0xec, 0x76, 0xa1, 0x55,
-	0x28, 0xc8, 0x59, 0xbd, 0xd8, 0x20, 0xcd, 0x92, 0x5b, 0x90, 0xb3, 0xc4, 0xb5, 0x8b, 0x3e, 0x1a,
-	0xdc, 0xe1, 0xda, 0x82, 0x4a, 0x56, 0x73, 0x51, 0x47, 0xbe, 0xa1, 0x0c, 0x40, 0x47, 0x9e, 0x87,
-	0x5a, 0x8f, 0x23, 0x3f, 0x6d, 0x2c, 0xb9, 0xf7, 0x4e, 0xf8, 0x31, 0x54, 0xce, 0x27, 0xe8, 0xcd,
-	0x06, 0x38, 0x36, 0x8e, 0x58, 0xd0, 0xa7, 0x60, 0x07, 0x62, 0xd1, 0xbf, 0x15, 0xdd, 0x22, 0xfe,
-	0x3f, 0xfc, 0xd7, 0x51, 0xd1, 0x08, 0x95, 0x13, 0x69, 0x3d, 0x90, 0x9a, 0x73, 0x80, 0x9e, 0x37,
-	0xf9, 0x3c, 0xc5, 0xc9, 0x59, 0xa4, 0x93, 0x8b, 0x07, 0x4b, 0x47, 0x2c, 0xb6, 0xac, 0x0c, 0xf0,
-	0x1a, 0x54, 0x35, 0x86, 0x23, 0x07, 0x3f, 0xc9, 0x48, 0x75, 0x85, 0x11, 0xbc, 0x02, 0xa0, 0xd1,
-	0x24, 0xf0, 0xa2, 0xd7, 0xe5, 0x2f, 0xe0, 0x60, 0xa8, 0x30, 0xfd, 0xc1, 0x5e, 0x77, 0x4b, 0x2d,
-	0x4c, 0xbb, 0x89, 0xda, 0x50, 0xce, 0x30, 0xcc, 0xc7, 0x60, 0x12, 0xc0, 0x4f, 0x00, 0x2e, 0xc6,
-	0xbe, 0x08, 0xbf, 0x75, 0x44, 0x14, 0xd0, 0xe7, 0x50, 0x76, 0xc4, 0x62, 0x80, 0x62, 0x8e, 0x7a,
-	0x4b, 0x2d, 0x07, 0xf9, 0x01, 0xff, 0x08, 0xe5, 0x2c, 0xca, 0xf3, 0x41, 0x8f, 0x72, 0x38, 0x18,
-	0x4f, 0xc3, 0x51, 0xda, 0x75, 0xd4, 0xae, 0xb6, 0xf2, 0xc0, 0x5b, 0x89, 0xb9, 0x9b, 0xd6, 0xf2,
-	0x49, 0x16, 0x76, 0x64, 0x51, 0xbc, 0x9f, 0xf8, 0x19, 0x94, 0xb3, 0xc4, 0x1f, 0x2d, 0xcc, 0x5f,
-	0xc1, 0x51, 0xbe, 0x18, 0x7b, 0x8a, 0x24, 0xae, 0x59, 0xaa, 0x8f, 0x77, 0x6d, 0x43, 0xa9, 0x8f,
-	0xcb, 0x0f, 0xe9, 0x42, 0xd5, 0xa0, 0xd8, 0xdf, 0x67, 0xbd, 0xdf, 0x42, 0x2d, 0xbf, 0xa9, 0x8b,
-	0xfa, 0x4a, 0x86, 0x1a, 0xe9, 0x09, 0xd8, 0x97, 0x52, 0x19, 0x4c, 0xfc, 0x8b, 0xcd, 0xa3, 0x36,
-	0xbd, 0xf3, 0xcf, 0xf5, 0x5d, 0x5b, 0xa7, 0x1d, 0xbc, 0x0d, 0x90, 0x64, 0xf5, 0x4e, 0xa0, 0xef,
-	0x9b, 0x5d, 0x29, 0x9b, 0x87, 0x29, 0xbf, 0x01, 0x7a, 0x97, 0xf2, 0xad, 0xeb, 0x7e, 0xdc, 0x53,
-	0x80, 0x6c, 0x4c, 0xe9, 0x56, 0x1d, 0x83, 0x3d, 0x4a, 0xd1, 0x3f, 0x26, 0xb5, 0xad, 0x76, 0x4e,
-	0x57, 0x6b, 0x66, 0x5d, 0xaf, 0x99, 0x75, 0xb3, 0x66, 0xe4, 0x7b, 0xcc, 0xc8, 0xcf, 0x98, 0x91,
-	0x5f, 0x31, 0x23, 0xab, 0x98, 0x91, 0xdf, 0x31, 0x23, 0x7f, 0x62, 0x66, 0xdd, 0xc4, 0x8c, 0xfc,
-	0xd8, 0x30, 0x6b, 0xb5, 0x61, 0xd6, 0xf5, 0x86, 0x59, 0x5f, 0xec, 0xf4, 0xf5, 0x78, 0xfd, 0x37,
-	0x00, 0x00, 0xff, 0xff, 0xfe, 0xa9, 0x09, 0x64, 0x4b, 0x04, 0x00, 0x00,
+	// 566 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x9c, 0x54, 0xcd, 0x6a, 0xdb, 0x4c,
+	0x14, 0x95, 0xec, 0x44, 0xd8, 0x37, 0xfe, 0xf2, 0x99, 0xa1, 0x14, 0x53, 0xca, 0x10, 0x66, 0x11,
+	0x8c, 0x29, 0xa6, 0x75, 0xb3, 0xca, 0xa2, 0x10, 0xc7, 0x84, 0x1a, 0x5b, 0x25, 0x28, 0xa6, 0xa5,
+	0xdd, 0x4d, 0xe5, 0xeb, 0xda, 0x58, 0xd2, 0x04, 0xcd, 0xc8, 0xd8, 0x5d, 0xf5, 0x11, 0xfa, 0x18,
+	0x7d, 0x94, 0x2e, 0xbd, 0xcc, 0xb2, 0x96, 0x37, 0x5d, 0xe6, 0x11, 0xca, 0xe8, 0xc7, 0x09, 0xc4,
+	0x01, 0x93, 0xdd, 0x9c, 0xb9, 0x73, 0xee, 0x99, 0xb9, 0xe7, 0x48, 0x00, 0x2a, 0x44, 0x6c, 0x5e,
+	0x87, 0x42, 0x09, 0x52, 0xf2, 0x51, 0x4a, 0xfe, 0x0d, 0x25, 0x7b, 0x0d, 0x56, 0x37, 0x90, 0x18,
+	0x2a, 0x52, 0x85, 0xe2, 0x14, 0x17, 0x35, 0xf3, 0xc8, 0xac, 0xef, 0x3b, 0x7a, 0x49, 0x9e, 0xc1,
+	0xfe, 0x8c, 0x7b, 0x11, 0xd6, 0x0a, 0x47, 0x66, 0xbd, 0xec, 0xa4, 0x80, 0x35, 0xa1, 0x92, 0x32,
+	0x1c, 0x94, 0x91, 0xa7, 0x08, 0x05, 0x90, 0x91, 0xeb, 0xa2, 0x94, 0xa3, 0xc8, 0x4b, 0xe8, 0x25,
+	0xe7, 0xde, 0x0e, 0x7b, 0x01, 0xd6, 0x15, 0xf2, 0xd0, 0x1d, 0x3f, 0x54, 0x60, 0x00, 0xa5, 0x41,
+	0xc8, 0x67, 0x18, 0x4a, 0x64, 0x7d, 0x20, 0xd2, 0x15, 0x4a, 0x2d, 0xda, 0xc8, 0x7d, 0x7b, 0xe2,
+	0x8e, 0xdf, 0x8b, 0x6d, 0x9c, 0xed, 0xb7, 0x22, 0x87, 0x50, 0x10, 0xd3, 0x5a, 0x31, 0x51, 0x2f,
+	0x88, 0xa9, 0x56, 0xed, 0xa0, 0x87, 0x0a, 0xb7, 0xa8, 0x36, 0xa1, 0x92, 0xd6, 0x76, 0x7c, 0xc1,
+	0x31, 0x54, 0xce, 0xc7, 0xe8, 0x4e, 0xfb, 0x38, 0x52, 0x36, 0x9f, 0x93, 0xe7, 0x60, 0xf9, 0x7c,
+	0xde, 0xdb, 0x34, 0xcd, 0x10, 0xfb, 0x1f, 0xfe, 0x6b, 0x87, 0xd1, 0x10, 0x43, 0x3b, 0x92, 0xb2,
+	0x2f, 0x24, 0x63, 0x00, 0x5d, 0x77, 0xfc, 0x65, 0x82, 0xe3, 0xb3, 0x48, 0xea, 0x8b, 0xfb, 0x0b,
+	0x9b, 0xcf, 0x33, 0x56, 0x0a, 0x58, 0x15, 0x0e, 0x25, 0x06, 0x43, 0x1b, 0x3f, 0x8b, 0x28, 0xec,
+	0x70, 0xc5, 0x59, 0x05, 0x40, 0xa2, 0xd2, 0xf0, 0xb2, 0xdb, 0x61, 0xaf, 0x60, 0x6f, 0x10, 0x62,
+	0xf2, 0xc0, 0x6e, 0x27, 0xa3, 0x16, 0x26, 0x1d, 0xdd, 0x6d, 0x20, 0xa6, 0x18, 0xe4, 0x63, 0x50,
+	0x1a, 0xb0, 0x06, 0xc0, 0xe5, 0xc8, 0xe3, 0xc1, 0xf7, 0x36, 0x8f, 0x7c, 0xf2, 0x12, 0xca, 0x36,
+	0x9f, 0xf7, 0x91, 0xcf, 0x50, 0x66, 0xd4, 0xb2, 0x9f, 0x6f, 0xb0, 0x4f, 0x50, 0x4e, 0x8d, 0x3c,
+	0xef, 0x77, 0x09, 0x83, 0xbd, 0xd1, 0x24, 0x18, 0x26, 0xa7, 0x0e, 0x5a, 0x87, 0xcd, 0x3c, 0x20,
+	0x4d, 0x2d, 0xee, 0x24, 0xb5, 0x7c, 0x92, 0x85, 0x2d, 0x5e, 0x14, 0xef, 0x27, 0xe4, 0x0c, 0xca,
+	0xa9, 0xe3, 0x4f, 0x6e, 0xcc, 0xde, 0xc0, 0x41, 0x1e, 0x8c, 0x1d, 0x9b, 0x68, 0xd5, 0xd4, 0xd5,
+	0xa7, 0xab, 0xb6, 0xa0, 0xd4, 0xc3, 0xc5, 0xc7, 0x24, 0x50, 0x55, 0x28, 0xf6, 0x76, 0xf9, 0x1c,
+	0xde, 0x41, 0x35, 0xbf, 0xa9, 0x83, 0xf2, 0x5a, 0x04, 0x12, 0x49, 0x03, 0xac, 0x2b, 0x11, 0x2a,
+	0xd4, 0xfa, 0xc5, 0xfa, 0x41, 0x8b, 0xdc, 0xe9, 0xe7, 0xfd, 0x1d, 0x4b, 0x26, 0x27, 0x58, 0x0b,
+	0x40, 0x7b, 0x75, 0xc1, 0xd1, 0xf3, 0xd4, 0x36, 0x97, 0xd5, 0x43, 0x97, 0x4f, 0x81, 0xdc, 0xb9,
+	0xbc, 0x51, 0xdd, 0x8d, 0x7b, 0x02, 0x90, 0x8e, 0x29, 0x49, 0xd5, 0x31, 0x58, 0xc3, 0x04, 0x3d,
+	0x32, 0xa9, 0xac, 0xca, 0x4e, 0xa1, 0xa2, 0xf1, 0x07, 0xa1, 0x2e, 0x44, 0x14, 0x0c, 0x49, 0x03,
+	0x4a, 0x41, 0xb6, 0x7e, 0x84, 0xb9, 0xa9, 0xb7, 0x4f, 0x96, 0x2b, 0x6a, 0xdc, 0xac, 0xa8, 0x71,
+	0xbb, 0xa2, 0xe6, 0x8f, 0x98, 0x9a, 0xbf, 0x62, 0x6a, 0xfe, 0x8e, 0xa9, 0xb9, 0x8c, 0xa9, 0xf9,
+	0x27, 0xa6, 0xe6, 0xdf, 0x98, 0x1a, 0xb7, 0x31, 0x35, 0x7f, 0xae, 0xa9, 0xb1, 0x5c, 0x53, 0xe3,
+	0x66, 0x4d, 0x8d, 0xaf, 0x56, 0xf2, 0xa7, 0x7a, 0xfb, 0x2f, 0x00, 0x00, 0xff, 0xff, 0xc5, 0x2a,
+	0xea, 0x73, 0xb7, 0x04, 0x00, 0x00,
 }
 
 func (this *Insert) Equal(that interface{}) bool {
@@ -1113,6 +1203,30 @@ func (this *Insert) Equal(that interface{}) bool {
 		return false
 	}
 	if this.Value != that1.Value {
+		return false
+	}
+	return true
+}
+func (this *InsertResult) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	that1, ok := that.(*InsertResult)
+	if !ok {
+		that2, ok := that.(InsertResult)
+		if ok {
+			that1 = &that2
+		} else {
+			return false
+		}
+	}
+	if that1 == nil {
+		return this == nil
+	} else if this == nil {
+		return false
+	}
+	if this.Successful != that1.Successful {
 		return false
 	}
 	return true
@@ -1644,6 +1758,30 @@ func (this *DeleteTree) Equal(that interface{}) bool {
 	}
 	return true
 }
+func (this *TreeNotFound) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	that1, ok := that.(*TreeNotFound)
+	if !ok {
+		that2, ok := that.(TreeNotFound)
+		if ok {
+			that1 = &that2
+		} else {
+			return false
+		}
+	}
+	if that1 == nil {
+		return this == nil
+	} else if this == nil {
+		return false
+	}
+	if !this.NotFound.Equal(that1.NotFound) {
+		return false
+	}
+	return true
+}
 func (this *Insert) GoString() string {
 	if this == nil {
 		return "nil"
@@ -1652,6 +1790,16 @@ func (this *Insert) GoString() string {
 	s = append(s, "&messages.Insert{")
 	s = append(s, "Key: "+fmt.Sprintf("%#v", this.Key)+",\n")
 	s = append(s, "Value: "+fmt.Sprintf("%#v", this.Value)+",\n")
+	s = append(s, "}")
+	return strings.Join(s, "")
+}
+func (this *InsertResult) GoString() string {
+	if this == nil {
+		return "nil"
+	}
+	s := make([]string, 0, 5)
+	s = append(s, "&messages.InsertResult{")
+	s = append(s, "Successful: "+fmt.Sprintf("%#v", this.Successful)+",\n")
 	s = append(s, "}")
 	return strings.Join(s, "")
 }
@@ -1883,6 +2031,18 @@ func (this *DeleteTree) GoString() string {
 	s = append(s, "}")
 	return strings.Join(s, "")
 }
+func (this *TreeNotFound) GoString() string {
+	if this == nil {
+		return "nil"
+	}
+	s := make([]string, 0, 5)
+	s = append(s, "&messages.TreeNotFound{")
+	if this.NotFound != nil {
+		s = append(s, "NotFound: "+fmt.Sprintf("%#v", this.NotFound)+",\n")
+	}
+	s = append(s, "}")
+	return strings.Join(s, "")
+}
 func valueToGoStringTree(v interface{}, typ string) string {
 	rv := reflect.ValueOf(v)
 	if rv.IsNil() {
@@ -1916,6 +2076,34 @@ func (m *Insert) MarshalTo(dAtA []byte) (int, error) {
 		i++
 		i = encodeVarintTree(dAtA, i, uint64(len(m.Value)))
 		i += copy(dAtA[i:], m.Value)
+	}
+	return i, nil
+}
+
+func (m *InsertResult) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalTo(dAtA)
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *InsertResult) MarshalTo(dAtA []byte) (int, error) {
+	var i int
+	_ = i
+	var l int
+	_ = l
+	if m.Successful {
+		dAtA[i] = 0x8
+		i++
+		if m.Successful {
+			dAtA[i] = 1
+		} else {
+			dAtA[i] = 0
+		}
+		i++
 	}
 	return i, nil
 }
@@ -2481,6 +2669,34 @@ func (m *DeleteTree) MarshalTo(dAtA []byte) (int, error) {
 	return i, nil
 }
 
+func (m *TreeNotFound) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalTo(dAtA)
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *TreeNotFound) MarshalTo(dAtA []byte) (int, error) {
+	var i int
+	_ = i
+	var l int
+	_ = l
+	if m.NotFound != nil {
+		dAtA[i] = 0xa
+		i++
+		i = encodeVarintTree(dAtA, i, uint64(m.NotFound.Size()))
+		n6, err := m.NotFound.MarshalTo(dAtA[i:])
+		if err != nil {
+			return 0, err
+		}
+		i += n6
+	}
+	return i, nil
+}
+
 func encodeVarintTree(dAtA []byte, offset int, v uint64) int {
 	for v >= 1<<7 {
 		dAtA[offset] = uint8(v&0x7f | 0x80)
@@ -2502,6 +2718,18 @@ func (m *Insert) Size() (n int) {
 	l = len(m.Value)
 	if l > 0 {
 		n += 1 + l + sovTree(uint64(l))
+	}
+	return n
+}
+
+func (m *InsertResult) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.Successful {
+		n += 2
 	}
 	return n
 }
@@ -2790,6 +3018,19 @@ func (m *DeleteTree) Size() (n int) {
 	return n
 }
 
+func (m *TreeNotFound) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.NotFound != nil {
+		l = m.NotFound.Size()
+		n += 1 + l + sovTree(uint64(l))
+	}
+	return n
+}
+
 func sovTree(x uint64) (n int) {
 	for {
 		n++
@@ -2810,6 +3051,16 @@ func (this *Insert) String() string {
 	s := strings.Join([]string{`&Insert{`,
 		`Key:` + fmt.Sprintf("%v", this.Key) + `,`,
 		`Value:` + fmt.Sprintf("%v", this.Value) + `,`,
+		`}`,
+	}, "")
+	return s
+}
+func (this *InsertResult) String() string {
+	if this == nil {
+		return "nil"
+	}
+	s := strings.Join([]string{`&InsertResult{`,
+		`Successful:` + fmt.Sprintf("%v", this.Successful) + `,`,
 		`}`,
 	}, "")
 	return s
@@ -3030,6 +3281,16 @@ func (this *DeleteTree) String() string {
 	}, "")
 	return s
 }
+func (this *TreeNotFound) String() string {
+	if this == nil {
+		return "nil"
+	}
+	s := strings.Join([]string{`&TreeNotFound{`,
+		`NotFound:` + strings.Replace(fmt.Sprintf("%v", this.NotFound), "Tree", "Tree", 1) + `,`,
+		`}`,
+	}, "")
+	return s
+}
 func valueToStringTree(v interface{}) string {
 	rv := reflect.ValueOf(v)
 	if rv.IsNil() {
@@ -3118,6 +3379,79 @@ func (m *Insert) Unmarshal(dAtA []byte) error {
 			}
 			m.Value = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTree(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthTree
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthTree
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *InsertResult) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTree
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: InsertResult: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: InsertResult: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Successful", wireType)
+			}
+			var v int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTree
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				v |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			m.Successful = bool(v != 0)
 		default:
 			iNdEx = preIndex
 			skippy, err := skipTree(dAtA[iNdEx:])
@@ -4921,6 +5255,95 @@ func (m *DeleteTree) Unmarshal(dAtA []byte) error {
 				m.Delete = &Tree{}
 			}
 			if err := m.Delete.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTree(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthTree
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthTree
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *TreeNotFound) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTree
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: TreeNotFound: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: TreeNotFound: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field NotFound", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTree
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthTree
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthTree
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.NotFound == nil {
+				m.NotFound = &Tree{}
+			}
+			if err := m.NotFound.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex

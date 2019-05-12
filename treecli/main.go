@@ -32,6 +32,12 @@ func (state *CLINode) Receive(context actor.Context) {
 		context.Send(remote, &messages.BaumFaellt{ID: msg.ID, Token: msg.Token})
 	case *messages.PflanzBaumResponse:
 		fmt.Printf("Created a new Tree with ID: %v and Token: %v", msg.ID, msg.Token)
+	case *messages.DeleteResult:
+		if msg.Successful {
+			fmt.Printf("deleting was successful! \n")
+		} else {
+			fmt.Printf("deleting was NOT successful! The given key does not exist.\n")
+		}
 
 	}
 }

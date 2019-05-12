@@ -6,6 +6,10 @@ message Insert {
     string value = 2;
 }
 
+message InsertResult {
+    bool successful = 1;
+}
+
 message Search {
     int32 key = 1;
 }
@@ -92,4 +96,8 @@ message PflanzBaumResponse {
 
 message DeleteTree {
     Tree delete = 1;
+}
+
+message TreeNotFound {
+    Tree notFound = 1;
 }

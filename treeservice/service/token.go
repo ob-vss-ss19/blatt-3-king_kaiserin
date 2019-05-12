@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-const chars = "abcdefghijklmnopqrstuvwxyz" + "0123456789"
+const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" + "0123456789"
 
 func CreateToken(length int) string {
 	var s = rand.NewSource(time.Now().Unix())

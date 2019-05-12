@@ -51,6 +51,13 @@ func (state *CLINode) Receive(context actor.Context) {
 			fmt.Printf("inserting was NOT successful!\n")
 		}
 		state.waitgroup.Done()
+	case *messages.DeleteTreeRespond:
+		if msg.Delete {
+			fmt.Printf("Tree was felled!\n")
+		} else {
+			fmt.Printf("If you really want to delete the tree, send this command once more.\n")
+		}
+		state.waitgroup.Done()
 	}
 }
 
@@ -92,8 +99,6 @@ func main() {
 	case *flagDeleteTree:
 		find := &messages.Tree{ID: int32(*flagID), Token: *flagToken}
 		msg = &messages.DeleteTree{Delete: find}
-		fmt.Printf("If you really want to delete the tree, send this command twice.\n" +
-			"If this is the second time, you will get a confirmation from the service.")
 	}
 
 	remote.Start("localhost:8091")

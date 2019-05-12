@@ -74,7 +74,7 @@ func (state *NodeService) Receive(context actor.Context) {
 			context.RequestWithCustomSender(pid, &messages.Insert{Key: msg.Key, Value: msg.Value}, context.Sender())
 			state.removeFromMarkDelete(msg.Find.ID, msg.Find.Token)
 		} else {
-			fmt.Printf("Tree with token %v and pid %v not found!\n", msg.Find.Token, msg.Find.ID)
+			context.Respond(&messages.TreeNotFound{NotFound: &messages.Tree{ID: msg.Find.ID, Token: msg.Find.Token}})
 		}
 	case *messages.SearchCLI:
 		fmt.Printf("Got Search with Key: %v, ID: %v und Token: %v \n\n",
@@ -83,7 +83,7 @@ func (state *NodeService) Receive(context actor.Context) {
 			context.RequestWithCustomSender(pid, &messages.Search{Key: msg.Key}, context.Sender())
 			state.removeFromMarkDelete(msg.Find.ID, msg.Find.Token)
 		} else {
-			fmt.Printf("Tree with token %v and pid %v not found!\n", msg.Find.Token, msg.Find.ID)
+			context.Respond(&messages.TreeNotFound{NotFound: &messages.Tree{ID: msg.Find.ID, Token: msg.Find.Token}})
 		}
 	case *messages.DeleteCLI:
 		fmt.Printf("Got Delete with Key: %v, ID: %v und Token: %v \n\n",
@@ -92,7 +92,7 @@ func (state *NodeService) Receive(context actor.Context) {
 			context.RequestWithCustomSender(pid, &messages.Delete{Key: msg.Key}, context.Sender())
 			state.removeFromMarkDelete(msg.Find.ID, msg.Find.Token)
 		} else {
-			fmt.Printf("Tree with token %v and pid %v not found!\n", msg.Find.Token, msg.Find.ID)
+			context.Respond(&messages.TreeNotFound{NotFound: &messages.Tree{ID: msg.Find.ID, Token: msg.Find.Token}})
 		}
 	case *messages.TraverseCLI:
 		fmt.Printf("Got Traverse with ID: %v und Token: %v \n\n", msg.Find.ID, msg.Find.Token)
@@ -100,7 +100,7 @@ func (state *NodeService) Receive(context actor.Context) {
 			context.RequestWithCustomSender(pid, &messages.Traverse{}, context.Sender())
 			state.removeFromMarkDelete(msg.Find.ID, msg.Find.Token)
 		} else {
-			fmt.Printf("Tree with token %v and pid %v not found!\n", msg.Find.Token, msg.Find.ID)
+			context.Respond(&messages.TreeNotFound{NotFound: &messages.Tree{ID: msg.Find.ID, Token: msg.Find.Token}})
 		}
 	case *messages.BaumFaellt:
 		if ok, pid := state.checkIDAndToken(msg.ID, msg.Token); ok {
@@ -108,7 +108,7 @@ func (state *NodeService) Receive(context actor.Context) {
 			pid.Stop()
 			delete(state.roots, msg.ID)
 		} else {
-			fmt.Printf("Tree with token %v and pid %v not found!\n", msg.Token, msg.ID)
+			context.Respond(&messages.TreeNotFound{NotFound: &messages.Tree{ID: msg.ID, Token: msg.Token}})
 		}
 	case *messages.DeleteTree:
 		if val, ok := state.markedForDelete[msg.Delete.ID]; ok {
@@ -118,7 +118,7 @@ func (state *NodeService) Receive(context actor.Context) {
 				delete(state.roots, msg.Delete.ID)
 				delete(state.markedForDelete, msg.Delete.ID)
 			} else {
-				fmt.Printf("Tree with token %v and pid %v not found!\n", msg.Delete.Token, msg.Delete.ID)
+				context.Respond(&messages.TreeNotFound{NotFound: &messages.Tree{ID: msg.Delete.ID, Token: msg.Delete.Token}})
 			}
 		} else {
 			if val, ok := state.roots[msg.Delete.ID]; ok {
@@ -126,10 +126,10 @@ func (state *NodeService) Receive(context actor.Context) {
 					fmt.Printf("marked tree mit id %v und pid %v for Delete", msg.Delete.ID, val.pid)
 					state.markedForDelete[msg.Delete.ID] = &Validation{msg.Delete.Token, val.pid}
 				} else {
-					fmt.Printf("Tree with token %v and pid %v not found!\n", msg.Delete.Token, msg.Delete.ID)
+					context.Respond(&messages.TreeNotFound{NotFound: &messages.Tree{ID: msg.Delete.ID, Token: msg.Delete.Token}})
 				}
 			} else {
-				fmt.Printf("Tree with token %v and pid %v not found!\n", msg.Delete.Token, msg.Delete.ID)
+				context.Respond(&messages.TreeNotFound{NotFound: &messages.Tree{ID: msg.Delete.ID, Token: msg.Delete.Token}})
 			}
 		}
 	}

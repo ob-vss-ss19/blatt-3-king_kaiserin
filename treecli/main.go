@@ -25,20 +25,32 @@ func (state *CLINode) Receive(context actor.Context) {
 		state.waitgroup.Done()
 	case *messages.TraverseResponse:
 		fmt.Printf("All keys in Tree sorted: %v\n", msg.Sorted)
-		//state.waitgroup.Done()
+		state.waitgroup.Done()
 	case *messages.BaumFaellt:
 		fmt.Printf("loesche tree mit id %v und token %v", msg.ID, msg.Token)
 		remote := actor.NewPID("localhost:8090", "service")
 		context.Send(remote, &messages.BaumFaellt{ID: msg.ID, Token: msg.Token})
+		state.waitgroup.Done()
 	case *messages.PflanzBaumResponse:
 		fmt.Printf("Created a new Tree with ID: %v and Token: %v", msg.ID, msg.Token)
+		state.waitgroup.Done()
 	case *messages.DeleteResult:
 		if msg.Successful {
 			fmt.Printf("deleting was successful! \n")
 		} else {
 			fmt.Printf("deleting was NOT successful! The given key does not exist.\n")
 		}
-
+		state.waitgroup.Done()
+	case *messages.TreeNotFound:
+		fmt.Printf("Tree with token %v and pid %v not found!\n", msg.NotFound.Token, msg.NotFound.ID)
+		state.waitgroup.Done()
+	case *messages.InsertResult:
+		if msg.Successful {
+			fmt.Printf("inserting was successful! \n")
+		} else {
+			fmt.Printf("inserting was NOT successful!\n")
+		}
+		state.waitgroup.Done()
 	}
 }
 
@@ -80,6 +92,8 @@ func main() {
 	case *flagDeleteTree:
 		find := &messages.Tree{ID: int32(*flagID), Token: *flagToken}
 		msg = &messages.DeleteTree{Delete: find}
+		fmt.Printf("If you really want to delete the tree, send this command twice.\n"+
+			"If this is the second time, you will get a confirmation from the service.")
 	}
 
 	remote.Start("localhost:8091")
@@ -95,10 +109,7 @@ func main() {
 	context := actor.EmptyRootContext
 	remote := actor.NewPID("localhost:8090", "service")
 
-	//msg := messages.CheckLeftMax{MaxKey: 5}
-	fmt.Printf("kurz vor message \n")
 	context.RequestWithCustomSender(remote, msg, cli)
-	fmt.Printf("message gesendet \n")
 
 	waitgroup.Wait()
 }

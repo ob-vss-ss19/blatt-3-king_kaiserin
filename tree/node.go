@@ -51,10 +51,10 @@ func (state *NodeActor) insert(context actor.Context) {
 	if state.Left != nil {
 		if msg.Key > state.LeftMax {
 			// msg an rechten Node, dass wert einfuegen
-			context.Send(state.Right, &messages.Insert{Key: msg.Key, Value: msg.Value})
+			context.RequestWithCustomSender(state.Right, &messages.Insert{Key: msg.Key, Value: msg.Value}, context.Sender())
 		} else {
 			// msg an linken teilbaum dass er sich drum kuemmert
-			context.Send(state.Left, &messages.Insert{Key: msg.Key, Value: msg.Value})
+			context.RequestWithCustomSender(state.Left, &messages.Insert{Key: msg.Key, Value: msg.Value}, context.Sender())
 		}
 	} else {
 		if state.Leaves == nil {
@@ -84,6 +84,7 @@ func (state *NodeActor) insert(context actor.Context) {
 		} else {
 			state.Leaves[msg.Key] = msg.Value
 		}
+		context.Respond(&messages.InsertResult{Successful: true})
 	}
 }
 
@@ -120,22 +121,25 @@ func (state *NodeActor) delete(context actor.Context) {
 		// Wert in Blatt, da keinen Nachfolger mehr
 		if _, ok := state.Leaves[msg.Key]; ok {
 			delete(state.Leaves, msg.Key)
-			context.Respond(&messages.DeleteResult{Successful: true})
-		}
-		if len(state.Leaves) == 0 {
-			// map ist leer -> actor löschen, Bruder-Actor wird zu parent
-			// grandparent nicht zu parent sondern bruder von gelöschten Actor
-			if state.Parent != nil {
-				//  hat parent
-				context.RequestWithCustomSender(state.Parent, &messages.BruderMussLos{}, context.Self())
-			} else {
-				//ist selbst schon root
-				context.Respond(&messages.BaumFaellt{ID: state.ID, Token: state.Token})
-			}
+			if len(state.Leaves) == 0 {
+				// map ist leer -> actor löschen, Bruder-Actor wird zu parent
+				// grandparent nicht zu parent sondern bruder von gelöschten Actor
+				if state.Parent != nil {
+					//  hat parent
+					context.RequestWithCustomSender(state.Parent, &messages.BruderMussLos{}, context.Self())
+					context.Respond(&messages.DeleteResult{Successful: true})
+				} else {
+					//ist selbst schon root
+					context.Respond(&messages.BaumFaellt{ID: state.ID, Token: state.Token})
+				}
 
+			} else {
+				newMax := sortKeys(state.Leaves)
+				context.Send(state.Parent, &messages.CheckLeftMax{MaxKey: int32(newMax[len(newMax)-1])})
+				context.Respond(&messages.DeleteResult{Successful: true})
+			}
 		} else {
-			newMax := sortKeys(state.Leaves)
-			context.Send(state.Parent, &messages.CheckLeftMax{MaxKey: int32(newMax[len(newMax)-1])})
+			context.Respond(&messages.DeleteResult{Successful: false})
 		}
 	}
 }

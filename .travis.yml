@@ -3,6 +3,13 @@ language: go
 before_script:
     - curl -sfL https://install.goreleaser.com/github.com/golangci/golangci-lint.sh | bash -s -- -b $GOPATH/bin v1.16.0
 
+env:
+    - GO111MODULE=on
+
 script:
     - echo run tests...
-    - echo golangci-lint run --deadline 20m --enable-all
+    - cd tree && go test && cd ..
+    - cd tree && go build && cd ..
+    - cd treecli && go build && cd ..
+    - cd treeservice && go build && cd ..
+    - golangci-lint run --deadline 20m --enable-all

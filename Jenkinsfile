@@ -7,6 +7,7 @@ pipeline {
             }
             steps {
                 sh 'cd messages && make regenerate'
+                sh 'cd tree && go build node.go'
                 sh 'cd treeservice && go build main.go'
                 sh 'cd treecli && go build main.go'
             }
@@ -16,7 +17,11 @@ pipeline {
                 docker { image 'obraun/vss-protoactor-jenkins' }
             }
             steps {
-                sh 'echo run tests...'
+                sh 'cd tree && go get -v -d -t ./...'
+                sh 'go get github.com/t-yuki/gocover-cobertura' // install Code Coverage Tool
+                sh 'cd tree && go test -v -coverprofile=cover.out' // save coverage info to file
+                sh 'gocover-cobertura < tree/cover.out > coverage.xml' // transform coverage info to jenkins readable format
+                publishCoverage adapters: [coberturaAdapter('coverage.xml')] // publish report on Jenkins
             }
         }
         stage('Lint') {

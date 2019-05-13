@@ -17,6 +17,9 @@ func main() {
 	flagBind := flag.String("bind", "localhost:8090", "Adresse to bind CLI")
 	flagName := flag.String("name", "treeservice", "Name for the Service")
 
+	flag.Parse()
+
+
 	remote.Start(*flagBind)
 	var waitgroup sync.WaitGroup
 

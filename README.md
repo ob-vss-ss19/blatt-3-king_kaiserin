@@ -73,33 +73,33 @@ ausprobieren.
 -  Wird der Token / die ID nicht gefunden, wird die entsprechende Fehlermeldung ausgegeben.
 
 ## Flags:
-  -ID int
+  - ID int
         ID of the Tree (default 1)
-  -bind string
+  - bind string
         Adresse to bind CLI (default "localhost:8091")
-  -delete
+  - delete
         delete value and key from tree
-  -deleteTree
+  - deleteTree
         delete whole Tree
-  -insert
+  - insert
         insert new value into the tree
-  -key int
+  - key int
         Key which is needed for Insert/Search/Delete (default 1)
-  -nameCLI string
+  - nameCLI string
         Name for the CLI (default "treecli")
-  -nameService string
+  - nameService string
         Name for the Service (default "treeservice")
-  -newTree
+  - newTree
         creates new tree, prints out id and token
-  -remote string
+  - remote string
         Adresse to bind Service (default "localhost:8090")
-  -search
+  - search
         search value for a key
-  -size int
+  - size int
         size of a leaf (default 1)
-  -token string
+  - token string
         Token of the Tree
-  -traverse
+  - traverse
         go through tree and get sorted key-value-Pairs
-  -value string
+  - value string
         Vale which is needed to insert new key-value-Pair

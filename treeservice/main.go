@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"sync"
 
@@ -13,7 +14,9 @@ import (
 func main() {
 	fmt.Printf("Hello Tree-Service!!\n\n")
 
-	remote.Start("localhost:8090")
+	flagBind := flag.String("bind", "localhost:8090", "Adresse to bind CLI")
+
+	remote.Start(*flagBind)
 	var waitgroup sync.WaitGroup
 
 	props := actor.PropsFromProducer(

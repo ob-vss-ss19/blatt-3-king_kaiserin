@@ -63,6 +63,9 @@ func (state *CLINode) Receive(context actor.Context) {
 
 func main() {
 
+	flagBind := flag.String("bind", "localhost:8091", "Adresse to bind CLI")
+	flagRemote := flag.String("remote", "localhost:8090", "Adresse to bind Service")
+
 	flagCreateTree := flag.Bool("newTree", false, "creates new tree, prints out id and token")
 	flagLeafSize := flag.Int("size", 1, "size of a leaf")
 
@@ -100,21 +103,25 @@ func main() {
 		find := &messages.Tree{ID: int32(*flagID), Token: *flagToken}
 		msg = &messages.DeleteTree{Delete: find}
 	}
+	if msg != nil {
+		remote.Start(*flagBind)
+		var waitgroup sync.WaitGroup
 
-	remote.Start("localhost:8091")
-	var waitgroup sync.WaitGroup
+		props := actor.PropsFromProducer(
+			func() actor.Actor {
+				waitgroup.Add(1)
+				return &CLINode{&waitgroup}
+			})
 
-	props := actor.PropsFromProducer(
-		func() actor.Actor {
-			waitgroup.Add(1)
-			return &CLINode{&waitgroup}
-		})
+		cli := actor.Spawn(props)
+		context := actor.EmptyRootContext
+		remote := actor.NewPID(*flagRemote, "service")
 
-	cli := actor.Spawn(props)
-	context := actor.EmptyRootContext
-	remote := actor.NewPID("localhost:8090", "service")
+		context.RequestWithCustomSender(remote, msg, cli)
 
-	context.RequestWithCustomSender(remote, msg, cli)
+		waitgroup.Wait()
+	} else {
+		flag.Usage()
+	}
 
-	waitgroup.Wait()
 }

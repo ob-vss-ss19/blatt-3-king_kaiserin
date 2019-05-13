@@ -121,7 +121,6 @@ func main() {
 		context := actor.EmptyRootContext
 		remote := actor.NewPID(*flagRemote, *flagNameService)
 
-
 		context.RequestWithCustomSender(remote, msg, cli)
 
 		waitgroup.Wait()

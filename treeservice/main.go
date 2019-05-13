@@ -15,6 +15,7 @@ func main() {
 	fmt.Printf("Hello Tree-Service!!\n\n")
 
 	flagBind := flag.String("bind", "localhost:8090", "Adresse to bind CLI")
+	flagName := flag.String("name", "treeservice", "Name for the Service")
 
 	remote.Start(*flagBind)
 	var waitgroup sync.WaitGroup
@@ -26,7 +27,7 @@ func main() {
 				MarkedForDelete: make(map[int32]*service.Validation), NextID: 1001}
 		})
 
-	pid, err := actor.SpawnNamed(props, "service")
+	pid, err := actor.SpawnNamed(props, *flagName)
 	if err == nil {
 		fmt.Printf("started %v", *pid)
 		waitgroup.Wait()

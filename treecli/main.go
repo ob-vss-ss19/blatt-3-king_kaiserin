@@ -66,6 +66,9 @@ func main() {
 	flagBind := flag.String("bind", "localhost:8091", "Adresse to bind CLI")
 	flagRemote := flag.String("remote", "localhost:8090", "Adresse to bind Service")
 
+	flagNameCli := flag.String("nameCLI", "treecli", "Name for the CLI")
+	flagNameService := flag.String("nameService", "treeservice", "Name for the Service")
+
 	flagCreateTree := flag.Bool("newTree", false, "creates new tree, prints out id and token")
 	flagLeafSize := flag.Int("size", 1, "size of a leaf")
 
@@ -114,8 +117,10 @@ func main() {
 			})
 
 		cli := actor.Spawn(props)
+		remote.Register(*flagNameCli, props)
 		context := actor.EmptyRootContext
-		remote := actor.NewPID(*flagRemote, "service")
+		remote := actor.NewPID(*flagRemote, *flagNameService)
+
 
 		context.RequestWithCustomSender(remote, msg, cli)
 

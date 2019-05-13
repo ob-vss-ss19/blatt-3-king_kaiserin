@@ -58,3 +58,48 @@ genaue Bezeichnung in die Consolenausgabe des Jenkins-Jobs.
 Wenn Sie die Imagenamen oben (`treeservice` und `treecli`) durch die Namen aus der
 Registry ersetzen, können Sie Ihre Lösung mit den selben Kommandos wie oben beschrieben,
 ausprobieren.
+
+
+## CLI commands
+
+-   Starten des Tree-CLI mit `go run main.go`
+-   Tree-Service:
+    -   Erstellen eines neuen Baums: `go run main.go --newTree`
+    -   Einfügen eines Wertes: `go run main.go --insert --key=8 --value=acht --ID=1001 --token=abcde`
+    -   Löschen eines Wertes: `go run main.go --delete --key=8 --ID=1001 --token=abcde`
+    -   Traversieren: `go run main.go --traverse --ID=1001 --token=abcde`
+    -   Suchen: `go run main.go --search --key=8 --ID=1001 --token=abcde`
+    -   Baum löschen (muss man 2 Mal direkt hintereinander ausführen um endgültig zu löschen): `go run main.go --deleteTree --ID=1001 --token=abcde`
+-  Wird der Token / die ID nicht gefunden, wird die entsprechende Fehlermeldung ausgegeben.
+
+## Flags:
+  -ID int
+        ID of the Tree (default 1)
+  -bind string
+        Adresse to bind CLI (default "localhost:8091")
+  -delete
+        delete value and key from tree
+  -deleteTree
+        delete whole Tree
+  -insert
+        insert new value into the tree
+  -key int
+        Key which is needed for Insert/Search/Delete (default 1)
+  -nameCLI string
+        Name for the CLI (default "treecli")
+  -nameService string
+        Name for the Service (default "treeservice")
+  -newTree
+        creates new tree, prints out id and token
+  -remote string
+        Adresse to bind Service (default "localhost:8090")
+  -search
+        search value for a key
+  -size int
+        size of a leaf (default 1)
+  -token string
+        Token of the Tree
+  -traverse
+        go through tree and get sorted key-value-Pairs
+  -value string
+        Vale which is needed to insert new key-value-Pair

@@ -19,7 +19,6 @@ func main() {
 
 	flag.Parse()
 
-
 	remote.Start(*flagBind)
 	var waitgroup sync.WaitGroup
 

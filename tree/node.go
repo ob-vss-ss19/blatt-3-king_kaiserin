@@ -130,7 +130,7 @@ func (state *NodeActor) delete(context actor.Context) {
 
 			} else {
 				newMax := sortKeys(state.Leaves)
-				context.Send(state.Parent, &messages.CheckLeftMax{MaxKey: int32(newMax[len(newMax)-1])})
+				context.RequestWithCustomSender(state.Parent, &messages.CheckLeftMax{MaxKey: int32(newMax[len(newMax)-1])}, context.Self())
 				context.Respond(&messages.DeleteResult{Successful: true})
 			}
 		} else {
@@ -188,9 +188,11 @@ func (state *NodeActor) Receive(context actor.Context) {
 			fmt.Printf("deleting was NOT successful! The given key does not exist.\n")
 		}
 	case *messages.CheckLeftMax:
-		state.LeftMax = msg.MaxKey
-		if state.Parent != nil {
-			context.Send(state.Parent, &messages.CheckLeftMax{MaxKey: msg.MaxKey})
+		if context.Sender() == state.Left {
+			state.LeftMax = msg.MaxKey
+			if state.Parent != nil {
+				context.Send(state.Parent, &messages.CheckLeftMax{MaxKey: msg.MaxKey})
+			}
 		}
 	case *messages.BruderMussLos:
 		state.deleteChild(context)

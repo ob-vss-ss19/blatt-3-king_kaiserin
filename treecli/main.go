@@ -22,42 +22,42 @@ func (state *CLINode) Receive(context actor.Context) {
 		} else {
 			fmt.Printf("For the key '%v' there is NO value! \n", msg.Key)
 		}
-		state.waitgroup.Done()
+		//state.waitgroup.Done()
 	case *messages.TraverseResponse:
 		fmt.Printf("All keys in Tree sorted: %v\n", msg.Sorted)
-		state.waitgroup.Done()
+		//state.waitgroup.Done()
 	case *messages.BaumFaellt:
 		fmt.Printf("loesche tree mit id %v und token %v", msg.ID, msg.Token)
 		remote := actor.NewPID("localhost:8090", "service")
 		context.Send(remote, &messages.BaumFaellt{ID: msg.ID, Token: msg.Token})
-		state.waitgroup.Done()
+		//state.waitgroup.Done()
 	case *messages.PflanzBaumResponse:
 		fmt.Printf("Created a new Tree with ID: %v and Token: %v", msg.ID, msg.Token)
-		state.waitgroup.Done()
+		//state.waitgroup.Done()
 	case *messages.DeleteResult:
 		if msg.Successful {
 			fmt.Printf("deleting was successful! \n")
 		} else {
 			fmt.Printf("deleting was NOT successful! The given key does not exist.\n")
 		}
-		state.waitgroup.Done()
+		//state.waitgroup.Done()
 	case *messages.TreeNotFound:
 		fmt.Printf("Tree with token %v and pid %v not found!\n", msg.NotFound.Token, msg.NotFound.ID)
-		state.waitgroup.Done()
+		//state.waitgroup.Done()
 	case *messages.InsertResult:
 		if msg.Successful {
 			fmt.Printf("inserting was successful! \n")
 		} else {
 			fmt.Printf("inserting was NOT successful!\n")
 		}
-		state.waitgroup.Done()
+		//state.waitgroup.Done()
 	case *messages.DeleteTreeRespond:
 		if msg.Delete {
 			fmt.Printf("Tree was felled!\n")
 		} else {
 			fmt.Printf("If you really want to delete the tree, send this command once more.\n")
 		}
-		state.waitgroup.Done()
+		//state.waitgroup.Done()
 	}
 }
 

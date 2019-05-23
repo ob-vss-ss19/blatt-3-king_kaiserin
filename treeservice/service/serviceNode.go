@@ -2,9 +2,9 @@ package service
 
 import (
 	"fmt"
-	"sync"
-
 	"github.com/AsynkronIT/protoactor-go/actor"
+	"strconv"
+	"sync"
 
 	"github.com/ob-vss-ss19/blatt-3-king_kaiserin/messages"
 	"github.com/ob-vss-ss19/blatt-3-king_kaiserin/tree"
@@ -37,8 +37,14 @@ func (state *NodeService) createNewTree(context actor.Context) {
 
 	state.Roots[state.NextID] = &Validation{tokenstring, pid}
 
+	if state.NextID == 1001 {
+		for i := 1; i < 50; i++ {
+			context.Send(pid, &messages.Insert{Key: int32(i), Value: strconv.Itoa(i)})
+		}
+	}
 	fmt.Printf("new Tree with id: %v und token: %v", state.NextID, tokenstring)
 	context.Respond(&messages.PflanzBaumResponse{ID: state.NextID, Token: tokenstring})
+
 	state.NextID++
 }
 
@@ -70,6 +76,10 @@ func (state *NodeService) Receive(context actor.Context) {
 			msg.Key, msg.Value, msg.Find.ID, msg.Find.Token)
 		if ok, pid := state.checkIDAndToken(msg.Find.ID, msg.Find.Token); ok {
 			context.RequestWithCustomSender(pid, &messages.Insert{Key: msg.Key, Value: msg.Value}, context.Sender())
+			//context.RequestWithCustomSender(pid, &messages.Insert{Key: msg.Key + int32(1), Value: msg.Value}, context.Sender())
+			context.RequestWithCustomSender(pid, &messages.Traverse{}, context.Sender())
+			//context.RequestWithCustomSender(pid, &messages.Search{Key:msg.Key}, context.Sender())
+			//context.RequestWithCustomSender(pid, &messages.Delete{Key:msg.Key}, context.Sender())
 			state.removeFromMarkDelete(msg.Find.ID, msg.Find.Token)
 		} else {
 			context.Respond(&messages.TreeNotFound{NotFound: &messages.Tree{ID: msg.Find.ID, Token: msg.Find.Token}})

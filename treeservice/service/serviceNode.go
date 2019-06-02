@@ -2,10 +2,10 @@ package service
 
 import (
 	"fmt"
-	"github.com/AsynkronIT/protoactor-go/actor"
 	"strconv"
 	"sync"
 
+	"github.com/AsynkronIT/protoactor-go/actor"
 	"github.com/ob-vss-ss19/blatt-3-king_kaiserin/messages"
 	"github.com/ob-vss-ss19/blatt-3-king_kaiserin/tree"
 )

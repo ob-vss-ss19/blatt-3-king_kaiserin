@@ -130,7 +130,8 @@ func (state *NodeActor) delete(context actor.Context) {
 
 			} else {
 				newMax := sortKeys(state.Leaves)
-				context.RequestWithCustomSender(state.Parent, &messages.CheckLeftMax{MaxKey: int32(newMax[len(newMax)-1])}, context.Self())
+				context.RequestWithCustomSender(state.Parent,
+					&messages.CheckLeftMax{MaxKey: int32(newMax[len(newMax)-1])}, context.Self())
 				context.Respond(&messages.DeleteResult{Successful: true})
 			}
 		} else {
